@@ -41,8 +41,9 @@ const appConfiguration = (app) => {
     res.locals.success = req.flash('success');
 
     res.locals.isAuthenticated = req.isAuthenticated();
-    if (res.locals.isAuthenticated) {
-      res.locals.privileges = req.user.privileges;
+    res.locals.privileges = false;
+    if (res.locals.isAuthenticated && req.user.privileges === 'admin') {
+      res.locals.privileges = true;
     }
     next();
   });

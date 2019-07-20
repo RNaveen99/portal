@@ -12,7 +12,7 @@ const mongo = () => {
     debug('request for connection accepted');
     return { client, db };
   };
-  
+
   const addUser = async (req, res, userAccount) => {
     let c;
     try {
@@ -30,9 +30,10 @@ const mongo = () => {
     }
     c.close();
   };
-  
+
   const findUserByEmail = async (email) => {
-    let c; let results;
+    let c;
+    let results;
     try {
       const { client, db } = await createConnection();
       c = client;
@@ -43,10 +44,11 @@ const mongo = () => {
     }
     c.close();
     return results;
-  }
+  };
 
   const findEventByName = async (event) => {
-    let c; let results;
+    let c;
+    let results;
     try {
       const { client, db } = await createConnection();
       c = client;
@@ -57,55 +59,108 @@ const mongo = () => {
     }
     c.close();
     return results;
-  }
+  };
+  const findEventByNameAndUpdateIsLive = async (event, flag) => {
+    let c;
+    let results;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      const col = await db.collection('events');
+      results = await col.findOneAndUpdate({ eventName: event }, { $set: { isLive: flag } });
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    return results;
+  };
 
   const addEvent = async (data) => {
-    let c; let results;
+    let c;
+    let results;
     try {
-      const { client, db} = await createConnection();
+      const { client, db } = await createConnection();
       c = client;
       const col = await db.collection('events');
-      results = await col.insertOne(JSON.parse(data));
+      results = await col.insertOne(data);
     } catch (error) {
       debug(error);
     }
     c.close();
-  }
+  };
 
   const findEventByLive = async () => {
-    let c; let results;
+    let c;
+    let results;
     try {
       const { client, db } = await createConnection();
       c = client;
       const col = await db.collection('events');
-      results = await col.find({ isLive: true }, {eventName:1, questions: 0, requests: 0, responses: 0 }).toArray();
+      results = await col
+        .find(
+          { isLive: true },
+          {
+            eventName: 1,
+            questions: 0,
+            requests: 0,
+            responses: 0,
+          },
+        )
+        .toArray();
     } catch (error) {
       debug(error);
     }
     c.close();
     return results;
-  }
-  const findEvents = async () => {
-    let c; let results;
+  };
+  const findAllEvents = async () => {
+    let c;
+    let results;
     try {
       const { client, db } = await createConnection();
       c = client;
       const col = await db.collection('events');
-      results = await col.find({ }, {eventName:1, questions: 0, requests: 0, responses: 0 }).toArray();
+      results = await col
+        .find(
+          {},
+          {
+            eventName: 1,
+            questions: 0,
+            requests: 0,
+            responses: 0,
+          },
+        )
+        .toArray();
     } catch (error) {
       debug(error);
     }
     c.close();
     return results;
-  }
+  };
+  const findEventByNameAndDelete = async (data) => {
+    let c;
+    let result;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      const col = await db.collection('events');
+      result = await col.findOneAndDelete({ eventName: data.eventName });
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    debug(result);
+  };
   return {
     createConnection,
     addUser,
     findUserByEmail,
     findEventByName,
+    findEventByNameAndUpdateIsLive,
     addEvent,
     findEventByLive,
-    findEvents,
+    findAllEvents,
+    findEventByNameAndDelete,
   };
 };
 

@@ -15,9 +15,9 @@
         <% data.forEach((ele) => { %>
         <div class="row">
             <div class="col s6">
-                Information
+                <h5><%=ele.eventName%></h5>
             </div>
-            <div class="col s6">
+            <div class="input-field col s6">
                 <div class="switch">
                     <label>
                         Off
@@ -28,9 +28,11 @@
                 </div>
             </div>
         </div>
+        <div class="divider"></div>
         <%}); %>
     </div>
     <% include footer %>
+    <script src="/js/eventsManageAjax.js"></script>
 </body>
 
 </html>

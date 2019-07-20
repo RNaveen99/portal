@@ -1,8 +1,13 @@
 const express = require('express');
 const debug = require('debug')('app:eventRoutes');
 const { ifSignIn, ifSignInAdmin } = require('../controllers/helpers/restrictions')();
-const { findEventByName, findEventByLive, findEvents } = require('../controllers/helpers/mongo')();
-const { generateEvent } = require('../controllers/eventController')();
+const {
+  eventsGet,
+  eventsManageGet,
+  eventsManagePost,
+  eventsGenerateGet,
+  eventsGeneratePost,
+} = require('../controllers/eventController')();
 
 const eventRouter = express.Router();
 
@@ -10,51 +15,28 @@ const router = () => {
   eventRouter
     .route('/')
     .all(ifSignIn)
-    .get((req, res) => {
-      (async function eventByLive() {
-        const results = await findEventByLive();
-        debug(results);
-        res.render('events');
-      }());
-    });
-  eventRouter
-    .route('/manageEvents')
-    .all(ifSignInAdmin)
-    .get((req, res) => {
-      (async function eventByLive() {
-        const data = await findEvents();
-        debug(data);
-        res.render('manageEvents', { data });
-      }());
-    });
-  eventRouter
-    .route('/generateEvents')
-    .all(ifSignInAdmin)
-    .get((req, res, next) => {
-      res.render('generateEvents');
-      next();
-    })
-    .post(generateEvent);
+    .get(eventsGet);
 
   eventRouter
-    .route('/generateEventsAjax')
+    .route('/manage')
     .all(ifSignInAdmin)
-    .get((req, res) => {
-      res.render('generateEvents');
-    })
-    .post((req, res) => {
-      debug(req.body);
-      (async function find() {
-        const results = await findEventByName(req.body.eventName);
-        debug(results);
-        const data = { success: true };
-        if (results) {
-          data.success = false;
-        }
-        res.jsonp(data);
-      }());
-    });
+    .get(eventsManageGet)
+    .post(eventsManagePost);
 
+  eventRouter
+    .route('/generate')
+    .all(ifSignInAdmin)
+    .get(eventsGenerateGet)
+    .post(eventsGeneratePost);
+
+  eventRouter
+    .route('/:id')
+    .all(ifSignIn)
+    .get((req, res) => {
+      const {id} = req.params;
+      debug(req.params);
+      res.end(`${id}`);
+    });
   return eventRouter;
 };
 

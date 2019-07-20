@@ -8,10 +8,11 @@
             <ul class="right hide-on-med-and-down">
                 <% if(isAuthenticated) {%>
                 <li><a href="/events">Events</a></li>
-                <li><a href="/events/generateEvents">Generate Events</a></li>
-                <li><a href="/events/manageEvents">Manage Events</a></li>
+                <% if(privileges) {%>
+                <li><a href="/events/generate">Generate Events</a></li>
+                <li><a href="/events/manage">Manage Events</a></li>
+                <% }%>
                 <li><a href="/auth/signOut">Sign Out</a></li>
-
                 <% }%>
 
             </ul>
