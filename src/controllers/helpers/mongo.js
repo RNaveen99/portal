@@ -68,9 +68,9 @@ const mongo = () => {
       c = client;
       const col = await db.collection('events');
       if (flag2) {
-        results = await col.findOneAndUpdate({ event }, { $set: { isLive: flag1 } });
+        results = await col.findOneAndUpdate({ event }, { $set: { isEventLive: flag1 } });
       } else {
-        results = await col.findOneAndUpdate({ event }, { $set: { allowQuiz: flag1 } });
+        results = await col.findOneAndUpdate({ event }, { $set: { isQuizLive: flag1 } });
       }
     } catch (error) {
       debug(error);
@@ -102,7 +102,7 @@ const mongo = () => {
       const col = await db.collection('events');
       results = await col
         .find(
-          { isLive: true },
+          { isEventLive: true },
           {
             eventName: 1,
             questions: 0,
@@ -177,8 +177,9 @@ const mongo = () => {
             name: data.name,
             email: data.email,
             college: data.college,
-            number: data.number,
             isAllowed: false,
+            hasStarted: false,
+            hasCompleted: false,
           },
         },
       },
@@ -203,19 +204,30 @@ const mongo = () => {
         if (result) {
           await removeRequestInEvent(col, data);
         } else {
-          result = await addRequestInEvent(col, data);
+          await addRequestInEvent(col, data);
         }
       }
     } catch (error) {
       debug(error);
     }
-    debug('-----------result----------');
-    debug(result);
-    debug('---------------------');
     c.close();
     return result;
   };
-
+  const updateIsAllowed = async (data, flag) => {
+    let c;
+    let results;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      const col = await db.collection('events');
+      results = await col.findOneAndUpdate({ event: data.event, 'requests.email': data.email }, { $set: { 'requests.$.isAllowed': flag } });
+      
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    return results;
+  };
   return {
     createConnection,
     addUser,
@@ -227,6 +239,7 @@ const mongo = () => {
     findAllEvents,
     findEventByNameAndDelete,
     findRequestInEventAddRemove,
+    updateIsAllowed,
   };
 };
 

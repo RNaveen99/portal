@@ -8,6 +8,8 @@ const {
   eventsManagePost,
   eventsGenerateGet,
   eventsGeneratePost,
+  eventsRequestManageGet,
+  eventsRequestManagePost,
 } = require('../controllers/eventController')();
 
 const eventRouter = express.Router();
@@ -32,10 +34,16 @@ const router = () => {
     .post(eventsGeneratePost);
 
   eventRouter
+    .route('/requests')
+    .all(ifSignInAdmin)
+    .get(eventsRequestManageGet)
+    .post(eventsRequestManagePost);
+
+  eventRouter
     .route('/:id')
     .all(ifSignIn)
     .get((req, res) => {
-      const {id} = req.params;
+      const { id } = req.params;
       debug(req.params);
       res.end(`${id}`);
     });

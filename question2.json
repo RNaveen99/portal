@@ -1,29 +1,27 @@
 {
-  "eventName": "Coders",
-  "event": "coders",
+  "eventName": "C Coders",
+  "event": "ccoders",
+  "link": "/events/ccoders",
   "questions": [
     {
       "qid": 1,
-      "ques": "What is C++",
-      "option1": "Programming",
-      "option2": "scripting",
-      "option3": "case sensitive",
-      "option4": "language",
-      "answer": "case sensitive",
+      "ques": "What does CSS stands for",
+      "options": [ "Programming", "Scripting", "Case sensitive", "Language" ],
+      "answer": "Case sensitive",
       "scores": [4, -1, 0]
     },
     {
       "qid": 2,
       "ques": "What is FORTRAN",
-      "option1": "superb",
-      "option2": "dhaasu",
-      "option3": "Language",
-      "option4": "amazing",
+      "options": [ "superb", "dhaasu", "language", "amazing" ],
       "answer": "superb",
       "scores": [4, -1, 0]
     }
   ],
   "requests": [],
   "responses": [],
-  "isLive": false
+  "instructions": [],
+  "intro": "C coders is to test your coding skills in C Language. Code in C to win",
+  "isEventLive": false,
+  "isQuizLive": false
 }

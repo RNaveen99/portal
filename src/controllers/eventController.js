@@ -9,6 +9,7 @@ const {
   findEventByNameAndUpdateIsLive,
   findEventByNameAndDelete,
   findRequestInEventAddRemove,
+  updateIsAllowed,
 } = require('../controllers/helpers/mongo')();
 
 const storage = multer.diskStorage({
@@ -32,10 +33,16 @@ const eventController = () => {
 
   const eventsPost = async (req, res) => {
     debug('events Post');
-    debug(req.body.event);
     const { event } = req.body;
-    const { name, email, college, number } = req.user;
-    const data = { event, name, email, college, number };
+    const {
+      name, email, college,
+    } = req.user;
+    const data = {
+      event,
+      name,
+      email,
+      college,
+    };
     const result = await findRequestInEventAddRemove(data, true);
   };
 
@@ -53,14 +60,14 @@ const eventController = () => {
     let flag1;
     let flag2 = true;
     if (type === 'event') {
-      if (result.isLive) {
+      if (result.isEventLive) {
         flag1 = false;
       } else {
         flag1 = true;
       }
     } else {
       flag2 = false;
-      if (result.allowQuiz) {
+      if (result.isQuizLive) {
         flag1 = false;
       } else {
         flag1 = true;
@@ -92,6 +99,52 @@ const eventController = () => {
     });
   };
 
+  const eventsRequestManageGet = async (req, res) => {
+    debug('Manage Requests ');
+    const data = await findAllEvents();
+    res.render('manageRequest', { data });
+  };
+
+  const eventsRequestManagePost = async (req, res) => {
+    debug('Manage Request POst');
+    let data = {};
+    data.email = req.body.email;
+    data.event = req.body.event;
+    debug(req.body);
+    debug(data);
+    if (!data.email) {
+      let { requests } = await findEventByName(data.event);
+      requests = requests.map(ele => ({
+        name: ele.name,
+        email: ele.email,
+        college: ele.college,
+        isAllowed: ele.isAllowed,
+      }));
+      debug(requests);
+      res.json(requests);
+    } else {
+      debug('-----------------------');
+      const result = await findRequestInEventAddRemove(data, false);
+      if (result) {
+        let { requests } = result;
+        requests = requests.find((ele) => {
+          return data.email === ele.email;
+        });
+        let flag = true;
+        if (requests.isAllowed) {
+          flag = false;
+        }
+        await updateIsAllowed(data, flag);
+        debug('==========Request Found=========');
+        debug(requests);
+
+        // debug(result);
+      } else {
+        debug('======request not found==========');
+      }
+    }
+  };
+
   return {
     eventsGet,
     eventsPost,
@@ -99,6 +152,8 @@ const eventController = () => {
     eventsManagePost,
     eventsGenerateGet,
     eventsGeneratePost,
+    eventsRequestManageGet,
+    eventsRequestManagePost,
   };
 };
 
