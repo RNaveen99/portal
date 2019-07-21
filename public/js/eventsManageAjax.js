@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.log('Error occured');
     };
     const data = {
-      eventName: eventName.target.value,
+      event: eventName.target.value,
+      type: eventName.target.getAttribute('data'),
     };
     xhttp.open('POST', '/events/manage', true);
     xhttp.setRequestHeader('Content-type', 'application/json');

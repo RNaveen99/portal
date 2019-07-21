@@ -14,14 +14,26 @@
     <div class="container">
         <% data.forEach((ele) => { %>
         <div class="row">
-            <div class="col s6">
+            <div class="col s12">
                 <h5><%=ele.eventName%></h5>
             </div>
             <div class="input-field col s6">
+                Event
                 <div class="switch">
                     <label>
                         Off
-                        <input type="checkbox" value="<%=ele.eventName%>" <% if(ele.isLive) {%> checked <% }%>>
+                        <input type="checkbox" value="<%=ele.event%>" data="event" <% if(ele.isLive) {%> checked <% }%>>
+                        <span class="lever"></span>
+                        Live
+                    </label>
+                </div>
+            </div>
+            <div class="input-field col s6">
+                Quiz
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" value="<%=ele.event%>" data="quiz" <% if(ele.allowQuiz) {%> checked <% }%>>
                         <span class="lever"></span>
                         Live
                     </label>

@@ -1,6 +1,7 @@
 {
-  "eventName": "WebGators",
+  "eventName": "Web Gators",
   "event": "webgators",
+  "link": "/events/webgators",
   "questions": [
     {
       "qid": 1,
@@ -27,5 +28,6 @@
   "responses": [],
   "instructions": [],
   "intro": "This event is to test your skills",
-  "isLive": false
+  "isLive": false,
+  "allowQuiz": false
 }

@@ -8,6 +8,7 @@ const {
   findEventByName,
   findEventByNameAndUpdateIsLive,
   findEventByNameAndDelete,
+  findRequestInEventAddRemove,
 } = require('../controllers/helpers/mongo')();
 
 const storage = multer.diskStorage({
@@ -24,9 +25,20 @@ const eventController = () => {
 
   const eventsGet = async (req, res) => {
     const data = await findEventByLive();
-    res.render('events', { data });
     debug(data);
+    const { user } = req;
+    res.render('events', { data, user });
   };
+
+  const eventsPost = async (req, res) => {
+    debug('events Post');
+    debug(req.body.event);
+    const { event } = req.body;
+    const { name, email, college, number } = req.user;
+    const data = { event, name, email, college, number };
+    const result = await findRequestInEventAddRemove(data, true);
+  };
+
   const eventsManageGet = async (req, res) => {
     const data = await findAllEvents();
     res.render('manageEvents', { data });
@@ -34,15 +46,27 @@ const eventController = () => {
   };
   const eventsManagePost = async (req, res) => {
     debug('events Manage Post');
-    debug(req.body.eventName);
-    let result = await findEventByName(req.body.eventName);
-    let flag;
-    if (result.isLive) {
-      flag = false;
+    debug(req.body.event);
+    debug(req.body);
+    const { event, type } = req.body;
+    let result = await findEventByName(event);
+    let flag1;
+    let flag2 = true;
+    if (type === 'event') {
+      if (result.isLive) {
+        flag1 = false;
+      } else {
+        flag1 = true;
+      }
     } else {
-      flag = true;
+      flag2 = false;
+      if (result.allowQuiz) {
+        flag1 = false;
+      } else {
+        flag1 = true;
+      }
     }
-    result = await findEventByNameAndUpdateIsLive(req.body.eventName, flag);
+    result = await findEventByNameAndUpdateIsLive(event, flag1, flag2);
     // debug(result);
   };
   const eventsGenerateGet = (req, res) => {
@@ -57,9 +81,9 @@ const eventController = () => {
       debug(req.file);
       (async function addEventToMongo() {
         const data = JSON.parse(fs.readFileSync(`uploads/${req.file.originalname}`, 'utf-8'));
-        let result = await findEventByName(data.eventName);
+        let result = await findEventByName(data.event);
         if (result) {
-          result = await findEventByNameAndDelete(data);
+          result = await findEventByNameAndDelete(data.event);
         }
         await addEvent(data);
       }());
@@ -70,6 +94,7 @@ const eventController = () => {
 
   return {
     eventsGet,
+    eventsPost,
     eventsManageGet,
     eventsManagePost,
     eventsGenerateGet,

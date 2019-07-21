@@ -3,6 +3,7 @@ const debug = require('debug')('app:eventRoutes');
 const { ifSignIn, ifSignInAdmin } = require('../controllers/helpers/restrictions')();
 const {
   eventsGet,
+  eventsPost,
   eventsManageGet,
   eventsManagePost,
   eventsGenerateGet,
@@ -15,7 +16,8 @@ const router = () => {
   eventRouter
     .route('/')
     .all(ifSignIn)
-    .get(eventsGet);
+    .get(eventsGet)
+    .post(eventsPost);
 
   eventRouter
     .route('/manage')
