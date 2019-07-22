@@ -6,22 +6,47 @@
     {
       "qid": 1,
       "ques": "What does CSS stands for",
-      "options": [ "Cascading scripting sheets", "Cascading style sheets", "Cascading styling sheets", "Cascading scripting stylesheets" ],
+      "options": [
+        "Cascading scripting sheets",
+        "Cascading style sheets",
+        "Cascading styling sheets",
+        "Cascading scripting stylesheets"
+      ],
       "answer": "Cascading style sheets",
-      "scores": [4, -1, 0]
+      "scores": [
+        4,
+        -1,
+        0
+      ]
     },
     {
       "qid": 2,
       "ques": "What does PHP stands for",
-      "options": [ "Hypertext", "pre processor", "pre hyper", "PHP" ],
+      "options": [
+        "Hypertext",
+        "pre processor",
+        "pre hyper",
+        "PHP"
+      ],
       "answer": "PHP",
-      "scores": [4, -1, 0]
+      "scores": [
+        4,
+        -1,
+        0
+      ]
     }
   ],
   "requests": [],
   "responses": [],
-  "instructions": [],
+  "instructions": [
+    "Result by judges will be final",
+    "If found cheating, you will be disqualified immediately",
+    "Correct Answer will be scored  <b>+4</b>",
+    "<ul><li>Ok</li><li>Ok</li><li><ol><li>ok</li></ol></li></ul>",
+    "<code> #include &ltiostream&gt <br>using namespace std;<br>cout &lt&lt &quothello&quot ; <br>int a = 5; <br>int &ampb = a;<br>function event(int a = 5) { <br> cout &lt&lt a ; <br> } </code>"
+  ],
   "intro": "Webgators is to test your web development skills, Create a attractive web platform.",
   "isEventLive": false,
-  "isQuizLive": false
+  "isQuizLive": false,
+  "timeAlloted": 30
 }

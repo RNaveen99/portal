@@ -10,6 +10,8 @@ const {
   eventsGeneratePost,
   eventsRequestManageGet,
   eventsRequestManagePost,
+  eventRulesGet,
+  eventStartGet,
 } = require('../controllers/eventController')();
 
 const eventRouter = express.Router();
@@ -42,11 +44,13 @@ const router = () => {
   eventRouter
     .route('/:id')
     .all(ifSignIn)
-    .get((req, res) => {
-      const { id } = req.params;
-      debug(req.params);
-      res.end(`${id}`);
-    });
+    .get(eventRulesGet);
+
+  eventRouter
+    .route('/:id/start')
+    .all(ifSignIn)
+    .get(eventStartGet);
+
   return eventRouter;
 };
 

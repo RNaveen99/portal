@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=eventName%></title>
+    <% include meta-data %>
+</head>
+<body>
+    <div class="green" style="margin-top: 7em;">
+        <div class="row">
+            <div class="col s4 l3 red" id="grid">
+                <% for (let i = 1; i <= questions.length; i++) {%>
+                    <button class="waves-effect waves-light btn-small" type="submit"><%=i%></button>
+                    <a class="waves-effect waves-light btn-small">Button</a>
+                    <%}%>
+            </div>
+            <div class="col s8 l9">
+                <div class="row">
+                    <form action="/events/<%=event%>/end" method="post" class="col s12">
+                        <% for (let i = 1; i <= questions.length; i++) {%>
+                        <div class="row">
+                            <div class="col s12 teal" id="question">
+                                <h5><%=questions[i - 1].ques%></h5>
+                            </div>
+                            <div class="col s12" id="options">
+                                <div class="row">
+                                    <% for (let j = 1; j <= questions[i - 1].options.length; j++) { %>
+                                    <div class="col s5 red lighten-2">
+                                        <p>
+                                            <label class="black-text">
+                                                <input type="checkbox" value="<%=questions[i - 1].options[j - 1]%>">
+                                                <span><%=questions[i - 1].options[j - 1]%></span>
+                                            </label>
+                                        </p>
+                                    </div>
+                                    <div class="col s1"></div>
+                                    <% }%>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/materialize.js"></script>
+</body>
+</html>

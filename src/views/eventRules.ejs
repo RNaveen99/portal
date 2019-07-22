@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=event.eventName%></title>
+    <% include meta-data %>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row card-panel">
+            <div class="col s12">
+                <h1 class="center-align"><%=event.eventName%></h1>
+            </div>
+            <div class="col s12">
+                <% instructions.forEach((ele) => {%>
+                <blockquote><%-ele%></blockquote>
+                <%})%>
+            </div>
+            <div class="input-field col s12">
+                <a href="<%=event.link%>/start"><button class="btn waves-effect waves-light">Agree &amp continue
+                    <i class="material-icons right">send</i>
+                </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

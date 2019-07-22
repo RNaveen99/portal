@@ -34,9 +34,7 @@ const eventController = () => {
   const eventsPost = async (req, res) => {
     debug('events Post');
     const { event } = req.body;
-    const {
-      name, email, college,
-    } = req.user;
+    const { name, email, college } = req.user;
     const data = {
       event,
       name,
@@ -107,7 +105,7 @@ const eventController = () => {
 
   const eventsRequestManagePost = async (req, res) => {
     debug('Manage Request POst');
-    let data = {};
+    const data = {};
     data.email = req.body.email;
     data.event = req.body.event;
     debug(req.body);
@@ -127,9 +125,7 @@ const eventController = () => {
       const result = await findRequestInEventAddRemove(data, false);
       if (result) {
         let { requests } = result;
-        requests = requests.find((ele) => {
-          return data.email === ele.email;
-        });
+        requests = requests.find(ele => data.email === ele.email);
         let flag = true;
         if (requests.isAllowed) {
           flag = false;
@@ -145,6 +141,39 @@ const eventController = () => {
     }
   };
 
+  const eventRulesGet = async (req, res) => {
+    const { id } = req.params;
+    const event = await findEventByName(id);
+    if (event && event.isEventLive) {
+      debug('==============');
+      const { instructions } = event;
+      res.render('eventRules', { event, instructions });
+    } else {
+      debug('--------------');
+      res.redirect('/events');
+    }
+  };
+
+  const eventStartGet = async (req, res) => {
+    const { id } = req.params;
+    const event = await findEventByName(id);
+    let requests;
+    if (event) {
+      requests = event.requests;
+      requests = requests.find(ele => ele.email === req.user.email);
+    }
+    debug('==============');
+    debug(requests);
+    debug('==============');
+    if (event && event.isEventLive && event.isQuizLive && requests && requests.isAllowed && !requests.hasStarted) {
+      debug('==============');
+      const { questions } = event;
+      res.render('eventStart', { eventName: event.eventName, event: event.event, time: event.timeAlloted, questions });
+    } else {
+      debug('--------------');
+      res.redirect('/events');
+    }
+  };
   return {
     eventsGet,
     eventsPost,
@@ -154,6 +183,8 @@ const eventController = () => {
     eventsGeneratePost,
     eventsRequestManageGet,
     eventsRequestManagePost,
+    eventRulesGet,
+    eventStartGet,
   };
 };
 
