@@ -37,6 +37,7 @@ const authController = () => {
     req.session.tempUser.number = req.body.number;
     req.session.tempUser.email = req.body.email;
     req.session.tempUser.password = req.body.password;
+    req.session.tempUser.friends = [];
 
     const { errors } = validationResult(req);
     if (errors.length > 0) {

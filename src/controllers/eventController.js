@@ -10,6 +10,8 @@ const {
   findEventByNameAndDelete,
   findRequestInEventAddRemove,
   updateIsAllowed,
+  findUserByEmail,
+  findResponseInEventAddRemove,
 } = require('../controllers/helpers/mongo')();
 
 const storage = multer.diskStorage({
@@ -147,32 +149,124 @@ const eventController = () => {
     if (event && event.isEventLive) {
       debug('==============');
       const { instructions } = event;
-      res.render('eventRules', { event, instructions });
+      const { friends } = req.user;
+      res.render('eventRules', { event, instructions, friends });
     } else {
       debug('--------------');
       res.redirect('/events');
     }
   };
 
-  const eventStartGet = async (req, res) => {
-    const { id } = req.params;
-    const event = await findEventByName(id);
-    let requests;
-    if (event) {
-      requests = event.requests;
-      requests = requests.find(ele => ele.email === req.user.email);
-    }
+  const eventStartGet = (req, res) => {
+    res.redirect('/events');
+  };
+  const eventStartPost = async (req, res) => {
+    let { event } = req.body;
+    const { friendEmail } = req.body;
+    debug(req.body);
+    event = await findEventByName(event);
+    let { requests } = event;
+    requests = requests.find(ele => ele.email === req.user.email);
     debug('==============');
     debug(requests);
     debug('==============');
-    if (event && event.isEventLive && event.isQuizLive && requests && requests.isAllowed && !requests.hasStarted) {
+    if (
+      event.isEventLive
+      && event.isQuizLive
+      && requests
+      && requests.isAllowed
+      && !requests.hasStarted
+    ) {
       debug('==============');
       const { questions } = event;
-      res.render('eventStart', { eventName: event.eventName, event: event.event, time: event.timeAlloted, questions });
+      res.render('eventStart', {
+        eventName: event.eventName,
+        event: event.event,
+        time: event.timeAlloted,
+        friendEmail,
+        questions,
+      });
     } else {
       debug('--------------');
       res.redirect('/events');
     }
+  };
+
+  const eventEndPost = async (req, res) => {
+    const { numOfQuestions } = req.body;
+    const userResponse = {};
+    const user = {};
+    user.name = req.user.name;
+    user.email = req.user.email;
+    user.college = req.user.college;
+    user.number = req.user.number;
+    if (req.body.friendEmail) {
+      const friend = await findUserByEmail(req.body.friendEmail);
+      user.friendName = friend.name;
+      user.friendEmail = req.body.friendEmail;
+      user.friendCollege = friend.college;
+    }
+    userResponse.user = user;
+    const dataArray = [];
+    let totalScore = 0;
+    let totalCorrect = 0;
+    let totalWrong = 0;
+    let totalNotAttempted = 0;
+    const { questions } = await findEventByName(req.body.event);
+    for (let i = 1; i <= numOfQuestions; i++) {
+      const data = {};
+      const userAnswer = req.body[`ques${i}`];
+      data[`ques${i}`] = userAnswer;
+      if (!userAnswer) {
+        data.status = 'Not Attempted';
+        data.score = questions[i - 1].scores[2];
+        totalNotAttempted++;
+      } else if (userAnswer === questions[i - 1].answer) {
+        data.status = 'correct';
+        data.score = questions[i - 1].scores[0];
+        totalCorrect++;
+      } else {
+        data.status = 'wrong';
+        data.score = questions[i - 1].scores[1];
+        totalWrong++;
+      }
+      totalScore += data.score;
+      dataArray.push(data);
+    }
+    userResponse.dataArray = dataArray;
+    userResponse.score = totalScore;
+    userResponse.correct = totalCorrect;
+    userResponse.wrong = totalWrong;
+    userResponse.notAttempted = totalNotAttempted;
+    debug(userResponse);
+
+    await findResponseInEventAddRemove(req.body.event, userResponse);
+    res.redirect('/events');
+  };
+
+  const eventsResponseManageGet = async (req, res) => {
+    debug('Manage Responses ');
+    let data = await findAllEvents();
+    data = data.map(ele => ({
+      event: ele.event,
+      eventName: ele.eventName,
+    }));
+
+    res.render('manageResponse', { data });
+  };
+
+  const eventsResponseManagePost = async (req, res) => {
+    debug('Manage Responses');
+    let { responses } = await findEventByName(req.body.event);
+    responses = responses.map(ele => ({
+      user: ele.user,
+      score: ele.score,
+      correct: ele.correct,
+      wrong: ele.wrong,
+      notAttempted: ele.notAttempted,
+    }));
+    debug(responses);
+    res.json(responses);
   };
   return {
     eventsGet,
@@ -185,6 +279,10 @@ const eventController = () => {
     eventsRequestManagePost,
     eventRulesGet,
     eventStartGet,
+    eventStartPost,
+    eventEndPost,
+    eventsResponseManageGet,
+    eventsResponseManagePost,
   };
 };
 

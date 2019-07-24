@@ -31,7 +31,7 @@ const mongo = () => {
     c.close();
   };
 
-  const findUserByEmail = async (email) => {
+  const findUserByEmail = async email => {
     let c;
     let results;
     try {
@@ -46,7 +46,7 @@ const mongo = () => {
     return results;
   };
 
-  const findEventByName = async (event) => {
+  const findEventByName = async event => {
     let c;
     let results;
     try {
@@ -79,7 +79,7 @@ const mongo = () => {
     return results;
   };
 
-  const addEvent = async (data) => {
+  const addEvent = async data => {
     let c;
     let results;
     try {
@@ -141,7 +141,7 @@ const mongo = () => {
     c.close();
     return results;
   };
-  const findEventByNameAndDelete = async (event) => {
+  const findEventByNameAndDelete = async event => {
     let c;
     let result;
     try {
@@ -195,7 +195,7 @@ const mongo = () => {
       const col = await db.collection('events');
       result = await col.findOne({
         event: data.event,
-        'requests.email': data.email
+        'requests.email': data.email,
       });
       debug('-----------result 1 starts----------');
       debug(result);
@@ -220,14 +220,101 @@ const mongo = () => {
       const { client, db } = await createConnection();
       c = client;
       const col = await db.collection('events');
-      results = await col.findOneAndUpdate({ event: data.event, 'requests.email': data.email }, { $set: { 'requests.$.isAllowed': flag } });
-      
+      results = await col.findOneAndUpdate(
+        { event: data.event, 'requests.email': data.email },
+        { $set: { 'requests.$.isAllowed': flag } },
+      );
     } catch (error) {
       debug(error);
     }
     c.close();
     return results;
   };
+
+  const addFriend = async (email, friend) => {
+    let c;
+    let result;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      const col = await db.collection('users');
+      result = await col.findOneAndUpdate(
+        { email },
+        {
+          $push: {
+            friends: {
+              name: friend.name,
+              email: friend.email,
+              college: friend.college,
+            },
+          },
+        },
+      );
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    return result;
+  };
+
+  // ====================================================================
+  const removeResponseInEvent = async (col, event, data) => {
+    const result = await col.findOneAndUpdate(
+      { event },
+      {
+        $pull: {
+          responses: {
+            'user.email': data.user.email,
+          },
+        },
+      },
+    );
+    return result;
+  };
+  const addResponseInEvent = async (col, event, data) => {
+    const result = await col.findOneAndUpdate(
+      { event },
+      {
+        $push: {
+          responses: {
+            user: data.user,
+            dataArray: data.dataArray,
+            score: data.score,
+            correct: data.correct,
+            wrong: data.wrong,
+            notAttempted: data.notAttempted,
+          },
+        },
+      },
+    );
+    return result;
+  };
+  const findResponseInEventAddRemove = async (event, data) => {
+    let c;
+    let result;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      const col = await db.collection('events');
+      result = await col.findOne({
+        event,
+        'responses.email': data.email,
+      });
+      debug('-----------result 1 starts----------');
+      debug(result);
+      debug('------------result 1 ends---------');
+
+      if (result) {
+        await removeResponseInEvent(col, event, data);
+      }
+      await addResponseInEvent(col, event, data);
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    return result;
+  };
+
   return {
     createConnection,
     addUser,
@@ -240,6 +327,8 @@ const mongo = () => {
     findEventByNameAndDelete,
     findRequestInEventAddRemove,
     updateIsAllowed,
+    addFriend,
+    findResponseInEventAddRemove,
   };
 };
 

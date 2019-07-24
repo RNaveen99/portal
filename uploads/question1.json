@@ -34,6 +34,38 @@
         -1,
         0
       ]
+    },
+    {
+      "qid": 3,
+      "ques": "This is Question 3",
+      "options": [
+        "Hypertext",
+        "pre processor",
+        "pre hyper",
+        "PHP"
+      ],
+      "answer": "PHP",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 4,
+      "ques": "This is Question 4",
+      "options": [
+        "Hypertext",
+        "pre processor",
+        "pre hyper",
+        "PHP"
+      ],
+      "answer": "PHP",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
     }
   ],
   "requests": [],

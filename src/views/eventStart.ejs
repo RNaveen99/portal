@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,45 +8,67 @@
     <title><%=eventName%></title>
     <% include meta-data %>
 </head>
+
 <body>
-    <div class="green" style="margin-top: 7em;">
+    <h4 class="left-align" id="quizTimeLeft"></h4>
+    <div>
         <div class="row">
-            <div class="col s4 l3 red" id="grid">
+            <div class="col s4 l4" id="grid">
                 <% for (let i = 1; i <= questions.length; i++) {%>
-                    <button class="waves-effect waves-light btn-small" type="submit"><%=i%></button>
-                    <a class="waves-effect waves-light btn-small">Button</a>
-                    <%}%>
+                <a class="waves-effect waves-light btn-large grid" id="grid<%=i%>"><%=i%></a>
+                <%}%>
             </div>
-            <div class="col s8 l9">
+            <div class="col s8 l8">
                 <div class="row">
-                    <form action="/events/<%=event%>/end" method="post" class="col s12">
-                        <% for (let i = 1; i <= questions.length; i++) {%>
+                    <form action="/events/<%=event%>/end" method="post" class="col s12" id="quiz">
+                        <input type="hidden" value="<%=questions.length%>" name="numOfQuestions" id="numOfQuestions">
+                        <input type="hidden" value="<%=time%>" id="quizTime">
+                        <input type="hidden" value="<%=friendEmail%>" name="friendEmail">
+                        <input type="hidden" value="<%=event%>" name="event">
+                <% for (let i = 1; i <= questions.length; i++) {%>
+                <div class="row" id="question<%=i%>" class="question" style="display: none">
+                    <div class="col s12">
+                        <h5><%=questions[i - 1].ques%></h5>
+                    </div>
+                    <div class="col s12" id="options">
                         <div class="row">
-                            <div class="col s12 teal" id="question">
-                                <h5><%=questions[i - 1].ques%></h5>
+                            <% for (let j = 1; j <= questions[i - 1].options.length; j++) { %>
+                            <div class="col s5">
+                                <p>
+                                    <label for="option<%=i%><%=j%>" class="black-text">
+                                        <input type="checkbox" name="ques<%=i%>" id="option<%=i%><%=j%>"
+                                            class="option<%=i%>" value="<%=questions[i - 1].options[j - 1]%>">
+                                        <span><%=questions[i - 1].options[j - 1]%></span>
+                                    </label>
+                                </p>
                             </div>
-                            <div class="col s12" id="options">
-                                <div class="row">
-                                    <% for (let j = 1; j <= questions[i - 1].options.length; j++) { %>
-                                    <div class="col s5 red lighten-2">
-                                        <p>
-                                            <label class="black-text">
-                                                <input type="checkbox" value="<%=questions[i - 1].options[j - 1]%>">
-                                                <span><%=questions[i - 1].options[j - 1]%></span>
-                                            </label>
-                                        </p>
-                                    </div>
-                                    <div class="col s1"></div>
-                                    <% }%>
-                                </div>
-                            </div>
+                            <div class="col s1"></div>
+                            <% }%>
                         </div>
-                        <% } %>
-                    </form>
+                    </div>
                 </div>
+                <% } %>
+                <div class="row">
+                    <div class="input-field col s8">
+                        <a id="previousButton" class="waves-effect waves-light btn left"><i class="material-icons left">arrow_back</i>prev</a>
+                        <a id="nextButton" class="waves-effect waves-light btn right"><i class="material-icons right">arrow_forward</i>next</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s8">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>            
+                    </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    </div>
+
     <script src="/js/materialize.js"></script>
+    <script src="/js/eventStart.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Manage Responses</title>
+    <% include meta-data %>
+</head>
+<body>
+    <% include header %>
+    
+        <div class="row">
+            <div class="input-field col s12">
+                <select id="events">
+                  <option value="" disabled selected>Choose Event</option>
+                  <% data.forEach((event) => { %>
+                  <option value="<%=event.event%>"><%=event.eventName%></option>
+                  <% }); %>
+                </select>
+                <label>Event Select</label>
+              </div>
+        </div>
+        <div class="row results">
+
+        </div>
+    
+    <% include footer %>
+    <script src="/js/eventsResponseManageAjax.js"></script>
+</body>
+</html>

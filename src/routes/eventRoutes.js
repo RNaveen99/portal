@@ -12,6 +12,10 @@ const {
   eventsRequestManagePost,
   eventRulesGet,
   eventStartGet,
+  eventStartPost,
+  eventEndPost,
+  eventsResponseManageGet,
+  eventsResponseManagePost,
 } = require('../controllers/eventController')();
 
 const eventRouter = express.Router();
@@ -42,6 +46,12 @@ const router = () => {
     .post(eventsRequestManagePost);
 
   eventRouter
+    .route('/responses')
+    .all(ifSignInAdmin)
+    .get(eventsResponseManageGet)
+    .post(eventsResponseManagePost);
+
+  eventRouter
     .route('/:id')
     .all(ifSignIn)
     .get(eventRulesGet);
@@ -49,7 +59,14 @@ const router = () => {
   eventRouter
     .route('/:id/start')
     .all(ifSignIn)
-    .get(eventStartGet);
+    .get(eventStartGet)
+    .post(eventStartPost);
+
+  eventRouter
+    .route('/:id/end')
+    .all(ifSignIn)
+    .get(eventStartGet)
+    .post(eventEndPost);
 
   return eventRouter;
 };

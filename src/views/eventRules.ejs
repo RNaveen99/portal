@@ -20,14 +20,35 @@
                 <blockquote><%-ele%></blockquote>
                 <%})%>
             </div>
-            <div class="input-field col s12">
-                <a href="<%=event.link%>/start"><button class="btn waves-effect waves-light">Agree &amp continue
-                    <i class="material-icons right">send</i>
-                </button>
-                </a>
-            </div>
+            <form action="<%=event.link%>/start" method="post" class="col s12">
+                <div class="input-field col s12">
+                    <input type="hidden" name="event" value="<%=event.event%>">
+                </div>
+                <div class="input-field col s12">
+                    <select name="friendEmail">
+                        <option value="" selected>Individual</option>
+                        <% friends.forEach((friend) => { %>
+                        <option value="<%=friend.email%>"><%=friend.name%></option>
+                        <%});%>
+                    </select>
+                    <label>Participating With:</label>
+                </div>
+                <div class="input-field col s12">
+                    <a href="<%=event.link%>/start"><button class="btn waves-effect waves-light">Agree &amp continue
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
+    <script src="/js/materialize.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+    </script>
 </body>
 
 </html>
