@@ -205,6 +205,7 @@ const eventController = () => {
       user.friendName = friend.name;
       user.friendEmail = req.body.friendEmail;
       user.friendCollege = friend.college;
+      user.friendNumber = friend.number;
     }
     userResponse.user = user;
     const dataArray = [];
@@ -241,6 +242,7 @@ const eventController = () => {
     debug(userResponse);
 
     await findResponseInEventAddRemove(req.body.event, userResponse);
+    // res.redirect(`/`);
     res.redirect('/events');
   };
 
@@ -268,6 +270,21 @@ const eventController = () => {
     debug(responses);
     res.json(responses);
   };
+
+  const eventsResponseViewGet = async (req, res) => {
+    const { event, email } = req.query;
+    if (event) {
+      let { eventName, questions, responses } = await findEventByName(event);
+      responses = responses.find(ele => email === ele.user.email);
+      debug(responses);
+      debug(questions);
+      debug(event);
+      debug(req.query);
+      res.render('eventResponseView', { eventName, questions, responses });
+    }
+
+    else res.end('Nothing');
+  };
   return {
     eventsGet,
     eventsPost,
@@ -283,6 +300,7 @@ const eventController = () => {
     eventEndPost,
     eventsResponseManageGet,
     eventsResponseManagePost,
+    eventsResponseViewGet,
   };
 };
 

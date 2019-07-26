@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Response View</title>
+    <% include meta-data %>
+</head>
+<body>
+    <% include header %>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h4><%=eventName%></h4>
+            </div>
+            <div class="col s12">
+                <h5>Participants: <%=responses.user.name%> <% if (responses.user.friendName) {%> and <%=responses.user.friendName%> <% }%></h5>
+            </div>
+            <div class="col s3"><h5>Score: <%=responses.score%></h5></div>
+            <div class="col s2 green-text"><h5>Correct:  <%=responses.correct%></h5></div>
+            <div class="col s3 red-text"><h5>Wrong: <%=responses.wrong%></h5></div>
+            <div class="col s3 grey-text"><h5>UnAttempted: <%=responses.notAttempted%></h5></div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                    <% for (let i = 0; i < responses.dataArray.length; i++) {%>
+                        <% let status = responses.dataArray[i].status;%>
+                        <div class="row card-panel"  style=" display: flex; flex-direction: row;">
+                        <div class="col s10">
+                            <div class="row">
+                                <div class="col s12 card">
+                                    <h5><%=questions[i].ques %></h5>
+                                </div>
+                                <div class="col s12">
+                                    <div class="row">
+                                        <%if (status === 'Not Attempted') {%>
+                                        <% questions[i].options.forEach((opt) => {%>
+                                            <div class="col s5 card-panel">
+                                                    <h6><%=opt%></h6>
+                                                </div>
+                                                <div class="col s1"></div>
+                                            <% }); %>
+                                            <div class="col s11 card-panel green">
+                                                <h6><%=questions[i].answer%></h6>
+                                            </div>
+                                        <%} else if (status === 'correct') {%>
+                                            <% let index = questions[i].options.indexOf(questions[i].answer);%>
+                                            <% for (let j = 0; j < questions[i].options.length; j++) {%>
+                                                <div class="col s5 card-panel <%if (index === j) {%> green <%}%>">
+                                                        <h6><%=questions[i].options[j]%></h6>
+                                                    </div>
+                                                    <div class="col s1"></div>
+                                                <% } %>
+                                                <%} else if (status === 'wrong') {%>
+                                                    <% let correctIndex = questions[i].options.indexOf(questions[i].answer);%>
+                                                    <% let wrongIndex = questions[i].options.indexOf(responses.dataArray[i][`ques${i + 1}`]);%>
+                                            <% for (let j = 0; j < questions[i].options.length; j++) {%>
+                                                <div class="col s5 card-panel <%if (j === correctIndex) {%> green <%} else if (j === wrongIndex) {%> red <%}%>">
+                                                        <h6><%=questions[i].options[j]%></h6>
+                                                    </div>
+                                                    <div class="col s1"></div>
+                                                <% }} %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  style=" align-self:auto;" class="col s2 card-panel valign-wrapper<% if (status === 'correct') { %> green <%} else if (status === 'wrong') {%> red <%} else {%> grey <%}%>">
+                            <h1 style="padding-left:.5em;"><%=responses.dataArray[i].score%></h1>
+                        </div>
+                    </div>
+                        <%}%>
+            </div>
+            
+        </div>
+    </div>
+    <% include footer %>
+
+</body>
+</html>

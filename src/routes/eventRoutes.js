@@ -16,6 +16,7 @@ const {
   eventEndPost,
   eventsResponseManageGet,
   eventsResponseManagePost,
+  eventsResponseViewGet,
 } = require('../controllers/eventController')();
 
 const eventRouter = express.Router();
@@ -50,6 +51,11 @@ const router = () => {
     .all(ifSignInAdmin)
     .get(eventsResponseManageGet)
     .post(eventsResponseManagePost);
+
+  eventRouter
+    .route('/responses/view')
+    .all(ifSignInAdmin)
+    .get(eventsResponseViewGet);
 
   eventRouter
     .route('/:id')

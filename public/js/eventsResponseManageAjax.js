@@ -15,13 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
   //   xhttp.send(JSON.stringify(data));
   // };
 
-  const processResult = (result) => {
+  const processResult = (result, event) => {
+    result = result.sort((a, b) => b.score - a.score);
     console.table(result);
-    let div1 = '<table><thead><tr><th>Name</th><th>College</th><th>Email</th><th>Number</th><th>Score</th></tr></thead>';
+    console.log(result, typeof result) ;
+    if (!result.length) return;
+    console.log(event);
+    let div1 = '<table><thead><tr><th>Name</th><th>College</th><th>Email</th><th>Number</th><th>Score</th><th>View</th></tr></thead><tbody>';
     result.forEach((ele) => {
       div1 += `
         <tr>
-        <td>
+        <td>${ele.user.name} ${ele.user.friendName ? `<br> ${ele.user.friendName} ` : ` ` } </td>
+        <td>${ele.user.college} ${ele.user.friendName ? `<br> ${ele.user.friendCollege} ` : ` ` } </td>
+        <td>${ele.user.email} ${ele.user.friendName ? `<br> ${ele.user.friendEmail} ` : ` ` } </td>
+        <td>${ele.user.number} ${ele.user.friendName ? `<br> ${ele.user.friendNumber} ` : ` ` } </td>
+        <td>${ele.score}</td>
+        <td><a class="waves-effect waves-teal btn-flat blue-text" href="/events/responses/view?event=${event}&email=${ele.user.email}">view</a></td>
         </tr>
         `;
     });
@@ -37,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
       if (this.status == 200) {
-        processResult(JSON.parse(this.responseText));
+        processResult(JSON.parse(this.responseText), e.target.value);
       }
     };
     xhttp.onerror = function () {
