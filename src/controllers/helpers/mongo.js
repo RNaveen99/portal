@@ -31,7 +31,7 @@ const mongo = () => {
     c.close();
   };
 
-  const findUserByEmail = async email => {
+  const findUserByEmail = async (email) => {
     let c;
     let results;
     try {
@@ -46,7 +46,7 @@ const mongo = () => {
     return results;
   };
 
-  const findEventByName = async event => {
+  const findEventByName = async (event) => {
     let c;
     let results;
     try {
@@ -79,7 +79,7 @@ const mongo = () => {
     return results;
   };
 
-  const addEvent = async data => {
+  const addEvent = async (data) => {
     let c;
     let results;
     try {
@@ -141,7 +141,7 @@ const mongo = () => {
     c.close();
     return results;
   };
-  const findEventByNameAndDelete = async event => {
+  const findEventByNameAndDelete = async (event) => {
     let c;
     let result;
     try {
@@ -213,6 +213,7 @@ const mongo = () => {
     c.close();
     return result;
   };
+  // =========================================================================
   const updateIsAllowed = async (data, flag) => {
     let c;
     let results;
@@ -230,7 +231,44 @@ const mongo = () => {
     c.close();
     return results;
   };
-
+  const updateHasStarted = async (data, flag) => {
+    let c;
+    let results;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      debug('======================');
+      debug(data);
+      debug('======================');
+      const col = await db.collection('events');
+      results = await col.findOneAndUpdate(
+        { event: data.event, 'requests.email': data.email },
+        { $set: { 'requests.$.hasStarted': flag } },
+      );
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    return results;
+  };
+  const updateHasCompleted = async (data, flag) => {
+    let c;
+    let results;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      const col = await db.collection('events');
+      results = await col.findOneAndUpdate(
+        { event: data.event, 'requests.email': data.email },
+        { $set: { 'requests.$.hasCompleted': flag } },
+      );
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    return results;
+  };
+  // ==============================================================================
   const addFriend = async (email, friend) => {
     let c;
     let result;
@@ -327,6 +365,8 @@ const mongo = () => {
     findEventByNameAndDelete,
     findRequestInEventAddRemove,
     updateIsAllowed,
+    updateHasStarted,
+    updateHasCompleted,
     addFriend,
     findResponseInEventAddRemove,
   };

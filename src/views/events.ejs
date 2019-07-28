@@ -23,18 +23,26 @@
                         <p><%=ele.intro%></p>
                     </div>
                     <div class="card-action">
+                        <% let result = ele.requests.find((request) => { return request.email === user.email; })%>
+                        <% if (result && result.hasStarted) { } else {%>
                         <a class="btn-floating btn-large waves-effect waves-light red events" data="<%=ele.event%>">
                             <i class="material-icons">
-                                <% let result = ele.requests.find((request) => { return request.email === user.email; })%>
+                                
+                                
                                 <% if (result) { %>
                                 remove
                                 <% } else { %>
                                 add
-                                <%}%>
+                                <%} }%>
+                                
                             </i>
                         </a>
                         <%if (result && result.isAllowed) {%>
+                            <%if (!result.hasStarted) {%>
                                 <a href="<%=ele.link%>">Take Quiz</a>
+                                <%} else {%>
+                                    <a>You have taken quiz</a>
+                                    <%}%>
                                 <%}%>
                     </div>
                 </div>

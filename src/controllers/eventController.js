@@ -10,6 +10,8 @@ const {
   findEventByNameAndDelete,
   findRequestInEventAddRemove,
   updateIsAllowed,
+  updateHasStarted,
+  updateHasCompleted,
   findUserByEmail,
   findResponseInEventAddRemove,
 } = require('../controllers/helpers/mongo')();
@@ -186,6 +188,8 @@ const eventController = () => {
         friendEmail,
         questions,
       });
+      let r = await updateHasStarted({ event: event.event, email: req.user.email }, true);
+      debug(r);
     } else {
       debug('--------------');
       res.redirect('/events');
@@ -193,6 +197,13 @@ const eventController = () => {
   };
 
   const eventEndPost = async (req, res) => {
+    let { questions, requests } = await findEventByName(req.body.event);
+    requests = requests.find(ele => ele.email === req.user.email);
+    if (requests.hasCompleted) {
+      return res.redirect('/events');
+    }
+    let r = await updateHasCompleted({ event: req.body.event, email: req.user.email }, true);
+    debug(r);
     const { numOfQuestions } = req.body;
     const userResponse = {};
     const user = {};
@@ -213,7 +224,7 @@ const eventController = () => {
     let totalCorrect = 0;
     let totalWrong = 0;
     let totalNotAttempted = 0;
-    const { questions } = await findEventByName(req.body.event);
+    
     for (let i = 1; i <= numOfQuestions; i++) {
       const data = {};
       const userAnswer = req.body[`ques${i}`];
