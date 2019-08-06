@@ -1,44 +1,63 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // const allowQuiz = (participant) => {
-  //   console.log(participant.target.value);
-  //   const xhttp = new XMLHttpRequest();
-  //   xhttp.onerror = function () {
-  //     console.log('Error occured');
-  //   };
-  //   const data = {
-  //     email: participant.target.value,
-  //     event: eventName.value,
-  //   };
-  //   console.log(data);
-  //   xhttp.open('POST', '/events/requests', true);
-  //   xhttp.setRequestHeader('Content-type', 'application/json');
-  //   xhttp.send(JSON.stringify(data));
-  // };
+  
+  const addToResults = (e) => {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+      if (this.status == 200) {
+      }
+    };
+    xhttp.onerror = function () {
+      console.log('Error occured');
+    };
+    const data = {
+      event: document.querySelector('#events').value,
+      name: e.target.getAttribute('data-name'),
+      college: e.target.getAttribute('data-college'),
+    };
+    console.log(data);
+    xhttp.open('POST', '/events/results', true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
+    xhttp.send(JSON.stringify(data));
+  };
 
-  const processResult = (result, event) => {
-    result = result.sort((a, b) => b.score - a.score);
-    console.table(result);
-    console.log(result, typeof result) ;
-    if (!result.length) return;
+  const processResult = ({ responses, results }, event) => {
+    responses = responses.sort((a, b) => b.score - a.score);
+    console.table(responses);
+    console.table(results);
+    if (!responses.length) {
+      document.querySelector('.results').innerHTML = '<h2>No Responses are Available</h2>';
+      return;
+    }
     console.log(event);
-    let div1 = '<table><thead><tr><th>Name</th><th>College</th><th>Email</th><th>Number</th><th>Score</th><th>View</th></tr></thead><tbody>';
-    result.forEach((ele) => {
+    document.querySelector('.results').innerHTML = '';
+    let div1 = '<table><thead><tr><th>Name</th><th>College</th><th>Email</th><th>Number</th><th>Score</th><th>View</th><th>Add</th></tr></thead><tbody>';
+    responses.forEach((ele) => {
+      const name = `${ele.user.name} ${ele.user.friendName ? `<br> ${ele.user.friendName}` : `` }`;
+      const college = `${ele.user.college} ${ele.user.friendName ? `<br> ${ele.user.friendCollege}` : `` }`;
+      const email = `${ele.user.email} ${ele.user.friendName ? `<br> ${ele.user.friendEmail}` : `` }`;
+      const number = `${ele.user.number} ${ele.user.friendName ? `<br> ${ele.user.friendNumber}` : `` }`;
+      console.log(name);
       div1 += `
         <tr>
-        <td>${ele.user.name} ${ele.user.friendName ? `<br> ${ele.user.friendName} ` : ` ` } </td>
-        <td>${ele.user.college} ${ele.user.friendName ? `<br> ${ele.user.friendCollege} ` : ` ` } </td>
-        <td>${ele.user.email} ${ele.user.friendName ? `<br> ${ele.user.friendEmail} ` : ` ` } </td>
-        <td>${ele.user.number} ${ele.user.friendName ? `<br> ${ele.user.friendNumber} ` : ` ` } </td>
+        <td>${name} </td>
+        <td>${college}</td>
+        <td>${email} </td>
+        <td>${number} </td>
         <td>${ele.score}</td>
         <td><a class="waves-effect waves-teal btn-flat blue-text" href="/events/responses/view?event=${event}&email=${ele.user.email}">view</a></td>
-        </tr>
+        <td><div class="switch"><label>remove<input type="checkbox"
         `;
+      const tempResult = results.find(r => r.name === name);
+      if (tempResult) {
+        div1 += `checked `;
+      }
+      div1 += `data-name="${name}" data-college="${college}"><span class="lever"></span>Add</label></div></td></tr>`;
     });
-    document.querySelector('.results').innerHTML = div1;
-  //   const participants = document.querySelectorAll('input[type=checkbox]');
-  //   participants.forEach((ele) => {
-  //     ele.addEventListener('change', allowQuiz);
-  //   });
+    document.querySelector('.results').innerHTML += div1;
+    const participants = document.querySelectorAll('input[type=checkbox]');
+    participants.forEach((ele) => {
+      ele.addEventListener('change', addToResults);
+    });
   };
 
 

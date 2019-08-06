@@ -1,21 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const changeSymbol = (eventName) => {
-    let symbol = eventName.target.innerText;
+  const changeSymbol = (e) => {
+    let symbol = e.target.innerText;
     if (symbol === 'add') {
       symbol = 'remove';
     } else {
       symbol = 'add';
     }
-    eventName.target.innerText = symbol;
-  }
+    e.target.innerText = symbol;
+  };
   
-  const ajax = (eventName) => {
+  const ajax = (e) => {
     const xhttp = new XMLHttpRequest();
-    xhttp.onerror = function () {
-      console.log('Error occured');
+    xhttp.onerror = function (err) {
+      console.log('Error occured' ,err);
+    };
+    xhttp.onload = function () {
+      if (this.status == 200) {
+        console.log(JSON.parse(this.responseText));
+      }
     };
     const data = {
-      event: eventName.target.parentNode.getAttribute('data'),
+      event: e.target.parentNode.getAttribute('data'),
     };
     xhttp.open('POST', '/events', true);
     xhttp.setRequestHeader('Content-type', 'application/json');

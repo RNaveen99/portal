@@ -31,7 +31,7 @@ const mongo = () => {
     c.close();
   };
 
-  const findUserByEmail = async (email) => {
+  const findUserByEmail = async email => {
     let c;
     let results;
     try {
@@ -46,7 +46,7 @@ const mongo = () => {
     return results;
   };
 
-  const findEventByName = async (event) => {
+  const findEventByName = async event => {
     let c;
     let results;
     try {
@@ -76,10 +76,10 @@ const mongo = () => {
       debug(error);
     }
     c.close();
-    return results;
+    return results.lastErrorObject;
   };
 
-  const addEvent = async (data) => {
+  const addEvent = async data => {
     let c;
     let results;
     try {
@@ -100,17 +100,7 @@ const mongo = () => {
       const { client, db } = await createConnection();
       c = client;
       const col = await db.collection('events');
-      results = await col
-        .find(
-          { isEventLive: true },
-          {
-            eventName: 1,
-            questions: 0,
-            requests: 0,
-            responses: 0,
-          },
-        )
-        .toArray();
+      results = await col.find({ isEventLive: true }).toArray();
     } catch (error) {
       debug(error);
     }
@@ -124,24 +114,14 @@ const mongo = () => {
       const { client, db } = await createConnection();
       c = client;
       const col = await db.collection('events');
-      results = await col
-        .find(
-          {},
-          {
-            eventName: 1,
-            questions: 0,
-            requests: 0,
-            responses: 0,
-          },
-        )
-        .toArray();
+      results = await col.find({}).toArray();
     } catch (error) {
       debug(error);
     }
     c.close();
     return results;
   };
-  const findEventByNameAndDelete = async (event) => {
+  const findEventByNameAndDelete = async event => {
     let c;
     let result;
     try {
@@ -155,6 +135,7 @@ const mongo = () => {
     c.close();
     debug(result);
   };
+  //  ========================= findRequestInEventAddRemove =================================
   const removeRequestInEvent = async (col, data) => {
     const result = await col.findOneAndUpdate(
       { event: data.event },
@@ -252,6 +233,8 @@ const mongo = () => {
     return results;
   };
   const updateHasCompleted = async (data, flag) => {
+    debug('====================================');
+    debug(data);
     let c;
     let results;
     try {
@@ -296,38 +279,65 @@ const mongo = () => {
   };
 
   // ====================================================================
-  const removeResponseInEvent = async (col, event, data) => {
+  const addResponseInEvent = async (event, data) => {
+    let c;
+    let result;
+    try {
+      const { client, db } = await createConnection();
+      c = client;
+      const col = await db.collection('events');
+      result = await col.findOneAndUpdate(
+        { event },
+        {
+          $push: {
+            responses: {
+              user: data.user,
+              dataArray: data.dataArray,
+              score: data.score,
+              correct: data.correct,
+              wrong: data.wrong,
+              notAttempted: data.notAttempted,
+            },
+          },
+        },
+      );
+    } catch (error) {
+      debug(error);
+    }
+    c.close();
+    return result;
+  };
+  // ====================================================================================
+
+  const removeResultInEvent = async (col, event, name, college) => {
     const result = await col.findOneAndUpdate(
       { event },
       {
         $pull: {
-          responses: {
-            'user.email': data.user.email,
+          results: {
+            name,
+            college,
           },
         },
       },
     );
     return result;
   };
-  const addResponseInEvent = async (col, event, data) => {
+  const addResultInEvent = async (col, event, name, college) => {
     const result = await col.findOneAndUpdate(
       { event },
       {
         $push: {
-          responses: {
-            user: data.user,
-            dataArray: data.dataArray,
-            score: data.score,
-            correct: data.correct,
-            wrong: data.wrong,
-            notAttempted: data.notAttempted,
+          results: {
+            name,
+            college,
           },
         },
       },
     );
     return result;
   };
-  const findResponseInEventAddRemove = async (event, data) => {
+  const resultsInEventAddRemove = async (event, name, college) => {
     let c;
     let result;
     try {
@@ -336,23 +346,25 @@ const mongo = () => {
       const col = await db.collection('events');
       result = await col.findOne({
         event,
-        'responses.email': data.email,
+        'results.name': name,
+        'results.college': college,
       });
       debug('-----------result 1 starts----------');
       debug(result);
       debug('------------result 1 ends---------');
 
       if (result) {
-        await removeResponseInEvent(col, event, data);
+        await removeResultInEvent(col, event, name, college);
+      } else {
+        await addResultInEvent(col, event, name, college);
       }
-      await addResponseInEvent(col, event, data);
     } catch (error) {
       debug(error);
     }
     c.close();
     return result;
   };
-
+  // ====================================================================================
   return {
     createConnection,
     addUser,
@@ -368,7 +380,8 @@ const mongo = () => {
     updateHasStarted,
     updateHasCompleted,
     addFriend,
-    findResponseInEventAddRemove,
+    addResponseInEvent,
+    resultsInEventAddRemove,
   };
 };
 
