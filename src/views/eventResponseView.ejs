@@ -29,9 +29,14 @@
                         <div class="row card-panel"  style=" display: flex; flex-direction: row;">
                         <div class="col s10">
                             <div class="row">
-                                <div class="col s12 card">
-                                    <h5><%=questions[i].ques %></h5>
+                                <div class="col s11 card">
+                                    <h5><%=questions[i].qid%>.<%=questions[i].ques %></h5>
                                 </div>
+                                <% if (questions[i].code) {%>
+                                    <div class="col s11 card">
+                                        <%-questions[i].code%>
+                                    </div>
+                                    <%}%>
                                 <div class="col s12">
                                     <div class="row">
                                         <%if (status === 'Not Attempted') {%>

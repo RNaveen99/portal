@@ -1,18 +1,18 @@
 {
-  "eventName": "Web Gators",
-  "event": "webgators",
-  "link": "/events/webgators",
+  "eventName": "Mind Matters",
+  "event": "mindmatters",
+  "link": "/events/mindmatters",
   "questions": [
     {
       "qid": 1,
-      "ques": "What does CSS stands for",
+      "ques": "Docker is a computer program that performs operating system level virtualization, also known as",
       "options": [
-        "Cascading scripting sheets",
-        "Cascading style sheets",
-        "Cascading styling sheets",
-        "Cascading scripting stylesheets"
+        "Serialization",
+        "Multithreading",
+        "Containerization",
+        "Multiprogramming"
       ],
-      "answer": "Cascading style sheets",
+      "answer": "Containerization",
       "scores": [
         4,
         -1,
@@ -21,14 +21,14 @@
     },
     {
       "qid": 2,
-      "ques": "What does PHP stands for",
+      "ques": "A folder in windows computer can’t be made with the name",
       "options": [
-        "Hypertext",
-        "pre processor",
-        "pre hyper",
-        "PHP"
+        "can",
+        "con",
+        "mak",
+        "make"
       ],
-      "answer": "PHP",
+      "answer": "con",
       "scores": [
         4,
         -1,
@@ -37,12 +37,92 @@
     },
     {
       "qid": 3,
-      "ques": "This is Question 3",
+      "ques": "Who developed the new version of UPI (Unified Payments Interface) version 2.0?",
       "options": [
-        "Hypertext",
-        "pre processor",
-        "pre hyper",
-        "PHP"
+        "NIC",
+        "NFS",
+        "IDRBT",
+        "NPCI"
+      ],
+      "answer": "NPCI",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 4,
+      "ques": "Who’s the current COO of Facebook?",
+      "options": [
+        "Kirthiga Reddy",
+        "Babak Parviz",
+        "Brian Olsavsky",
+        "Sheryl Sandberg"
+      ],
+      "answer": "Sheryl Sandberg",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 5,
+      "ques": "The first-ever registered domain name",
+      "options": [
+        "Pcwebopedia.com",
+        "CorbettBarr.com",
+        "Google.com",
+        "Symbolics.com"
+      ],
+      "answer": "Symbolics.com",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 6,
+      "ques": "Who is the founder of GeeksforGeeks?",
+      "options": [
+        "Sachin Gupta",
+        "Sandeep jain",
+        "Bhavin Turakhia",
+        "Bhavish Aggarwal"
+      ],
+      "answer": "Sandeep jain",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 7,
+      "ques": "Which is the first Super Computer?",
+      "options": [
+        "Cray CDC 6600",
+        "PARAM 8000",
+        "Trinity",
+        "Cray XK7"
+      ],
+      "answer": "Cray CDC 6600",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 8,
+      "ques": "Symfony is a framework based on which programming language?",
+      "options": [
+        "Python",
+        "PHP",
+        "Javascript",
+        "Swift"
       ],
       "answer": "PHP",
       "scores": [
@@ -52,15 +132,209 @@
       ]
     },
     {
-      "qid": 4,
-      "ques": "This is Question 4",
+      "qid": 9,
+      "ques": "Who founded the WWW Consortium (W3C)?",
       "options": [
-        "Hypertext",
-        "pre processor",
-        "pre hyper",
-        "PHP"
+        "Bill Gates",
+        "Marc andreessen",
+        "Steve case",
+        "Tim Berners- Lee"
       ],
-      "answer": "PHP",
+      "answer": "Tim Berners- Lee",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 10,
+      "ques": "The macOS desktop interface is also called what?",
+      "options": [
+        "Unity",
+        "Cinnamon",
+        "Finder",
+        "File Explorer"
+      ],
+      "answer": "Finder",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 11,
+      "ques": "Which very popular site was founded by Chad Hurley, Steve Chen and Jawed Karim in February 2005?",
+      "options": [
+        "Youtube",
+        "Reddit",
+        "Quora",
+        "Wikipedia"
+      ],
+      "answer": "Youtube",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 12,
+      "ques": "Who developed the Angry Birds game?",
+      "options": [
+        "Rovio Mobile",
+        "Imangi Studios",
+        "Kiloo",
+        "Supercell"
+      ],
+      "answer": "Rovio Mobile",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 13,
+      "ques": "Symantec is the maker of which following popular antivirus software?",
+      "options": [
+        "Avast",
+        "McAfee",
+        "Bit Defender",
+        "Norton"
+      ],
+      "answer": "Norton",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 14,
+      "ques": "ARP converts",
+      "options": [
+        "IP address to Mac Address",
+        "Mac Address to IP address",
+        "Subnet mask to IP",
+        "IP to DNS address"
+      ],
+      "answer": "IP address to Mac Address",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 15,
+      "ques": "The game which runs when there is no internet connection on google chrome browser?",
+      "options": [
+        "Nanosaur",
+        "T-rex game",
+        "Dino-run",
+        "Cactus cross"
+      ],
+      "answer": "T-rex game",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 16,
+      "ques": "The most powerful supercomputer in existence is ",
+      "options": [
+        "sunway taihuLight",
+        "titan",
+        "Tianhe-2",
+        "IBM Summit"
+      ],
+      "answer": "IBM Summit",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 17,
+      "ques": "US-based virtual search start-up acquired by Facebook to boost AI capabilities is?",
+      "options": [
+        "Balsamiq",
+        "Buffer",
+        "GrokStyle",
+        "Avocent"
+      ],
+      "answer": "GrokStyle",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 18,
+      "ques": "Name the software launched by Indian Railways that will enable the Union Railway Minister to keep track of punctuality of trains and freight and passenger earnings from anywhere in India?",
+      "options": [
+        "eDiary",
+        "RailDairy",
+        "eDrishti",
+        "RailMoney"
+      ],
+      "answer": "eDrishti",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 19,
+      "ques": "US-based Hyperloop Transportation Technologies was launched the first full-scale transportation capsule recently. The name of the capsule is",
+      "options": [
+        "Eagle Pneumatic",
+        "Pevco",
+        "Quintero One",
+        "Minnesota"
+      ],
+      "answer": "Quintero One",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 20,
+      "ques": "First computer virus is known as",
+      "options": [
+        "Rabbit",
+        "Creeper virus",
+        "ELK clonner",
+        "SCA virus"
+      ],
+      "answer": "Creeper virus",
+      "scores": [
+        4,
+        -1,
+        0
+      ]
+    },
+    {
+      "qid": 21,
+      "ques": "Guess the output of the following code",
+      "code": "<pre><code>#include&ltiostream&gt<br>using namespace std;<br>int main() {<br>cout <<\"Hello\"; <br>}</code></pre>",
+      "options": [
+        "Hello",
+        "Compile Time Error",
+        "Runtime Error",
+        "Syntax error",
+        "None of these"
+      ],
+      "answer": "None of these",
       "scores": [
         4,
         -1,
@@ -72,11 +346,10 @@
   "responses": [],
   "results": [],
   "instructions": [
-    "Result by judges will be final",
-    "If found cheating, you will be disqualified immediately",
-    "Correct Answer will be scored  <b>+4</b>",
-    "<ul><li>Ok</li><li>Ok</li><li><ol><li>ok</li></ol></li></ul>",
-    "<code> #include &ltiostream&gt <br>using namespace std;<br>cout &lt&lt &quothello&quot ; <br>int a = 5; <br>int &ampb = a;<br>function event(int a = 5) { <br> cout &lt&lt a ; <br> } </code>"
+    "Time Limit: <b>30 Minutes</b>.",
+    "Total Questions - 20.",
+    "+4 for each correct and -1 for each incorrect answer.",
+    "Total marks - 80"
   ],
   "intro": "Webgators is to test your web development skills, Create a attractive web platform.",
   "isEventLive": false,

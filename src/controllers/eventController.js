@@ -97,9 +97,8 @@ const eventController = () => {
           result = await findEventByNameAndDelete(data.event);
         }
         await addEvent(data);
+        res.redirect('/events');
       }());
-
-      res.redirect('/events');
     });
   };
 

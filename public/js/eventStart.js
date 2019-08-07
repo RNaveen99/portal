@@ -85,9 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
     count.forEach((ele) => {
       ele.addEventListener('click', (e) => {
         const parent = e.target.parentNode;
-        const forAttribue = parent.getAttribute('for');
-        const i = Number(forAttribue[forAttribue.length - 2]);
-        const j = Number(forAttribue[forAttribue.length - 1]);
+        // const forAttribue = parent.getAttribute('for');
+        const questionId = parent.getAttribute('questionid');
+        const optionId = parent.getAttribute('optionid');
+        const i = Number(questionId);
+        const j = Number(optionId);
         if (e.target.checked) {
           array[i].push(j);
           if (array[i].length > 1) {

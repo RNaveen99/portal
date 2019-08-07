@@ -13,11 +13,14 @@
     <h4 class="left-align" id="quizTimeLeft"></h4>
     <div>
         <div class="row">
-            <div class="col s4 l4" id="grid">
-                <% for (let i = 1; i <= questions.length; i++) {%>
-                <a class="waves-effect waves-light btn-large grid" id="grid<%=i%>"><%=i%></a>
-                <%}%>
+            <div class="col s4 l3" id="grid">
+                <div class="row">
+                    <% for (let i = 1; i <= questions.length; i++) {%>
+                        <a class="waves-effect waves-light btn-large grid col s2" id="grid<%=i%>"><%=i%></a>
+                        <%}%>
+                </div>
             </div>
+            <div class="col s1 l1"></div>
             <div class="col s8 l8">
                 <div class="row">
                     <form action="/events/<%=event%>/end" method="post" class="col s12" id="quiz">
@@ -28,14 +31,19 @@
                 <% for (let i = 1; i <= questions.length; i++) {%>
                 <div class="row" id="question<%=i%>" class="question" style="display: none">
                     <div class="col s12">
-                        <h5><%=questions[i - 1].ques%></h5>
+                        <h5><%=questions[i - 1].qid%>.<%=questions[i - 1].ques%></h5>
                     </div>
+                    <% if (questions[i - 1].code) {%>
+                        <div class="col s12">
+                            <%-questions[i - 1].code%>
+                        </div>
+                        <%}%>
                     <div class="col s12" id="options">
                         <div class="row">
                             <% for (let j = 1; j <= questions[i - 1].options.length; j++) { %>
                             <div class="col s5">
                                 <p>
-                                    <label for="option<%=i%><%=j%>" class="black-text">
+                                    <label for="option<%=i%><%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
                                         <input type="checkbox" name="ques<%=i%>" id="option<%=i%><%=j%>"
                                             class="option<%=i%>" value="<%=questions[i - 1].options[j - 1]%>">
                                         <span><%=questions[i - 1].options[j - 1]%></span>
