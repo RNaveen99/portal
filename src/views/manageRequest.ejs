@@ -14,7 +14,7 @@
             <div class="input-field col s12">
                 <select id="events">
                   <option value="" disabled selected>Choose Event</option>
-                  <% data.forEach((event) => { %>
+                  <% allEvents.forEach((event) => { %>
                   <option value="<%=event.event%>"><%=event.eventName%></option>
                   <% }); %>
                 </select>

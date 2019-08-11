@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const ajax = (e) => {
     const xhttp = new XMLHttpRequest();
-
-    xhttp.onerror = function () {
-			console.log('Error occured');
-    };
     const data = {
       event: e.target.value,
       type: e.target.getAttribute('data'),

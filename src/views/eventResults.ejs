@@ -10,9 +10,12 @@
 <body>
     <%include header%>
     <div class="container">
+        <% let flag = true; %>
         <% result.forEach((ele) => { %>
+            <% if (ele.results.length) {%>
+                <% flag = false;  %>
             <div class="row">
-                <% if (ele.results.length) {%>
+                
                     <div class="col s12 card-panel">
                         <div class="row">
                             <div class="col s12">
@@ -37,11 +40,15 @@
                                 </table>
                             </div>
                             <div class="col s12"></div>
-                            <% } %>
                         </div>
                     </div>
+                    
             </div>
+            <% } %>
             <%});%>
+            <% if (flag) {%>
+                <h3>Results are not available yet.</h3>
+                <% } %>
     </div>
     <% include footer %>    
 </body>

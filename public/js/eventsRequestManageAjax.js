@@ -17,8 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const processResult = (result) => {
-    console.table(result);
-    let div1 = '<table><thead><tr><th>Name</th><th>Email</th><th>College</th><th>Status</th></tr></thead><tbody>';
+    if (!result.length) {
+      document.querySelector('.results').innerHTML = `<h3>No requests for Event -- ${document.querySelector('#events').value}`;
+      return;
+    }
+    let div1 = `Total requests = ${result.length}`;
+    div1 += '<table><thead><tr><th>Name</th><th>Email</th><th>College</th><th>Status</th></tr></thead><tbody>';
     result.forEach((ele) => {
       div1 += `
       <tr><td>${ele.name}</td><td>${ele.email}</td><td>${ele.college}</td>
@@ -35,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </tr>
       `;
     });
+    div1 += `</tbody></table>`;
     document.querySelector('.results').innerHTML = div1;
     const participants = document.querySelectorAll('input[type=checkbox]');
     participants.forEach((ele) => {

@@ -11,16 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const ajax = (e) => {
     const xhttp = new XMLHttpRequest();
-    xhttp.onerror = function (err) {
-      console.log('Error occured' ,err);
-    };
-    xhttp.onload = function () {
-      if (this.status == 200) {
-        console.log(JSON.parse(this.responseText));
-      }
-    };
     const data = {
-      event: e.target.parentNode.getAttribute('data'),
+      event: e.target.parentNode.getAttribute('event'),
     };
     xhttp.open('POST', '/events', true);
     xhttp.setRequestHeader('Content-type', 'application/json');

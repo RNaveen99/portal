@@ -28,25 +28,45 @@
                         <input type="hidden" value="<%=time%>" id="quizTime">
                         <input type="hidden" value="<%=friendEmail%>" name="friendEmail">
                         <input type="hidden" value="<%=event%>" name="event">
-                <% for (let i = 1; i <= questions.length; i++) {%>
+                        <%
+                        let randomSize = questions.length;
+                        let randomArray = Array.from(Array(randomSize).keys());
+                        let randomIndex, randomQuestion;
+                        %>  
+                <% for (let i = 1; i <= questions.length; i++) {
+                    randomIndex = Math.round(Math.random() * 100) % randomSize;
+                    randomQuestion = randomArray[randomIndex];
+                    randomArray.splice(randomIndex, 1);
+                    randomSize--;
+                    %>
                 <div class="row" id="question<%=i%>" class="question" style="display: none">
                     <div class="col s12">
-                        <h5><%=questions[i - 1].qid%>.<%=questions[i - 1].ques%></h5>
+                        <h5><%=i%>.<%=questions[randomQuestion].ques%></h5>
                     </div>
-                    <% if (questions[i - 1].code) {%>
+                    <% if (questions[randomQuestion].code) {%>
                         <div class="col s12">
-                            <%-questions[i - 1].code%>
+                            <%-questions[randomQuestion].code%>
                         </div>
                         <%}%>
-                    <div class="col s12" id="options">
+                    <div class="col s12">
                         <div class="row">
-                            <% for (let j = 1; j <= questions[i - 1].options.length; j++) { %>
+                                <%
+                                let randomOptionSize = questions[randomQuestion].options.length;
+                                let randomOptionArray = Array.from(Array(randomOptionSize).keys());
+                                let randomOptionIndex, randomOption;
+                                %>
+                            <% for (let j = 1; j <= questions[randomQuestion].options.length; j++) { 
+                                randomOptionIndex = Math.round(Math.random() * 100) % randomOptionSize;
+                                randomOption = randomOptionArray[randomOptionIndex];
+                                randomOptionArray.splice(randomOptionIndex, 1);
+                                randomOptionSize--;
+                                %>
                             <div class="col s5">
                                 <p>
-                                    <label for="option<%=i%><%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
-                                        <input type="checkbox" name="ques<%=i%>" id="option<%=i%><%=j%>"
-                                            class="option<%=i%>" value="<%=questions[i - 1].options[j - 1]%>">
-                                        <span><%=questions[i - 1].options[j - 1]%></span>
+                                    <label for="ques<%=i%>option<%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
+                                        <input type="checkbox" name="ques<%=randomQuestion + 1%>" id="ques<%=i%>option<%=j%>"
+                                            class="option<%=i%> filled-in" value="<%=questions[randomQuestion].options[randomOption]%>">
+                                        <span><%=questions[randomQuestion].options[randomOption]%></span>
                                     </label>
                                 </p>
                             </div>

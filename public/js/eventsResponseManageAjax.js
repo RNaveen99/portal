@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     console.log(event);
-    document.querySelector('.results').innerHTML = '';
-    let div1 = '<table><thead><tr><th>Name</th><th>College</th><th>Email</th><th>Number</th><th>Score</th><th>View</th><th>Add</th></tr></thead><tbody>';
+    let div1 = `Total Responses = ${responses.length}`;
+    div1 += '<table><thead><tr><th>Name</th><th>College</th><th>Email</th><th>Number</th><th>Score</th><th>View</th><th>Add</th></tr></thead><tbody>';
     responses.forEach((ele) => {
       const name = `${ele.user.name} ${ele.user.friendName ? `<br> ${ele.user.friendName}` : `` }`;
       const college = `${ele.user.college} ${ele.user.friendName ? `<br> ${ele.user.friendCollege}` : `` }`;
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       div1 += `data-name="${name}" data-college="${college}"><span class="lever"></span>Add</label></div></td></tr>`;
     });
-    document.querySelector('.results').innerHTML += div1;
+    document.querySelector('.results').innerHTML = div1;
     const participants = document.querySelectorAll('input[type=checkbox]');
     participants.forEach((ele) => {
       ele.addEventListener('change', addToResults);

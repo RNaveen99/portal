@@ -30,55 +30,57 @@ const eventController = () => {
   const upload = multer({ storage }).single('eventFile');
 
   const eventsGet = async (req, res) => {
-    const data = await findEventByLive();
-    debug(data);
-    const { user } = req;
-    res.render('events', { data, user });
+    const liveEvents = await findEventByLive();
+    const { email } = req.user;
+    res.render('events', { liveEvents, userEmail: email });
+    debug('==================== Events Get start ==================');
+    debug(liveEvents);
+    debug('==================== Events Get end ==================');
   };
 
   const eventsPost = async (req, res) => {
-    debug('events Post');
-    const { event } = req.body;
-    const { name, email, college } = req.user;
-    const data = {
-      event,
-      name,
-      email,
-      college,
+    const requestData = {
+      event: req.body.event,
+      name: req.user.name,
+      email: req.user.email,
+      college: req.user.college,
     };
-    await findRequestInEventAddRemove(data, true);
+    await findRequestInEventAddRemove(requestData, true);
     res.json({ sucess: true });
   };
 
   const eventsManageGet = async (req, res) => {
-    const data = await findAllEvents();
-    res.render('manageEvents', { data });
-    debug(data);
+    const allEvents = await findAllEvents();
+    res.render('manageEvents', { allEvents });
+    debug('==================== Events Manage Get start ==================');
+    debug(allEvents);
+    debug('==================== Events Manage Get end ==================');
   };
   const eventsManagePost = async (req, res) => {
-    debug('events Manage Post');
-    debug(req.body);
     const { event, type } = req.body;
-    let result = await findEventByName(event);
-    debug(result);
+    const { isEventLive, isQuizLive } = await findEventByName(event);
     let flag1;
     let flag2 = true;
     if (type === 'event') {
-      if (result.isEventLive) {
+      if (isEventLive) {
         flag1 = false;
       } else {
         flag1 = true;
       }
     } else {
       flag2 = false;
-      if (result.isQuizLive) {
+      if (isQuizLive) {
         flag1 = false;
       } else {
         flag1 = true;
       }
     }
-    result = await findEventByNameAndUpdateIsLive(event, flag1, flag2);
+    const result = await findEventByNameAndUpdateIsLive(event, flag1, flag2);
+    debug('==================== Events Manage Post start ==================');
+    debug(req.body);
     debug(result);
+    debug('==================== Events Manage Post end ==================');
+    res.json({ success: true });
   };
   const eventsGenerateGet = (req, res) => {
     res.render('generateEvents');
@@ -89,48 +91,44 @@ const eventController = () => {
       if (err) {
         return res.end('Error uploading file');
       }
-      debug(req.file);
       (async function addEventToMongo() {
         const data = JSON.parse(fs.readFileSync(`uploads/${req.file.originalname}`, 'utf-8'));
         let result = await findEventByName(data.event);
         if (result) {
           result = await findEventByNameAndDelete(data.event);
         }
-        await addEvent(data);
-        res.redirect('/events');
+        result = await addEvent(data);
+        res.redirect('/events/manage');
+        debug('==================== Events Generate Post start ==================');
+        debug(req.file);
+        debug('==================== Events Generate Post end ==================');
       }());
     });
   };
 
   const eventsRequestManageGet = async (req, res) => {
-    debug('Manage Requests ');
-    const data = await findAllEvents();
-    res.render('manageRequest', { data });
+    const allEvents = await findAllEvents();
+    res.render('manageRequest', { allEvents });
   };
 
   const eventsRequestManagePost = async (req, res) => {
-    debug('Manage Request POst');
     const data = {};
     data.email = req.body.email;
     data.event = req.body.event;
-    debug(req.body);
-    debug(data);
     if (!data.email) {
       let { requests } = await findEventByName(data.event);
-      requests = requests.map(ele => ({
+      requests = requests.map((ele) => ({
         name: ele.name,
         email: ele.email,
         college: ele.college,
         isAllowed: ele.isAllowed,
       }));
-      debug(requests);
       res.json(requests);
     } else {
-      debug('-----------------------');
       const result = await findRequestInEventAddRemove(data, false);
       if (result) {
         let { requests } = result;
-        requests = requests.find(ele => data.email === ele.email);
+        requests = requests.find((ele) => data.email === ele.email);
         let flag = true;
         if (requests.isAllowed) {
           flag = false;
@@ -138,11 +136,10 @@ const eventController = () => {
         await updateIsAllowed(data, flag);
         debug('==========Request Found=========');
         debug(requests);
-
-        // debug(result);
       } else {
         debug('======request not found==========');
       }
+      res.json();
     }
   };
 
@@ -151,7 +148,7 @@ const eventController = () => {
     const event = await findEventByName(id);
     if (event && event.isEventLive && event.isQuizLive) {
       let { requests } = event;
-      requests = requests.find(ele => ele.email === req.user.email);
+      requests = requests.find((ele) => ele.email === req.user.email);
       if (requests && requests.isAllowed && !requests.hasStarted) {
         const { instructions } = event;
         const { friends } = req.user;
@@ -171,11 +168,11 @@ const eventController = () => {
     event = await findEventByName(event);
     if (event && event.isEventLive && event.isQuizLive) {
       let { requests } = event;
-      requests = requests.find(ele => ele.email === req.user.email);
+      requests = requests.find((ele) => ele.email === req.user.email);
       if (requests && requests.isAllowed && !requests.hasStarted) {
         debug(friendEmail.length);
         if (friendEmail.length) {
-          const friend = req.user.friends.find(ele => ele.email === friendEmail);
+          const friend = req.user.friends.find((ele) => ele.email === friendEmail);
           debug(friend);
           if (!friend) {
             return res.redirect('/events');
@@ -196,17 +193,18 @@ const eventController = () => {
   };
 
   const eventEndPost = async (req, res) => {
+    debug(req.body);
     let { event } = req.body;
     event = await findEventByName(event);
     if (event && event.isEventLive && event.isQuizLive) {
       let { questions, requests } = event;
-      requests = requests.find(ele => ele.email === req.user.email);
+      requests = requests.find((ele) => ele.email === req.user.email);
       if (requests.hasCompleted) {
         return res.redirect('/events');
       }
       const { friendEmail } = req.body;
       if (friendEmail.length) {
-        const friend = req.user.friends.find(ele => ele.email === friendEmail);
+        const friend = req.user.friends.find((ele) => ele.email === friendEmail);
         debug(friend);
         if (!friend) {
           return res.redirect('/events');
@@ -214,7 +212,8 @@ const eventController = () => {
       }
       const r = await updateHasCompleted({ event: req.body.event, email: req.user.email }, true);
       debug(r);
-      const { numOfQuestions } = req.body;
+      // const { numOfQuestions } = req.body;
+      const numOfQuestions = questions.length;
       const userResponse = {};
       const user = {};
       user.name = req.user.name;
@@ -270,7 +269,7 @@ const eventController = () => {
   const eventsResponseManageGet = async (req, res) => {
     debug('Manage Responses ');
     let data = await findAllEvents();
-    data = data.map(ele => ({
+    data = data.map((ele) => ({
       event: ele.event,
       eventName: ele.eventName,
     }));
@@ -281,7 +280,7 @@ const eventController = () => {
   const eventsResponseManagePost = async (req, res) => {
     debug('Manage Responses');
     let { responses, results } = await findEventByName(req.body.event);
-    responses = responses.map(ele => ({
+    responses = responses.map((ele) => ({
       user: ele.user,
       score: ele.score,
     }));
@@ -294,7 +293,7 @@ const eventController = () => {
     const { event, email } = req.query;
     if (event) {
       let { eventName, questions, responses } = await findEventByName(event);
-      responses = responses.find(ele => email === ele.user.email);
+      responses = responses.find((ele) => email === ele.user.email);
       debug(responses);
       debug(questions);
       debug(event);
@@ -305,7 +304,7 @@ const eventController = () => {
 
   const eventsResultsGet = async (req, res) => {
     let result = await findAllEvents();
-    result = result.map(ele => ({
+    result = result.map((ele) => ({
       eventName: ele.eventName,
       results: ele.results,
     }));

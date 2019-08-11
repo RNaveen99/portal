@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
           array[i].push(j);
           if (array[i].length > 1) {
             const k = array[i].shift();
-            const d = document.querySelector(`#option${i}${k}`);
+            const d = document.querySelector(`#ques${i}option${k}`);
             d.checked = false;
           }
         } else {

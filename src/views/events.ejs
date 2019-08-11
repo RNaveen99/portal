@@ -12,10 +12,10 @@
 <body>
     <% include header %>
     <div class="container">
-        <h1 class="center-align">Events</h1>
+        <h1 class="center-align card-panel">Events</h1>
         <%=success %>
-        <div class="row">
-            <%data.forEach((ele) => {%>
+        <div class="row card-panel">
+            <%liveEvents.forEach((ele) => {%>
             <div class="col s5">
                 <div class="card brown lighten-1 hoverable">
                     <div class="card-content white-text">
@@ -23,19 +23,19 @@
                         <p><%=ele.intro%></p>
                     </div>
                     <div class="card-action">
-                        <% const request = ele.requests.find((request) => { return request.email === user.email; })%>
+                        <% const request = ele.requests.find((request) => { return request.email === userEmail; });%>
                         <% if (request && request.isAllowed && !request.hasStarted) { %>
-                            <a href="<%=ele.link%>">Take Quiz</a>
-                            <% } else if (request && request.isAllowed && request.hasStarted) { %>
-                                <a>You have taken quiz</a>
-                            <% } else {%>
-                            <a class="btn-floating btn-large waves-effect waves-light red events" data="<%=ele.event%>">
+                        <a href="<%=ele.link%>">Take Quiz</a>
+                        <% } else if (request && request.isAllowed && request.hasStarted) { %>
+                        <a>You have taken quiz</a>
+                        <% } else {%>
+                        <a class="btn-floating btn-large waves-effect waves-light red events" event="<%=ele.event%>">
                             <i class="material-icons">
-                            <% if (request) { %>
+                                <% if (request) { %>
                                 remove
-                            <% } else { %>
+                                <% } else { %>
                                 add
-                            <%}%>
+                                <%}%>
                             </i>
                             </a>
                         <%}%>
