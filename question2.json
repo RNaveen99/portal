@@ -1,25 +1,39 @@
 {
-  "eventName": "C Coders",
-  "event": "ccoders",
-  "link": "/events/ccoders",
+  "eventName": "Algowls",
+  "event": "algowls",
+  "link": "/events/algowls",
   "questions": [
     {
       "qid": 1,
-      "ques": "What does CSS stands for",
-      "options": [ "Programming", "Scripting", "Case sensitive", "Language" ],
-      "answer": "case sensitive",
+      "ques": "An array of n numbers is given, where n is an even number.The maximum as well as the minimum of these n numbers need to be determined,Which of the following is TRUE about the number of comparisons needed?",
+      "options": [ "At most 1.5n-2 comparisons are needed", "At least nlog2n comparisons are needed", "At least 2n-c comparisons, for some constant c, are needed.", "None of these" ],
+      "answer": "At most 1.5n-2 comparisons are needed",
       "scores": [4, -1, 0]
     },
     {
       "qid": 2,
-      "ques": "What is FORTRAN",
-      "options": [ "superb", "dhaasu", "language", "amazing" ],
-      "answer": "superb",
+      "ques": "Suppose we are sorting an array of eight integers using some quadratic sorting alogorithm.After four iterations of the algorithm's main loop, the array elements are ordered as shown here",
+      "code": "2 4 5 7 8 1 3 6",
+      "options": [ "The algorithm might be insertion sort", "The algorithm might be insertion or selection sort", "The algorithm might be selection sort", "None of these" ],
+      "answer": "The algorithm might be insertion sort",
+      "scores": [4, -1, 0]
+    },
+    {
+      "qid": 3,
+      "ques": "Program with the highest run-time complexity is",
+      "options": [ "Tower of Hanoi", "Fibonacci Series", "Euclidean algorithm for GCD", "None of these"],
+      "answer": "Tower of Hanoi",
+      "scores": [4, -1, 0]
+    },
+    {
+      "qid": 4,
+      "ques": "Which of the given options provides the increasing order of asymptotic complexity of functions f1, f2, f3 and f4?",
+      "code": "f1(n) = 2^n <br> f2(n) = n^(3/2) <br> f3(n) = nLogn <br> f4(n) = n^(Logn)",
+      "options": [ "f3,f2,f4,f1", "f3,f2,f1,f4", "f2,f3,f1,f4", "f2,f3,f4,f1"],
+      "answer": "f3,f2,f4,f1",
       "scores": [4, -1, 0]
     }
   ],
-  "requests": [],
-  "responses": [],
   "results": [],
   "instructions": [],
   "intro": "C coders is to test your coding skills in C Language. Code in C to win",

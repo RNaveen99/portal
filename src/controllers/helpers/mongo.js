@@ -31,7 +31,7 @@ const mongo = () => {
     client.close();
     return results;
   };
-  //done
+
   const findEventByName = async (event) => {
     const { client, db } = await createConnection();
     const col = await db.collection('events');
@@ -39,7 +39,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const findEventByNameAndDelete = async (event) => {
     const { client, db } = await createConnection();
     const col = await db.collection('events');
@@ -47,7 +47,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const addEvent = async (data) => {
     const { client, db } = await createConnection();
     const col = await db.collection('events');
@@ -55,7 +55,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const findEventByNameAndUpdateIsLive = async (event, flag1, flag2) => {
     const { client, db } = await createConnection();
     const col = await db.collection('events');
@@ -67,7 +67,7 @@ const mongo = () => {
     }
     client.close();
   };
-  //done
+  
   const findAllEvents = async () => {
     const { client, db } = await createConnection();
     const col = await db.collection('events');
@@ -85,7 +85,7 @@ const mongo = () => {
     client.close();
     return allEvents;
   };
-  //done
+  
   const findEventByLive = async () => {
     const { client, db } = await createConnection();
     const col = await db.collection('events');
@@ -105,7 +105,7 @@ const mongo = () => {
     client.close();
     return liveEvents;
   };
-  //done
+  
   const findRequestByEvent = async (event) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
@@ -113,7 +113,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const findRequestByUser = async (email) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
@@ -121,7 +121,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const findRequestByEventUserAddRemove = async (requestData, flag) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
@@ -141,7 +141,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const updateIsAllowed = async (data, flag) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
@@ -152,7 +152,7 @@ const mongo = () => {
     client.close();
     return results;
   };
-  //done
+  
   const updateHasStarted = async (data) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
@@ -163,7 +163,7 @@ const mongo = () => {
     client.close();
     return results;
   };
-  //done
+  
   const updateHasCompleted = async (data) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
@@ -194,7 +194,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const addResponseInEvent = async (event, userQuizResponse) => {
     const { client, db } = await createConnection();
     const col = await db.collection(`${event}`);
@@ -202,7 +202,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const findResponseByEvent = async (event) => {
     const { client, db } = await createConnection();
     const col = await db.collection(`${event}`);
@@ -210,7 +210,7 @@ const mongo = () => {
     client.close();
     return result;
   };
-  //done
+  
   const findResponseByEventUser = async (event, email) => {
     const { client, db } = await createConnection();
     const col = await db.collection(`${event}`);

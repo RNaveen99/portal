@@ -37,6 +37,11 @@
                                         <%-questions[i].code%>
                                     </div>
                                     <%}%>
+                                    <% if (questions[i].image) {%>
+                                        <div class="col s11 card">
+                                            <%-questions[i].image%>
+                                        </div>
+                                        <%}%>
                                 <div class="col s12">
                                     <div class="row">
                                         <%if (status === 'Not Attempted') {%>
@@ -59,7 +64,7 @@
                                                 <% } %>
                                                 <%} else if (status === 'wrong') {%>
                                                     <% let correctIndex = questions[i].options.indexOf(questions[i].answer);%>
-                                                    <% let wrongIndex = questions[i].options.indexOf(responses.dataArray[i][`ques${i + 1}`]);%>
+                                                    <% let wrongIndex = questions[i].options.indexOf(response.dataArray[i][`ques${i + 1}`]);%>
                                             <% for (let j = 0; j < questions[i].options.length; j++) {%>
                                                 <div class="col s5 card-panel <%if (j === correctIndex) {%> green <%} else if (j === wrongIndex) {%> red <%}%>">
                                                         <h6><%=questions[i].options[j]%></h6>
