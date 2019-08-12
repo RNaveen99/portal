@@ -23,7 +23,7 @@
                         <p><%=ele.intro%></p>
                     </div>
                     <div class="card-action">
-                        <% const request = ele.requests.find((request) => { return request.email === userEmail; });%>
+                        <% const request = requests.find((request) => { return request.event === ele.event; });%>
                         <% if (request && request.isAllowed && !request.hasStarted) { %>
                         <a href="<%=ele.link%>">Take Quiz</a>
                         <% } else if (request && request.isAllowed && request.hasStarted) { %>
