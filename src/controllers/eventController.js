@@ -35,14 +35,9 @@ const eventController = () => {
 
   const eventsGet = async (req, res) => {
     const { email } = req.user;
-    //  liveEvents is an array
     const liveEvents = await findEventByLive();
-    //  requests is an array
     const requests = await findRequestByUser(email);
     res.render('events', { liveEvents, requests });
-    debug('==================== Events Get start ==================');
-    debug(liveEvents);
-    debug('==================== Events Get end ==================');
   };
 
   const eventsPost = async (req, res) => {
@@ -55,19 +50,15 @@ const eventController = () => {
       hasStarted: false,
       hasCompleted: false,
     };
-    const result = await findRequestByEventUserAddRemove(requestData, true);
-    debug(result);
+    await findRequestByEventUserAddRemove(requestData, true);
     res.json({ sucess: true });
   };
-  // ========================= Done ===========================================
+  
   const eventsManageGet = async (req, res) => {
-    // allEvents is an array
     const allEvents = await findAllEvents();
     res.render('manageEvents', { allEvents });
-    debug('==================== Events Manage Get start ==================');
-    debug(allEvents);
-    debug('==================== Events Manage Get end ==================');
   };
+  
   const eventsManagePost = async (req, res) => {
     const { event, type } = req.body;
     const { isEventLive, isQuizLive } = await findEventByName(event);
@@ -87,15 +78,10 @@ const eventController = () => {
         flag1 = true;
       }
     }
-    const result = await findEventByNameAndUpdateIsLive(event, flag1, flag2);
-    debug('==================== Events Manage Post start ==================');
-    debug(req.body);
-    debug(result);
-    debug('==================== Events Manage Post end ==================');
+    await findEventByNameAndUpdateIsLive(event, flag1, flag2);
     res.json({ success: true });
   };
-  // ======================================================================
-  // ===============================Done==================================
+  
   const eventsGenerateGet = (req, res) => {
     res.render('generateEvents');
   };
@@ -116,7 +102,7 @@ const eventController = () => {
       }());
     });
   };
-  // ========================================================================
+  
   const eventsRequestManageGet = async (req, res) => {
     const allEvents = await findAllEvents();
     res.render('manageRequest', { allEvents });
@@ -127,11 +113,9 @@ const eventController = () => {
     data.email = req.body.email;
     data.event = req.body.event;
     if (!data.email) {
-      //  requests is an array
       const requests = await findRequestByEvent(data.event);
       res.json(requests);
     } else {
-      // result is document
       const request = await findRequestByEventUserAddRemove(data, false);
       if (request) {
         let flag = true;
@@ -139,10 +123,6 @@ const eventController = () => {
           flag = false;
         }
         await updateIsAllowed(data, flag);
-        debug('==========Request Found=========');
-        debug(request);
-      } else {
-        debug('======request not found==========');
       }
       res.json();
     }
@@ -165,6 +145,7 @@ const eventController = () => {
   const eventStartGet = (req, res) => {
     res.redirect('/events');
   };
+
   const eventStartPost = async (req, res) => {
     let { event } = req.body;
     const { friendEmail } = req.body;
@@ -173,16 +154,14 @@ const eventController = () => {
     if (event && event.isEventLive && event.isQuizLive) {
       const request = await findRequestByEventUserAddRemove({ event: event.event, email: req.user.email }, false);
       if (request && request.isAllowed && !request.hasStarted) {
-        debug(friendEmail.length);
         if (friendEmail.length) {
           const friend = req.user.friends.find((ele) => ele.email === friendEmail);
-          debug(friend);
           if (!friend) {
             return res.redirect('/events');
           }
         }
         const { questions } = event;
-        const r = await updateHasStarted({ event: event.event, email: req.user.email });
+        await updateHasStarted({ event: event.event, email: req.user.email });
         return res.render('eventStart', {
           eventName: event.eventName,
           event: event.event,
@@ -196,7 +175,6 @@ const eventController = () => {
   };
 
   const eventEndPost = async (req, res) => {
-    debug(req.body);
     let { event } = req.body;
     event = await findEventByName(event);
     if (event && event.isEventLive && event.isQuizLive) {
@@ -208,14 +186,11 @@ const eventController = () => {
       const { friendEmail } = req.body;
       if (friendEmail.length) {
         const friend = req.user.friends.find((ele) => ele.email === friendEmail);
-        debug(friend);
         if (!friend) {
           return res.redirect('/events');
         }
       }
-      const r = await updateHasCompleted({ event: req.body.event, email: req.user.email }, true);
-      debug(r);
-      // const { numOfQuestions } = req.body;
+      await updateHasCompleted({ event: req.body.event, email: req.user.email });
       const numOfQuestions = questions.length;
       const userResponse = {};
       const user = {};
@@ -270,14 +245,11 @@ const eventController = () => {
   };
 
   const eventsResponseManageGet = async (req, res) => {
-    debug('Manage Responses ');
     const data = await findAllEvents();
-    debug(data);
     res.render('manageResponse', { data });
   };
 
   const eventsResponseManagePost = async (req, res) => {
-    debug('Manage Responses');
     const { event } = req.body;
     const { results } = await findEventByName(event);
     let responses = await findResponseByEvent(`${event}`);
@@ -285,19 +257,13 @@ const eventController = () => {
       user: ele.user,
       score: ele.score,
     }));
-    debug(responses);
-    debug(results);
     res.json({ responses, results });
   };
 
   const eventsResponseViewGet = async (req, res) => {
     const { event, email } = req.query;
-    let { eventName, questions } = await findEventByName(event);
+    const { eventName, questions } = await findEventByName(event);
     const response = await findResponseByEventUser(event, email);
-    debug(response);
-    debug(questions);
-    debug(event);
-    debug(req.query);
     res.render('eventResponseView', { eventName, questions, response });
   };
 
@@ -307,15 +273,15 @@ const eventController = () => {
       eventName: ele.eventName,
       results: ele.results,
     }));
-    debug(result);
     res.render('eventResults', { result });
   };
+
   const eventsResultsPost = async (req, res) => {
     const { event, name, college } = req.body;
-    debug(req.body);
     await resultsInEventAddRemove(event, name, college);
     res.json({ success: true });
   };
+
   return {
     eventsGet,
     eventsPost,
