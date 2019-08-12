@@ -41,13 +41,18 @@
                     %>
                 <div class="row" id="question<%=i%>" class="question" style="display: none">
                     <div class="col s12">
-                        <h5><%=i%>.<%=questions[randomQuestion].ques%></h5>
+                        <h5><%=i%>.<%-questions[randomQuestion].ques%></h5>
                     </div>
                     <% if (questions[randomQuestion].code) {%>
                         <div class="col s12">
                             <%-questions[randomQuestion].code%>
                         </div>
                         <%}%>
+                        <% if (questions[randomQuestion].image) {%>
+                            <div class="col s12">
+                                <%-questions[randomQuestion].image%>
+                            </div>
+                            <%}%>
                     <div class="col s12">
                         <div class="row">
                                 <%
