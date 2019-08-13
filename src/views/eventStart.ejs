@@ -69,7 +69,7 @@
                             <div class="col s5">
                                 <p>
                                     <label for="ques<%=i%>option<%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
-                                        <input type="checkbox" name="ques<%=randomQuestion + 1%>" id="ques<%=i%>option<%=j%>"
+                                        <input type="checkbox" name="ques<%=questions[randomQuestion].qid %>" id="ques<%=i%>option<%=j%>"
                                             class="option<%=i%> filled-in" value="<%=questions[randomQuestion].options[randomOption]%>">
                                         <span><%=questions[randomQuestion].options[randomOption]%></span>
                                     </label>

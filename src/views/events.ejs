@@ -17,6 +17,11 @@
             <h5 class="green center-align"><%=success %></h5>
         </div>
         <% } %>
+        <% if (responseMsg) { %>
+            <div class="row green">
+                <h5 class="green center-align"><%=responseMsg %></h5>
+            </div>
+            <% } %>
         <h1 class="center-align card-panel">Events</h1>
         <div class="row card-panel">
             <%liveEvents.forEach((ele) => {%>

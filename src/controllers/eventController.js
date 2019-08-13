@@ -181,6 +181,7 @@ const eventController = () => {
       const { questions } = event;
       const request = await findRequestByEventUserAddRemove({ event: event.event, email: req.user.email }, false);
       if (request.hasCompleted) {
+        req.flash('responseMsg', 'You have already responded.');
         return res.redirect('/events');
       }
       const { friendEmail } = req.body;
@@ -212,21 +213,22 @@ const eventController = () => {
       let totalWrong = 0;
       let totalNotAttempted = 0;
 
-      for (let i = 1; i <= numOfQuestions; i++) {
+      for (let i = 0; i < numOfQuestions; i++) {
         const data = {};
-        const userAnswer = req.body[`ques${i}`];
-        data[`ques${i}`] = userAnswer;
+        const currentQid = `ques${questions[i].qid}`;
+        const userAnswer = req.body[`${currentQid}`];
+        data[`${currentQid}`] = userAnswer;
         if (!userAnswer) {
           data.status = 'Not Attempted';
-          data.score = questions[i - 1].scores[2];
+          data.score = questions[i].scores[2];
           totalNotAttempted++;
-        } else if (userAnswer === questions[i - 1].answer) {
+        } else if (userAnswer === questions[i].answer) {
           data.status = 'correct';
-          data.score = questions[i - 1].scores[0];
+          data.score = questions[i].scores[0];
           totalCorrect++;
         } else {
           data.status = 'wrong';
-          data.score = questions[i - 1].scores[1];
+          data.score = questions[i].scores[1];
           totalWrong++;
         }
         totalScore += data.score;
