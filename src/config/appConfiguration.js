@@ -10,7 +10,10 @@ const morgan = require('morgan');
 const flash = require('connect-flash');
 const passportFunction = require('./passport.js');
 
-const client = redis.createClient();
+const client = redis.createClient({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: process.env.REDIS_PORT || 6379,
+});
 
 const appConfiguration = (app) => {
   app.use(morgan('dev'));
@@ -18,8 +21,8 @@ const appConfiguration = (app) => {
     session({
       secret: 'webPortal',
       store: new RedisStore({
-        host: 'localhost',
-        port: process.env.REDIS_PORT,
+        host: process.env.REDIS_HOST || 'localhost',
+        port: process.env.REDIS_PORT || 6379,
         client,
         ttl: 3600,
       }),

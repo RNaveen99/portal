@@ -2,7 +2,9 @@ const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:mongoHelper');
 
 const mongo = () => {
-  const url = 'mongodb://localhost:27017';
+  const host = process.env.DB_HOST || 'localhost';
+  const port = process.env.DB_PORT || 27017;
+  const url = `mongodb://${host}:${port}`;
   const dbName = 'portal';
 
   const createConnection = async () => {
