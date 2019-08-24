@@ -8,6 +8,8 @@ const {
   eventsManagePost,
   eventsGenerateGet,
   eventsGeneratePost,
+  eventsImageUploadGet,
+  eventsImageUploadPost,
   eventsRequestManageGet,
   eventsRequestManagePost,
   eventRulesGet,
@@ -41,6 +43,12 @@ const router = () => {
     .all(ifSignInAdmin)
     .get(eventsGenerateGet)
     .post(eventsGeneratePost);
+
+  eventRouter
+    .route('/upload')
+    .all(ifSignInAdmin)
+    .get(eventsImageUploadGet)
+    .post(eventsImageUploadPost);
 
   eventRouter
     .route('/requests')

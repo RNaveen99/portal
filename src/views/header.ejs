@@ -12,6 +12,7 @@
                 <li><a href="/events/results">Results</a></li>
                 <% if(privileges) {%>
                 <li><a href="/events/generate">Generate Events</a></li>
+                <li><a href="/events/upload">Image Upload</a></li>
                 <li><a href="/events/manage">Manage Events</a></li>
                 <li><a href="/events/requests">Manage Requests</a></li>
                 <li><a href="/events/responses">Manage Responses</a></li>
@@ -24,7 +25,19 @@
     </nav>
 
     <ul class="sidenav" id="mobile-demo">
-        <% if(isAuthenticated) {%> <li><a href="/auth/signOut">Sign Out</a></li> <% }%>
+        <% if(isAuthenticated) {%>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/friends">Friends</a></li>
+            <li><a href="/events/results">Results</a></li>
+            <% if(privileges) {%>
+            <li><a href="/events/generate">Generate Events</a></li>
+            <li><a href="/events/upload">Image Upload</a></li>
+            <li><a href="/events/manage">Manage Events</a></li>
+            <li><a href="/events/requests">Manage Requests</a></li>
+            <li><a href="/events/responses">Manage Responses</a></li>
+            <% }%>
+            <li><a href="/auth/signOut">Sign Out</a></li>
+            <% }%>
     </ul>
 </header>
 <main>

@@ -21,7 +21,7 @@ const {
   resultsInEventAddRemove,
 } = require('../controllers/helpers/mongo')();
 
-const storage = multer.diskStorage({
+const storage1 = multer.diskStorage({
   destination(req, file, callback) {
     callback(null, './uploads');
   },
@@ -30,8 +30,18 @@ const storage = multer.diskStorage({
   },
 });
 
+const storage2 = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, './public/images/events');
+  },
+  filename(req, file, callback) {
+    callback(null, `${file.originalname}`);
+  }
+});
+
 const eventController = () => {
-  const upload = multer({ storage }).single('eventFile');
+  const upload1 = multer({ storage: storage1 }).single('eventFile');
+  const upload2 = multer({ storage: storage2 }).array('eventImages');
 
   const eventsGet = async (req, res) => {
     const { email } = req.user;
@@ -87,7 +97,7 @@ const eventController = () => {
   };
 
   const eventsGeneratePost = (req, res) => {
-    upload(req, res, (err) => {
+    upload1(req, res, (err) => {
       if (err) {
         return res.end('Error uploading file');
       }
@@ -103,6 +113,20 @@ const eventController = () => {
     });
   };
   
+  const eventsImageUploadGet = async (req, res) => {
+    const allEvents = await findAllEvents();
+    res.render('imageUpload', { allEvents });
+  }
+
+  const eventsImageUploadPost = (req, res) => {
+    upload2(req, res, (err) => {
+      if (err) {
+        return res.end('Error uploading Images');
+      }
+      return res.redirect('/events');
+    });
+  };
+
   const eventsRequestManageGet = async (req, res) => {
     const allEvents = await findAllEvents();
     res.render('manageRequest', { allEvents });
@@ -291,6 +315,8 @@ const eventController = () => {
     eventsManagePost,
     eventsGenerateGet,
     eventsGeneratePost,
+    eventsImageUploadGet,
+    eventsImageUploadPost,
     eventsRequestManageGet,
     eventsRequestManagePost,
     eventRulesGet,
