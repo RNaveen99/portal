@@ -1,0 +1,34 @@
+version: '3'
+services:
+  my-mongo-service:
+    container_name: my-mongo-container
+    image: mongo
+    networks: 
+      - my-portal-app-network
+    ports:
+      - "27017"
+    volumes:
+      - './data/db:/data/db'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+  my-redis-service:
+    container_name: my-redis-container
+    image: redis
+    ports:
+      - "6379"
+    networks: 
+      - my-portal-app-network
+  my-node-app-service:
+    container_name: my-node-app-container
+    restart: always
+    build: .
+    ports:
+      - '3000:3000'
+    networks: 
+      - my-portal-app-network
+    depends_on:
+      - my-redis-service
+      - my-mongo-service
+networks:
+  my-portal-app-network:

@@ -17,6 +17,7 @@
     "connect-redis": "^3.4.1",
     "cookie-parser": "^1.4.4",
     "debug": "^4.1.1",
+    "dotenv": "^8.1.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
@@ -37,11 +38,6 @@
     "eslint-plugin-import": "^2.18.2"
   },
   "nodemonConfig": {
-    "env": {
-      "NODE_ENV": "development",
-      "PORT": 3000,
-      "REDIS_PORT": 6379
-    },
     "ignore": [
       "uploads/*"
     ]
