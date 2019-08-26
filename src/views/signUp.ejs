@@ -13,7 +13,7 @@
     <% include header %>
     <div class="container">
         <div class="row">
-            <form method="POST" action="/auth/signUp" class="col s12 l6 push-l3 card-panel">
+            <form method="POST" action="/auth/signUp" class="col s12 m8 l6 push-l3 card-panel">
                 <div class="row">
                     <div class="col s12 center">
                         <h2>Sign Up </h2>
@@ -23,35 +23,35 @@
                     <div class="input-field col s10">
                         <input type="text" name="name" id="name" class="validate" value="<%=tempUser.name %>" required>
                         <label for="name">Name</label>
-                        <span class="helper-text red-text" data-error=""><%=errorData.name%></span>
+                        <span class="helper-text red-text"><%=errorData.name%></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
                         <input type="text" name="college" id="college" class="autocomplete" class="validate" value="<%=tempUser.college%>" required>
                         <label for="college">College</label>
-                        <span class="helper-text red-text" data-error=""><%=errorData.college%></span>
+                        <span class="helper-text red-text"><%=errorData.college%></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
                         <input type="number" name="number" id="number" class="validate" value="<%=tempUser.number%>" required>
                         <label for="number">Mobile Number</label>
-                        <span class="helper-text red-text" data-error=""><%=errorData.number%></span>
+                        <span class="helper-text red-text"><%=errorData.number%></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
                         <input type="email" name="email" id="email" class="validate" value="<%=tempUser.email%>" required>
                         <label for="email">Email id</label>
-                        <span class="helper-text red-text" data-error=""><%=errorData.email%></span>
+                        <span class="helper-text red-text"><%=errorData.email%></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
                         <input type="password" name="password" id="password" class="validate" value="<%=tempUser.password%>" required>
                         <label for="password">password</label>
-                        <span class="helper-text red-text" data-error=""><%=errorData.password %></span>
+                        <span class="helper-text red-text"><%=errorData.password %></span>
                     </div>
                 </div>
                 <div class="row">

@@ -205,13 +205,14 @@ const eventController = () => {
       const { questions } = event;
       const request = await findRequestByEventUserAddRemove({ event: event.event, email: req.user.email }, false);
       if (request.hasCompleted) {
-        req.flash('responseMsg', 'You have already responded.');
+        req.flash('responseMsgFailure', 'You have already responded.');
         return res.redirect('/events');
       }
       const { friendEmail } = req.body;
       if (friendEmail.length) {
         const friend = req.user.friends.find((ele) => ele.email === friendEmail);
         if (!friend) {
+          req.flash('responseMsgFailure', 'Your friend is not listed in your friend list.');
           return res.redirect('/events');
         }
       }
@@ -266,8 +267,10 @@ const eventController = () => {
       debug(userResponse);
 
       await addResponseInEvent(event.event, userResponse);
+      req.flash('responseMsgSuccess', 'Your response has been recorded successfully.');
       res.redirect('/events');
     }
+    req.flash('responseMsgFailure', `${req.body.event} is not accepting responses right now.`);
   };
 
   const eventsResponseManageGet = async (req, res) => {

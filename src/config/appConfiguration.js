@@ -42,7 +42,10 @@ const appConfiguration = (app) => {
   app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
-    res.locals.responseMsg = req.flash('responseMsg');
+    res.locals.responseMsgSuccess = req.flash('responseMsgSuccess');
+    res.locals.responseMsgFailure = req.flash('responseMsgFailure');
+    res.locals.friendsEmailSuccess = req.flash('friendsEmailSuccess');
+    res.locals.friendsEmailFailure = req.flash('friendsEmailFailure');
 
     res.locals.isAuthenticated = req.isAuthenticated();
     res.locals.privileges = false;

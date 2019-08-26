@@ -6,21 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <% include meta-data %>
+    <script src="/js/materialize.js"></script>
+    <script>
+        function toast(msg, classes) {
+            M.toast({html: msg, classes, position: 'top' });
+        }
+        </script>
     <title>Events</title>
 </head>
 
 <body>
     <% include header %>
     <div class="container">
-        <% if (success) { %>
+        <% if (success.length) { %>
         <div class="row green">
-            <h5 class="green center-align"><%=success %></h5>
+            <script>toast('<%=success%>', 'green rounded');</script>
         </div>
         <% } %>
-        <% if (responseMsg) { %>
-            <div class="row green">
-                <h5 class="green center-align"><%=responseMsg %></h5>
-            </div>
+        <% if (responseMsgSuccess.length) { %>
+            <script>toast('<%=responseMsgSuccess%>', 'green rounded');</script>
+            <% } %>
+        <% if (responseMsgFailure.length) { %>
+            <script>toast('<%=responseMsgFailure%>', 'red rounded');</script>
             <% } %>
         <h1 class="center-align card-panel">Events</h1>
         <div class="row card-panel">
@@ -38,7 +45,7 @@
                         <% } else if (request && request.isAllowed && request.hasStarted) { %>
                         <a>You have taken quiz</a>
                         <% } else {%>
-                        <a class="btn-floating btn-large waves-effect waves-light red events" event="<%=ele.event%>">
+                        <a class="btn-floating btn-large waves-effect waves-light tooltipped red events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" event="<%=ele.event%>">
                             <i class="material-icons">
                                 <% if (request) { %>
                                 remove

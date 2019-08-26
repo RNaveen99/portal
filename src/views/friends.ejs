@@ -7,11 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Friends</title>
     <% include meta-data %>
+    <script src="/js/materialize.js"></script>
+    <script>
+        function toast(msg, classes) {
+            M.toast({html: msg, classes, position: 'top' });
+        }
+        </script>
 </head>
 
 <body>
     <% include header %>
     <div class="container">
+            <% if (friendsEmailSuccess.length) { %>
+                <script>toast('<%=friendsEmailSuccess%>', 'green rounded');</script>
+                <% } %>
+            <% if (friendsEmailFailure.length) { %>
+                <script>toast('<%=friendsEmailFailure%>', 'red rounded');</script>
+                <% } %>
         <div class="row">
             <form action="/friends" method="post" class="col s12">
                 <div class="row">

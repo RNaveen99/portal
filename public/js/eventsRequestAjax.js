@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let symbol = e.target.innerText;
     if (symbol === 'add') {
       symbol = 'remove';
+      e.target.parentNode.setAttribute('data-tooltip', 'Not Interested');
     } else {
       symbol = 'add';
+      e.target.parentNode.setAttribute('data-tooltip', `Click to participate in ${e.target.parentNode.getAttribute('event')}`);
     }
     e.target.innerText = symbol;
   };
@@ -24,4 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ele.addEventListener('click', ajax);
     ele.addEventListener('click', changeSymbol);
   });
+  const elems = document.querySelectorAll('.tooltipped');
+  const instances = M.Tooltip.init(elems);
+
+  
 });

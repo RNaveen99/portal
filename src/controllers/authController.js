@@ -75,14 +75,9 @@ const authController = () => {
       debug(req.session);
     }
   };
-  const signIn = () => {
-    debug('signIn');
-  };
-
   return {
     signUpGet,
     signUpPost,
-    signIn,
   };
 };
 

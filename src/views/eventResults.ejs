@@ -11,45 +11,60 @@
     <%include header%>
     <div class="container">
         <% let flag = true; %>
+        <br><br>
+        <ul class="collapsible">
         <% result.forEach((ele) => { %>
             <% if (ele.results.length) {%>
                 <% flag = false;  %>
-            <div class="row">
+                <li>
+                    <div class="collapsible-header"><%=ele.eventName%></div>
+                    <div class="collapsible-body">
+                            <div class="row">
                 
-                    <div class="col s12 card-panel">
-                        <div class="row">
-                            <div class="col s12">
-                                <h4><%=ele.eventName%></h4>
+                                    <div class="col s12 card-panel">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <h4><%=ele.eventName%></h4>
+                                            </div>
+                                            <div class="col s12">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>College</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% ele.results.forEach(r => { %>
+                                                            <tr>
+                                                            <td><%-r.name%></td>
+                                                            <td><%-r.college%></td>
+                                                        </tr>
+                                                            <%});%>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col s12"></div>
+                                        </div>
+                                    </div>
+                                    
                             </div>
-                            <div class="col s12">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>College</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% ele.results.forEach(r => { %>
-                                            <tr>
-                                            <td><%-r.name%></td>
-                                            <td><%-r.college%></td>
-                                        </tr>
-                                            <%});%>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col s12"></div>
-                        </div>
                     </div>
-                    
-            </div>
+        </li>
             <% } %>
             <%});%>
+        </ul>
             <% if (flag) {%>
                 <h3>Results are not available yet.</h3>
                 <% } %>
     </div>
-    <% include footer %>    
+    <% include footer %>   
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems);
+  });
+    
+    </script> 
 </body>
 </html>

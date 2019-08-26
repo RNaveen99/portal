@@ -5,23 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Manage Requests</title>
+    <link rel="stylesheet" href="/css/manageRequest.css">
     <% include meta-data %>
 </head>
 <body>
     <% include header %>
     <div class="container">
+        <br>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s11">
                 <select id="events">
-                  <option value="" disabled selected>Choose Event</option>
+                  <option value="null" disabled selected>Choose Event</option>
                   <% allEvents.forEach((event) => { %>
                   <option value="<%=event.event%>"><%=event.eventName%></option>
                   <% }); %>
                 </select>
                 <label>Event Select</label>
               </div>
+              <div class="col s1">
+                    <i class="material-icons medium reload">autorenew</i>
+              </div>
         </div>
     </div>
+
+    <div class="container center-align preloader">
+            <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+              
+                    <div class="spinner-layer spinner-red">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+              
+                    <div class="spinner-layer spinner-yellow">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+              
+                    <div class="spinner-layer spinner-green">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+    </div>
+              <div class="row resultsHeader"></div>
         <div class="row results">
 
         </div>

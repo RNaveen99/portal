@@ -4,16 +4,16 @@ const { findUserByEmail } = require('./mongo')();
 module.exports.validator = [
   body('name')
     .not().isEmpty().withMessage('Name cannnot be empty')
-    .matches(/^[a-zA-Z ]{2,30}$/).withMessage('Only Alphabets')
+    .matches(/^[a-zA-Z ]{2,30}$/).withMessage('Only Alphabets with max 30 characters.')
     .trim(),
   body('college')
-    .not().isEmpty().withMessage('college cannnot be empty')
+    .not().isEmpty().withMessage('College name cannnot be empty')
     .matches(/^[a-zA-Z ]{2,50}$/).withMessage('Only Alphabets')
     .trim(),
   body('number')
     .not().isEmpty().withMessage('Number cannot be empty')
     .trim()
-    .matches(/^(\d{10})$/).withMessage('Numbers only with 10 digits allowed'),
+    .matches(/^(\d{10})$/).withMessage('Enter a proper 10-digit mobile number.'),
   body('email')
     .not().isEmpty().withMessage('Email cannnot be empty')
     .trim()
