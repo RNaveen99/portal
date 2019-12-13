@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     xhttp.send(JSON.stringify(data));
   };
 
+  document.querySelector('a[href="/events/manage"]').parentNode.classList.toggle('active');
   const eventName = document.querySelectorAll('input[type=checkbox]');
   eventName.forEach((ele) => {
     ele.addEventListener('change', ajax);
