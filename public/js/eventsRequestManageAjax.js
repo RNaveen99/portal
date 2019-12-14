@@ -1,64 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  const options = document.querySelector('.options');
+  const reload = document.querySelector('.reload');
+  const resultContent = document.querySelector('.result-content');
+  const tbody = document.querySelector('tbody');
+  const preloader = document.querySelector('.preloader');
+  const reverse = document.querySelector('.reverse');
+
+  const eventName = document.querySelector('#events');
+  const totalRequests = document.querySelector('#total-requests');
+  const requestsAllowed = document.querySelector('#requests-allowed');
+  const hasStarted = document.querySelector('#has-started');
+  const hasCompleted = document.querySelector('#has-completed');
+  const sort = document.querySelector('#sort');
+
   let requests;
-  const allowQuiz = (participant) => {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onerror = () => {
-      console.log('Error occured');
-    };
-    const data = {
-      email: participant.target.value,
-      event: eventName.value,
-    };
+
+
+  const requestAjax = (xhttp, ajaxRequestData) => {
     xhttp.open('POST', '/events/requests', true);
     xhttp.setRequestHeader('Content-type', 'application/json');
-    xhttp.send(JSON.stringify(data));
+    xhttp.send(JSON.stringify(ajaxRequestData));
+  }
+
+  const allowQuiz = (e) => {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onerror = () => {
+      console.log('Error occured at allowQuiz');
+    };
+    const participantData = {
+      email: e.target.value,
+      event: eventName.value,
+    };
+    requestAjax(xhttp, participantData);
   }
 
 
-  const filterSort = () => {
-    if (filterId.value == 'name' || filterId.value == 'college') {
-      if (sortId.value == 'asc') {
-        requests.sort((a, b) => {
-          let nameA = a[`${filterId.value}`].toUpperCase();
-          let nameB = b[`${filterId.value}`].toUpperCase();
-          if (nameA > nameB) {
-            return 1;
-          }
-          if (nameA < nameB) {
-            return -1;
-          }
-          return 0;
-        });
-
-      } else {
-        requests.sort((a, b) => {
-          let nameA = a[`${filterId.value}`].toUpperCase();
-          let nameB = b[`${filterId.value}`].toUpperCase();
-          if (nameA < nameB) {
-            return 1;
-          }
-          if (nameA > nameB) {
-            return -1;
-          }
-          return 0;
-        });
-      }
-    } else {
-      if (sortId.value == 'asc') {
-        requests.sort((a, b) => {
-          return a[`${filterId.value}`] === b[`${filterId.value}`] ? 0 : a[`${filterId.value}`] ? -1 : 1;
-        });
-      } else {
-        requests.sort((a, b) => {
-          return a[`${filterId.value}`] === b[`${filterId.value}`] ? 0 : b[`${filterId.value}`] ? -1 : 1;
-        });
-      }
+  function sortRequests() {
+    if (sort.value === 'name' || sort.value === 'college') {
+      requests.sort((a, b) => {
+        const nameA = a[`${sort.value}`].toUpperCase();
+        const nameB = b[`${sort.value}`].toUpperCase();
+        if (nameA > nameB) {
+          return 1;
+        }
+        if (nameA < nameB) {
+          return -1;
+        }
+        return 0;
+      });
+    } else if (sort.value === 'isAllowed' || sort.value === 'hasStarted' || sort.value === 'hasCompleted') {
+      requests.sort((a, b) => {
+        const nameA = a[`${sort.value}`];
+        const nameB = b[`${sort.value}`];
+        if (nameA === nameB) { return 0; }
+        if (nameA) { return -1; }
+        return 1;
+      });
     }
-    reset();
-    visible();
-    print();
   }
-  const print = () => {
+
+  function print() {
     totalRequests.innerText = `Total requests = ${requests.length}`;
     let allowed = 0;
     let started = 0;
@@ -82,13 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
       <td>${ele.hasCompleted ? ` true ` : ` false `}</td>
       `;
       if (ele.isAllowed) {
-        allowed++;
+        allowed += 1;
       }
       if (ele.hasStarted) {
-        started++;
+        started += 1;
       }
       if (ele.hasCompleted) {
-        completed++;
+        completed += 1;
       }
       tbody.appendChild(tableRow);
     });
@@ -97,85 +99,91 @@ document.addEventListener('DOMContentLoaded', () => {
     hasCompleted.innerText = `Has Completed = ${completed}`;
   }
 
-  const processResult = () => {
+  const resetResult = () => {
+    totalRequests.innerText = '';
+    requestsAllowed.innerText = '';
+    hasStarted.innerText = '';
+    hasCompleted.innerText = '';
+    tbody.innerText = '';
+  }
+
+  function printV2() {
+    sortRequests();
+    resetResult();
+    print();
+  }
+
+  function printV3() {
+    requests.reverse();
+    resetResult();
+    print();
+  }
+
+  function processResult() {
     print();
     const participants = document.querySelectorAll('input[type=checkbox]');
     participants.forEach((ele) => {
       ele.addEventListener('change', allowQuiz);
     });
-  };
-
-  const reset = () => {
-    totalRequests.innerText = requestsAllowed.innerText = hasStarted.innerText = hasCompleted.innerText = '';
-    tbody.innerText = '';
-    resultContent.style.display = 'none';
   }
 
-  const visible = () => {
-    resultContent.style.display = 'block';
+  function resetSort() {
+    sort.selectedIndex = 0;
   }
-  const ajax = () => {
+
+  function resultContentVisibility(state) {
+    resultContent.style.display = state;
+  }
+
+  function preloaderVisibility(state) {
+    preloader.style.display = state;
+  }
+
+  function ajaxParticipantsRequests() {
     const xhttp = new XMLHttpRequest();
-    preloader.style.display = 'block';
-    reset();
+    preloaderVisibility('block');
+    resetResult();
+    resultContentVisibility('none');
     xhttp.onload = () => {
       if (xhttp.status == 200) {
-        preloader.style.display = 'none';
+        preloaderVisibility('none');
         requests = JSON.parse(xhttp.responseText);
-        visible();
+        resetSort();
         processResult();
+        resultContentVisibility('block');
       }
     };
     xhttp.onerror = () => {
-      console.log('Error occured');
+      console.log('Error occured during ajaxParticipantsRequest');
     };
-    const data = {
+    const eventData = {
       email: null,
       event: eventName.value,
     };
-    xhttp.open('POST', '/events/requests', true);
-    xhttp.setRequestHeader('Content-type', 'application/json');
-    xhttp.send(JSON.stringify(data));
-  };
+    requestAjax(xhttp, eventData);
+  }
 
-  M.FormSelect.init(document.querySelectorAll('select'));
-
-  const eventName = document.querySelector('#events');
-  eventName.addEventListener('change', ajax);
-  eventName.addEventListener('change', () => {
-    options.style.display = 'block';
-    resultHeader.style.display = 'block';
-  }, { once: true });
-
-  const reload = document.querySelector('.reload');
-  reload.addEventListener('click', ajax);
-  reload.addEventListener('click', () => {
-    filterId.selectedIndex = 0;
-    sort.style.display = 'none';
-  });
-  reload.addEventListener('click', () => {
+  function reloadAnimation() {
     reload.classList.toggle('flip');
-  });
+  }
 
-  const preloader = document.querySelector('.preloader');
-  preloader.style.display = 'none';
+  function init() {
+    options.style.display = 'none';
+    resultContentVisibility('none');
+    preloaderVisibility('none');
 
-  const options = document.querySelector('#options');
-  const resultHeader = document.querySelector('#result-header');
-  const resultContent = document.querySelector('#result-content');
-  const tbody = document.querySelector('tbody');
-  const totalRequests = document.querySelector('#total-requests');
-  const requestsAllowed = document.querySelector('#requests-allowed');
-  const hasStarted = document.querySelector('#has-started');
-  const hasCompleted = document.querySelector('#has-completed');
-  const filterId = document.querySelector('#filter');
-  const sortId = document.querySelector('#sort');
-  const sort = document.querySelector('.sort');
-  filterId.addEventListener('change', filterSort);
-  filterId.addEventListener('change', () => { sort.style.display = 'block'; });
-  sortId.addEventListener('change', filterSort);
-  options.style.display = 'none';
-  resultHeader.style.display = 'none';
-  resultContent.style.display = 'none';
-  sort.style.display = 'none';
+    eventName.addEventListener('change', ajaxParticipantsRequests);
+    sort.addEventListener('change', printV2);
+    reverse.addEventListener('click', printV3);
+    reload.addEventListener('click', ajaxParticipantsRequests);
+    reload.addEventListener('click', reloadAnimation);
+
+    eventName.addEventListener('change', () => {
+      options.style.display = 'block';
+    }, { once: true });
+
+    M.FormSelect.init(document.querySelectorAll('select'));
+    document.querySelector('a[href="/events/requests"]').parentNode.classList.toggle('active');
+  }
+  init();
 });
