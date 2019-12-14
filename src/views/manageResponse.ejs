@@ -11,7 +11,7 @@
     <% include header %>
     
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s9">
                 <select id="events">
                   <option value="" disabled selected>Choose Event</option>
                   <% data.forEach((event) => { %>
@@ -20,10 +20,83 @@
                 </select>
                 <label>Event Select</label>
               </div>
+              <div class="col s12 options">
+                  <div class="row">
+                      <div class="input-field col s5">
+                            <select id="sort">
+                                    <option value="null" disabled selected>None</option>
+                                    <option value="name">Name</option>
+                                    <option value="college">College</option>
+                                    <option value="score">Score</option>
+                                  </select>
+                                  <label>Sort by</label>
+                      </div>
+                      <div class="col s3">
+                            <i class="material-icons medium reverse">swap_vert</i>
+                          </div>
+                      <div class="col s2">
+                            <i class="material-icons medium reload">autorenew</i>
+                      </div>
+                  </div>
+              </div>
         </div>
-        <div class="row results">
-
+        <div class="container center-align preloader">
+            <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+              
+                    <div class="spinner-layer spinner-red">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+              
+                    <div class="spinner-layer spinner-yellow">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+              
+                    <div class="spinner-layer spinner-green">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+    </div>
+    <div class="results">
+        <div class="row result-header">
+          <div class="col s3" id="total-responses"></div>
         </div>
+          <div class="row result-content">
+            <table>
+                <thead><tr><th>Name</th><th>College</th><th>Email</th><th>Number</th><th>Score</th><th>View</th><th>Add</th></tr></thead>
+                <tbody>
+                    </tbody>
+                    </table>
+      </div>
+                
+  
+          </div>
     
     <% include footer %>
     <script src="/js/eventsResponseManageAjax.js"></script>
