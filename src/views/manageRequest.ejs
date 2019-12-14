@@ -22,8 +22,26 @@
                 </select>
                 <label>Event Select</label>
               </div>
-              <div class="col s1">
-                    <i class="material-icons medium reload">autorenew</i>
+              <div class="col s12 options">
+                <div class="row">
+                  <div class="input-field col s5 filter">
+                      <select id="sort">
+                          <option value="null" disabled selected>None</option>
+                          <option value="name">Name</option>
+                          <option value="college">College</option>
+                          <option value="isAllowed">Is Allowed</option>
+                          <option value="hasStarted">Has Started</option>
+                          <option value="hasCompleted">Has Completed</option>
+                        </select>
+                        <label>Sort by</label>
+                  </div>
+                  <div class="col s3">
+                    <i class="material-icons medium reverse">swap_vert</i>
+                  </div>
+                  <div class="col s2">
+                      <i class="material-icons medium reload">autorenew</i>
+                </div>
+                </div>
               </div>
         </div>
     </div>
@@ -71,8 +89,21 @@
                     </div>
                   </div>
     </div>
-              <div class="row resultsHeader"></div>
-        <div class="row results">
+    <div class="result">
+      <div class="row result-header">
+        <div class="col s3" id="total-requests"></div>
+        <div class="col s3" id="requests-allowed"></div>
+        <div class="col s3" id="has-started"></div>
+        <div class="col s3" id="has-completed"></div>
+      </div>
+        <div class="row result-content">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>College</th><th>isAllowed</th><th>hasStarted</th><th>hasCompleted</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+    </div>
+              
 
         </div>
     
