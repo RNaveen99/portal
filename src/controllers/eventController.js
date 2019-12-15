@@ -18,7 +18,9 @@ const {
   addResponseInEvent,
   findResponseByEvent,
   findResponseByEventUser,
-  resultsInEventAddRemove,
+  resultsOfEventAddRemove,
+  findResultByEvent,
+  findResultOfAllEvents,
 } = require('../controllers/helpers/mongo')();
 
 const storage1 = multer.diskStorage({
@@ -63,35 +65,35 @@ const eventController = () => {
     await findRequestByEventUserAddRemove(requestData, true);
     res.json({ sucess: true });
   };
-  
+
   const eventsManageGet = async (req, res) => {
     const allEvents = await findAllEvents();
     res.render('manageEvents', { allEvents });
   };
-  
+
   const eventsManagePost = async (req, res) => {
     const { event, type } = req.body;
     const { isEventLive, isQuizLive } = await findEventByName(event);
-    let flag1;
-    let flag2 = true;
+    let flag;
+    let isEvent = true;
     if (type === 'event') {
       if (isEventLive) {
-        flag1 = false;
+        flag = false;
       } else {
-        flag1 = true;
+        flag = true;
       }
     } else {
-      flag2 = false;
+      isEvent = false;
       if (isQuizLive) {
-        flag1 = false;
+        flag = false;
       } else {
-        flag1 = true;
+        flag = true;
       }
     }
-    await findEventByNameAndUpdateIsLive(event, flag1, flag2);
+    await findEventByNameAndUpdateIsLive(event, flag, isEvent);
     res.json({ success: true });
   };
-  
+
   const eventsGenerateGet = (req, res) => {
     res.render('generateEvents');
   };
@@ -99,7 +101,7 @@ const eventController = () => {
   const eventsGeneratePost = (req, res) => {
     upload1(req, res, (err) => {
       if (err) {
-        return res.end('Error uploading file');
+        return res.redirect('/events/generate');
       }
       (async function addEventToMongo() {
         const data = JSON.parse(fs.readFileSync(`uploads/${req.file.originalname}`, 'utf-8'));
@@ -112,16 +114,15 @@ const eventController = () => {
       }());
     });
   };
-  
+
   const eventsImageUploadGet = async (req, res) => {
-    const allEvents = await findAllEvents();
-    res.render('imageUpload', { allEvents });
+    res.render('imageUpload');
   }
 
   const eventsImageUploadPost = (req, res) => {
     upload2(req, res, (err) => {
       if (err) {
-        return res.end('Error uploading Images');
+        return res.redirect('/events/upload');
       }
       return res.redirect('/events');
     });
@@ -155,13 +156,32 @@ const eventController = () => {
   const eventRulesGet = async (req, res) => {
     const { id } = req.params;
     const event = await findEventByName(id);
-    if (event && event.isEventLive && event.isQuizLive) {
-      const request = await findRequestByEventUserAddRemove({ event: id, email: req.user.email }, false);
-      if (request && request.isAllowed && !request.hasStarted) {
-        const { instructions } = event;
-        const { friends } = req.user;
-        return res.render('eventRules', { event, instructions, friends });
+    if (event) {
+      if (event.isEventLive) {
+        if (event.isQuizLive) {
+          const request = await findRequestByEventUserAddRemove({ event: id, email: req.user.email }, false);
+          if (request) {
+            if (request.isAllowed) {
+              if (!request.hasStarted) {
+                const { instructions } = event;
+                const { friends } = req.user;
+                return res.render('eventRules', { event, instructions, friends });
+              }
+              req.flash('eventRulesMsg', `It seems that you have already participated in ${event.eventName}.`);
+            } else {
+              req.flash('eventRulesMsg', `It seems that your request to participate in ${event.eventName} is not yet approved.`);
+            }
+          } else {
+            req.flash('eventRulesMsg', `It seems that you did not requested to participate in ${event.eventName}`);
+          }
+        } else {
+          req.flash('eventRulesMsg', `Quiz for ${event.eventName} is not active.`)
+        }
+      } else {
+        req.flash('eventRulesMsg', `${event.eventName} is not active.`)
       }
+    } else {
+      req.flash('eventRulesMsg', 'Such an event does not exists.');
     }
     res.redirect('/events');
   };
@@ -189,7 +209,7 @@ const eventController = () => {
         return res.render('eventStart', {
           eventName: event.eventName,
           event: event.event,
-          time: event.timeAlloted,
+          timeLimit: event.timeLimit,
           friendEmail,
           questions,
         });
@@ -202,7 +222,6 @@ const eventController = () => {
     let { event } = req.body;
     event = await findEventByName(event);
     if (event && event.isEventLive && event.isQuizLive) {
-      const { questions } = event;
       const request = await findRequestByEventUserAddRemove({ event: event.event, email: req.user.email }, false);
       if (request.hasCompleted) {
         req.flash('responseMsgFailure', 'You have already responded.');
@@ -217,6 +236,7 @@ const eventController = () => {
         }
       }
       await updateHasCompleted({ event: req.body.event, email: req.user.email });
+      const { questions } = event;
       const numOfQuestions = questions.length;
       const userResponse = {};
       const user = {};
@@ -232,43 +252,43 @@ const eventController = () => {
         user.friendNumber = friend.number;
       }
       userResponse.user = user;
-      const dataArray = [];
+      const responseStorage = [];
       let totalScore = 0;
       let totalCorrect = 0;
       let totalWrong = 0;
       let totalNotAttempted = 0;
 
-      for (let i = 0; i < numOfQuestions; i++) {
-        const data = {};
+      for (let i = 0; i < numOfQuestions; i += 1) {
+        const singleResponse = {};
         const currentQid = `ques${questions[i].qid}`;
         const userAnswer = req.body[`${currentQid}`];
-        data[`${currentQid}`] = userAnswer;
+        singleResponse[`${currentQid}`] = userAnswer;
         if (!userAnswer) {
-          data.status = 'Not Attempted';
-          data.score = questions[i].scores[2];
+          singleResponse.status = 'Not Attempted';
+          singleResponse.score = questions[i].scores[2];
           totalNotAttempted++;
         } else if (userAnswer === questions[i].answer) {
-          data.status = 'correct';
-          data.score = questions[i].scores[0];
+          singleResponse.status = 'correct';
+          singleResponse.score = questions[i].scores[0];
           totalCorrect++;
         } else {
-          data.status = 'wrong';
-          data.score = questions[i].scores[1];
+          singleResponse.status = 'wrong';
+          singleResponse.score = questions[i].scores[1];
           totalWrong++;
         }
-        totalScore += data.score;
-        dataArray.push(data);
+        totalScore += singleResponse.score;
+        responseStorage.push(singleResponse);
       }
-      userResponse.dataArray = dataArray;
+      userResponse.responseStorage = responseStorage;
       userResponse.score = totalScore;
       userResponse.correct = totalCorrect;
       userResponse.wrong = totalWrong;
       userResponse.notAttempted = totalNotAttempted;
-      debug(userResponse);
+      // debug(userResponse);
 
       await addResponseInEvent(event.event, userResponse);
       req.flash('responseMsgSuccess', 'Your response has been recorded successfully.');
-      res.redirect('/events');
+      return res.redirect('/events');
     }
     req.flash('responseMsgFailure', `${req.body.event} is not accepting responses right now.`);
   };
@@ -280,7 +300,7 @@ const eventController = () => {
 
   const eventsResponseManagePost = async (req, res) => {
     const { event } = req.body;
-    const { results } = await findEventByName(event);
+    const results = await findResultByEvent(event);
     let responses = await findResponseByEvent(`${event}`);
     responses = responses.map((ele) => ({
       user: ele.user,
@@ -297,17 +317,13 @@ const eventController = () => {
   };
 
   const eventsResultsGet = async (req, res) => {
-    let result = await findAllEvents();
-    result = result.map((ele) => ({
-      eventName: ele.eventName,
-      results: ele.results,
-    }));
+    const result = await findResultOfAllEvents();
     res.render('eventResults', { result });
   };
 
   const eventsResultsPost = async (req, res) => {
-    const { event, name, college } = req.body;
-    await resultsInEventAddRemove(event, name, college);
+    const { event, eventName, name, college } = req.body;
+    await resultsOfEventAddRemove(event, eventName, name, college);
     res.json({ success: true });
   };
 
