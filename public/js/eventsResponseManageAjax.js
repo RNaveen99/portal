@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const participantResponseData = {
       event: eventName.value,
+      eventName: eventName.querySelectorAll('option')[eventName.selectedIndex].innerText,
       name: e.target.getAttribute('data-name'),
       college: e.target.getAttribute('data-college'),
     };
