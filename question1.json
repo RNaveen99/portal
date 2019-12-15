@@ -1,18 +1,42 @@
 {
-  "eventName": "Mind Matters",
   "event": "mindmatters",
+  "eventName": "Mind Matters",
   "link": "/events/mindmatters",
+  "instructions": [
+    "Time Limit: <b>30 Minutes</b>.",
+    "Total Questions - 20.",
+    "+4 for each correct and -1 for each incorrect answer.",
+    "Total marks - 80"
+  ],
+  "intro": "Mind Matters checks your general knowledge skills about what's happening in the technical world.",
+  "isEventLive": false,
+  "isQuizLive": false,
+  "timeLimit": 30,
   "questions": [
     {
       "qid": 1,
-      "ques": "Docker is a computer program that performs operating system level virtualization, also known as",
+      "text": "Docker is a computer program that performs operating system level virtualization, also known as",
+      "code": "#include&ltiostream&gt",
+      "image": "mm1.jpeg",
       "options": [
-        "Serialization",
-        "Multithreading",
-        "Containerization",
-        "Multiprogramming"
+        {
+          "key": "choice-a",
+          "text": "Serialization"
+        },
+        {
+          "key": "choice-b",
+          "text": "Multithreading"
+        },
+        {
+          "key": "choice-c",
+          "text": "Containerization"
+        },
+        {
+          "key": "choice-d",
+          "text": "Multiprogramming"
+        }
       ],
-      "answer": "Containerization",
+      "answer": "choice-c",
       "scores": [
         4,
         -1,
@@ -21,14 +45,26 @@
     },
     {
       "qid": 2,
-      "ques": "A folder in windows computer can’t be made with the name",
+      "text": "A folder in windows computer can’t be made with the name",
       "options": [
-        "can",
-        "con",
-        "mak",
-        "make"
+        {
+          "key": "choice-a",
+          "text": "can"
+        },
+        {
+          "key": "choice-b",
+          "text": "con"
+        },
+        {
+          "key": "choice-c",
+          "text": "mak"
+        },
+        {
+          "key": "choice-d",
+          "text": "make"
+        }
       ],
-      "answer": "con",
+      "answer": "choice-b",
       "scores": [
         4,
         -1,
@@ -37,14 +73,26 @@
     },
     {
       "qid": 3,
-      "ques": "Who developed the new version of UPI (Unified Payments Interface) version 2.0?",
+      "text": "Who developed the new version of UPI (Unified Payments Interface) version 2.0?",
       "options": [
-        "NIC",
-        "NFS",
-        "IDRBT",
-        "NPCI"
+        {
+          "key": "choice-a",
+          "text": "NIC"
+        },
+        {
+          "key": "choice-b",
+          "text": "NFS"
+        },
+        {
+          "key": "choice-c",
+          "text": "IDRBT"
+        },
+        {
+          "key": "choice-d",
+          "text": "NPCI"
+        }
       ],
-      "answer": "NPCI",
+      "answer": "choice-d",
       "scores": [
         4,
         -1,
@@ -53,14 +101,26 @@
     },
     {
       "qid": 4,
-      "ques": "Who’s the current COO of Facebook?",
+      "text": "Who’s the current COO of Facebook?",
       "options": [
-        "Kirthiga Reddy",
-        "Babak Parviz",
-        "Brian Olsavsky",
-        "Sheryl Sandberg"
+        {
+          "key": "choice-a",
+          "text": "Kirthiga Reddy"
+        },
+        {
+          "key": "choice-b",
+          "text": "Babak Parviz"
+        },
+        {
+          "key": "choice-c",
+          "text": "Brian Olsavsky"
+        },
+        {
+          "key": "choice-d",
+          "text": "Sheryl Sandberg"
+        }
       ],
-      "answer": "Sheryl Sandberg",
+      "answer": "choice-d",
       "scores": [
         4,
         -1,
@@ -69,14 +129,26 @@
     },
     {
       "qid": 5,
-      "ques": "The first-ever registered domain name",
+      "text": "The first-ever registered domain name",
       "options": [
-        "Pcwebopedia.com",
-        "CorbettBarr.com",
-        "Google.com",
-        "Symbolics.com"
+        {
+          "key": "choice-a",
+          "text": "Pcwebopedia.com"
+        },
+        {
+          "key": "choice-b",
+          "text": "CorbettBarr.com"
+        },
+        {
+          "key": "choice-c",
+          "text": "Google.com"
+        },
+        {
+          "key": "choice-d",
+          "text": "Symbolics.com"
+        }
       ],
-      "answer": "Symbolics.com",
+      "answer": "choice-d",
       "scores": [
         4,
         -1,
@@ -85,14 +157,26 @@
     },
     {
       "qid": 6,
-      "ques": "Who is the founder of GeeksforGeeks?",
+      "text": "Who is the founder of GeeksforGeeks?",
       "options": [
-        "Sachin Gupta",
-        "Sandeep jain",
-        "Bhavin Turakhia",
-        "Bhavish Aggarwal"
+        {
+          "key": "choice-a",
+          "text": "Sachin Gupta"
+        },
+        {
+          "key": "choice-b",
+          "text": "Sandeep jain"
+        },
+        {
+          "key": "choice-c",
+          "text": "Bhavin Turakhia"
+        },
+        {
+          "key": "choice-d",
+          "text": "Bhavish Aggarwal"
+        }
       ],
-      "answer": "Sandeep jain",
+      "answer": "choice-b",
       "scores": [
         4,
         -1,
@@ -101,14 +185,26 @@
     },
     {
       "qid": 7,
-      "ques": "Which is the first Super Computer?",
+      "text": "Which is the first Super Computer?",
       "options": [
-        "Cray CDC 6600",
-        "PARAM 8000",
-        "Trinity",
-        "Cray XK7"
+        {
+          "key": "choice-a",
+          "text": "Cray CDC 6600"
+        },
+        {
+          "key": "choice-b",
+          "text": "PARAM 8000"
+        },
+        {
+          "key": "choice-c",
+          "text": "Trinity"
+        },
+        {
+          "key": "choice-d",
+          "text": "Cray XK7"
+        }
       ],
-      "answer": "Cray CDC 6600",
+      "answer": "choice-a",
       "scores": [
         4,
         -1,
@@ -117,14 +213,26 @@
     },
     {
       "qid": 8,
-      "ques": "Symfony is a framework based on which programming language?",
+      "text": "Symfony is a framework based on which programming language?",
       "options": [
-        "Python",
-        "PHP",
-        "Javascript",
-        "Swift"
+        {
+          "key": "choice-a",
+          "text": "Python"
+        },
+        {
+          "key": "choice-b",
+          "text": "PHP"
+        },
+        {
+          "key": "choice-c",
+          "text": "Javascript"
+        },
+        {
+          "key": "choice-d",
+          "text": "Swift"
+        }
       ],
-      "answer": "PHP",
+      "answer": "choice-b",
       "scores": [
         4,
         -1,
@@ -133,14 +241,26 @@
     },
     {
       "qid": 9,
-      "ques": "Who founded the WWW Consortium (W3C)?",
+      "text": "Who founded the WWW Consortium (W3C)?",
       "options": [
-        "Bill Gates",
-        "Marc andreessen",
-        "Steve case",
-        "Tim Berners- Lee"
+        {
+          "key": "choice-a",
+          "text": "Bill Gates"
+        },
+        {
+          "key": "choice-b",
+          "text": "Marc andreessen"
+        },
+        {
+          "key": "choice-c",
+          "text": "Steve case"
+        },
+        {
+          "key": "choice-d",
+          "text": "Tim Berners- Lee"
+        }
       ],
-      "answer": "Tim Berners- Lee",
+      "answer": "choice-d",
       "scores": [
         4,
         -1,
@@ -149,14 +269,26 @@
     },
     {
       "qid": 10,
-      "ques": "The macOS desktop interface is also called what?",
+      "text": "The macOS desktop interface is also called what?",
       "options": [
-        "Unity",
-        "Cinnamon",
-        "Finder",
-        "File Explorer"
+        {
+          "key": "choice-a",
+          "text": "Unity"
+        },
+        {
+          "key": "choice-b",
+          "text": "Cinnamon"
+        },
+        {
+          "key": "choice-c",
+          "text": "Finder"
+        },
+        {
+          "key": "choice-d",
+          "text": "File Explorer"
+        }
       ],
-      "answer": "Finder",
+      "answer": "choice-c",
       "scores": [
         4,
         -1,
@@ -165,14 +297,26 @@
     },
     {
       "qid": 11,
-      "ques": "Which very popular site was founded by Chad Hurley, Steve Chen and Jawed Karim in February 2005?",
+      "text": "Which very popular site was founded by Chad Hurley, Steve Chen and Jawed Karim in February 2005?",
       "options": [
-        "Youtube",
-        "Reddit",
-        "Quora",
-        "Wikipedia"
+        {
+          "key": "choice-a",
+          "text": "Youtube"
+        },
+        {
+          "key": "choice-b",
+          "text": "Reddit"
+        },
+        {
+          "key": "choice-c",
+          "text": "Quora"
+        },
+        {
+          "key": "choice-d",
+          "text": "Wikipedia"
+        }
       ],
-      "answer": "Youtube",
+      "answer": "choice-a",
       "scores": [
         4,
         -1,
@@ -181,14 +325,26 @@
     },
     {
       "qid": 12,
-      "ques": "Who developed the Angry Birds game?",
+      "text": "Who developed the Angry Birds game?",
       "options": [
-        "Rovio Mobile",
-        "Imangi Studios",
-        "Kiloo",
-        "Supercell"
+        {
+          "key": "choice-a",
+          "text": "Rovio Mobile"
+        },
+        {
+          "key": "choice-b",
+          "text": "Imangi Studios"
+        },
+        {
+          "key": "choice-c",
+          "text": "Kiloo"
+        },
+        {
+          "key": "choice-d",
+          "text": "Supercell"
+        }
       ],
-      "answer": "Rovio Mobile",
+      "answer": "choice-a",
       "scores": [
         4,
         -1,
@@ -197,14 +353,26 @@
     },
     {
       "qid": 13,
-      "ques": "Symantec is the maker of which following popular antivirus software?",
+      "text": "Symantec is the maker of which following popular antivirus software?",
       "options": [
-        "Avast",
-        "McAfee",
-        "Bit Defender",
-        "Norton"
+        {
+          "key": "choice-a",
+          "text": "Avast"
+        },
+        {
+          "key": "choice-b",
+          "text": "McAfee"
+        },
+        {
+          "key": "choice-c",
+          "text": "Bit Defender"
+        },
+        {
+          "key": "choice-d",
+          "text": "Norton"
+        }
       ],
-      "answer": "Norton",
+      "answer": "choice-d",
       "scores": [
         4,
         -1,
@@ -213,14 +381,26 @@
     },
     {
       "qid": 14,
-      "ques": "ARP converts",
+      "text": "ARP converts",
       "options": [
-        "IP address to Mac Address",
-        "Mac Address to IP address",
-        "Subnet mask to IP",
-        "IP to DNS address"
+        {
+          "key": "choice-a",
+          "text": "IP address to Mac Address"
+        },
+        {
+          "key": "choice-b",
+          "text": "Mac Address to IP address"
+        },
+        {
+          "key": "choice-c",
+          "text": "Subnet mask to IP"
+        },
+        {
+          "key": "choice-d",
+          "text": "IP to DNS address"
+        }
       ],
-      "answer": "IP address to Mac Address",
+      "answer": "choice-a",
       "scores": [
         4,
         -1,
@@ -229,14 +409,26 @@
     },
     {
       "qid": 15,
-      "ques": "The game which runs when there is no internet connection on google chrome browser?",
+      "text": "The game which runs when there is no internet connection on google chrome browser?",
       "options": [
-        "Nanosaur",
-        "T-rex game",
-        "Dino-run",
-        "Cactus cross"
+        {
+          "key": "choice-a",
+          "text": "Nanosaur"
+        },
+        {
+          "key": "choice-b",
+          "text": "T-rex game"
+        },
+        {
+          "key": "choice-c",
+          "text": "Dino-run"
+        },
+        {
+          "key": "choice-d",
+          "text": "Cactus cross"
+        }
       ],
-      "answer": "T-rex game",
+      "answer": "choice-b",
       "scores": [
         4,
         -1,
@@ -245,14 +437,26 @@
     },
     {
       "qid": 16,
-      "ques": "The most powerful supercomputer in existence is ",
+      "text": "The most powerful supercomputer in existence is ",
       "options": [
-        "sunway taihuLight",
-        "titan",
-        "Tianhe-2",
-        "IBM Summit"
+        {
+          "key": "choice-a",
+          "text": "sunway taihuLight"
+        },
+        {
+          "key": "choice-b",
+          "text": "titan"
+        },
+        {
+          "key": "choice-c",
+          "text": "Tianhe-2"
+        },
+        {
+          "key": "choice-d",
+          "text": "IBM Summit"
+        }
       ],
-      "answer": "IBM Summit",
+      "answer": "choice-d",
       "scores": [
         4,
         -1,
@@ -261,14 +465,26 @@
     },
     {
       "qid": 17,
-      "ques": "US-based virtual search start-up acquired by Facebook to boost AI capabilities is?",
+      "text": "US-based virtual search start-up acquired by Facebook to boost AI capabilities is?",
       "options": [
-        "Balsamiq",
-        "Buffer",
-        "GrokStyle",
-        "Avocent"
+        {
+          "key": "choice-a",
+          "text": "Balsamiq"
+        },
+        {
+          "key": "choice-b",
+          "text": "Buffer"
+        },
+        {
+          "key": "choice-c",
+          "text": "GrokStyle"
+        },
+        {
+          "key": "choice-d",
+          "text": "Avocent"
+        }
       ],
-      "answer": "GrokStyle",
+      "answer": "choice-c",
       "scores": [
         4,
         -1,
@@ -277,14 +493,26 @@
     },
     {
       "qid": 18,
-      "ques": "Name the software launched by Indian Railways that will enable the Union Railway Minister to keep track of punctuality of trains and freight and passenger earnings from anywhere in India?",
+      "text": "Name the software launched by Indian Railways that will enable the Union Railway Minister to keep track of punctuality of trains and freight and passenger earnings from anywhere in India?",
       "options": [
-        "eDiary",
-        "RailDairy",
-        "eDrishti",
-        "RailMoney"
+        {
+          "key": "choice-a",
+          "text": "eDiary"
+        },
+        {
+          "key": "choice-b",
+          "text": "RailDairy"
+        },
+        {
+          "key": "choice-c",
+          "text": "eDrishti"
+        },
+        {
+          "key": "choice-d",
+          "text": "RailMoney"
+        }
       ],
-      "answer": "eDrishti",
+      "answer": "choice-c",
       "scores": [
         4,
         -1,
@@ -293,14 +521,26 @@
     },
     {
       "qid": 19,
-      "ques": "US-based Hyperloop Transportation Technologies was launched the first full-scale transportation capsule recently. The name of the capsule is",
+      "text": "US-based Hyperloop Transportation Technologies was launched the first full-scale transportation capsule recently. The name of the capsule is",
       "options": [
-        "Eagle Pneumatic",
-        "Pevco",
-        "Quintero One",
-        "Minnesota"
+        {
+          "key": "choice-a",
+          "text": "Eagle Pneumatic"
+        },
+        {
+          "key": "choice-b",
+          "text": "Pevco"
+        },
+        {
+          "key": "choice-c",
+          "text": "Quintero One"
+        },
+        {
+          "key": "choice-d",
+          "text": "Minnesota"
+        }
       ],
-      "answer": "Quintero One",
+      "answer": "choice-c",
       "scores": [
         4,
         -1,
@@ -309,48 +549,31 @@
     },
     {
       "qid": 20,
-      "ques": "First computer virus is known as",
+      "text": "First computer virus is known as",
       "options": [
-        "Rabbit",
-        "Creeper virus",
-        "ELK clonner",
-        "SCA virus"
+        {
+          "key": "choice-a",
+          "text": "Rabbit"
+        },
+        {
+          "key": "choice-b",
+          "text": "Creeper virus"
+        },
+        {
+          "key": "choice-c",
+          "text": "ELK clonner"
+        },
+        {
+          "key": "choice-d",
+          "text": "SCA virus"
+        }
       ],
-      "answer": "Creeper virus",
-      "scores": [
-        4,
-        -1,
-        0
-      ]
-    },
-    {
-      "qid": 21,
-      "ques": "Guess the output of the following code",
-      "code": "<pre><code>#include&ltiostream&gt<br>using namespace std;<br>int main() {<br>cout <<\"Hello\"; <br>}</code></pre>",
-      "options": [
-        "Hello",
-        "Compile Time Error",
-        "Runtime Error",
-        "Syntax error",
-        "None of these"
-      ],
-      "answer": "Hello",
+      "answer": "choice-b",
       "scores": [
         4,
         -1,
         0
       ]
     }
-  ],
-  "results": [],
-  "instructions": [
-    "Time Limit: <b>30 Minutes</b>.",
-    "Total Questions - 20.",
-    "+4 for each correct and -1 for each incorrect answer.",
-    "Total marks - 80"
-  ],
-  "intro": "Webgators is to test your web development skills, Create a attractive web platform.",
-  "isEventLive": false,
-  "isQuizLive": false,
-  "timeAlloted": 30
+  ]
 }
