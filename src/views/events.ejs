@@ -6,33 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <% include meta-data %>
-    <script src="/js/materialize.js"></script>
-    <script>
-        function toast(msg, classes) {
-            M.toast({html: msg, classes, position: 'top' });
-        }
-        </script>
     <title>Events</title>
 </head>
 
 <body>
     <% include header %>
     <div class="container">
-        <% if (success.length) { %>
-        <div class="row green">
-            <script>toast('<%=success%>', 'green rounded');</script>
-        </div>
+        <% if (loginMsgSuccess.length) { %>
+                <script>document.addEventListener('DOMContentLoaded', () => {toast('<%=loginMsgSuccess%>', 'green rounded');})</script>
         <% } %>
         <% if (responseMsgSuccess.length) { %>
-            <script>toast('<%=responseMsgSuccess%>', 'green rounded');</script>
-            <% } %>
-        <% if (responseMsgFailure.length) { %>
-            <script>toast('<%=responseMsgFailure%>', 'red rounded');</script>
-            <% } %>
+            <div id="modal1" class="modal green" style="margin-top: 12%;">
+                <div class="modal-content">
+                  <h4><%=responseMsgSuccess%></h4>
+                </div>
+              </div>
+        <% } %>
+        <% if (responseMsgFailure.length || eventRulesMsg.length) { %>
+            <div id="modal1" class="modal red" style="margin-top: 12%;">
+                <div class="modal-content">
+                  <h4><%=responseMsgFailure%></h4>
+                  <h4><%=eventRulesMsg%></h4>
+                </div>
+              </div>
+        <% } %>
+        
         <h1 class="center-align card-panel">Events</h1>
         <div class="row card-panel">
             <%liveEvents.forEach((ele) => {%>
-            <div class="col s12 m5 l5">
+            <div class="col s12 m6 l6">
                 <div class="card brown lighten-1 hoverable">
                     <div class="card-content white-text">
                         <span class="card-title"><%=ele.eventName%></span>
@@ -45,7 +47,7 @@
                         <% } else if (request && request.isAllowed && request.hasStarted) { %>
                         <a>You have taken quiz</a>
                         <% } else {%>
-                        <a class="btn-floating btn-large waves-effect waves-light tooltipped red events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" event="<%=ele.event%>">
+                        <a class="btn-floating btn-large tooltipped red events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" event="<%=ele.event%>" eventName="<%=ele.eventName%>">
                             <i class="material-icons">
                                 <% if (request) { %>
                                 remove
@@ -58,12 +60,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col s1"></div>
             <%});%>
         </div>
     </div>
     <% include footer %>
+    <script src="/js/materialize.js"></script>
     <script src="/js/eventsRequestAjax.js"></script>
+    <script>
+            function toast(msg, classes) {
+                M.toast({html: msg, classes, position: 'top' });
+            }
+            </script>
 </body>
 
 </html>

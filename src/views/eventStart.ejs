@@ -20,12 +20,11 @@
                         <%}%>
                 </div>
             </div>
-            <div class="col s12 m1 l1"></div>
             <div class="col s12 m1 l8">
                 <div class="row">
                     <form action="/events/<%=event%>/end" method="post" class="col s12" id="quiz">
                         <input type="hidden" value="<%=questions.length%>" name="numOfQuestions" id="numOfQuestions">
-                        <input type="hidden" value="<%=time%>" id="quizTime">
+                        <input type="hidden" value="<%=timeLimit%>" id="timeLimit">
                         <input type="hidden" value="<%=friendEmail%>" name="friendEmail">
                         <input type="hidden" value="<%=event%>" name="event">
                         <%
@@ -41,7 +40,7 @@
                     %>
                 <div class="row" id="question<%=i%>" class="question" style="display: none">
                     <div class="col s12">
-                        <h5><%=i%>.<%-questions[randomQuestion].ques%></h5>
+                        <h5><%=i%>.<%-questions[randomQuestion].text%></h5>
                     </div>
                     <% if (questions[randomQuestion].code) {%>
                         <div class="col s12">
@@ -50,7 +49,7 @@
                         <%}%>
                         <% if (questions[randomQuestion].image) {%>
                             <div class="col s12">
-                                <%-questions[randomQuestion].image%>
+                                <img src="/images/events/<%=questions[randomQuestion].image%>">
                             </div>
                             <%}%>
                     <div class="col s12">
@@ -70,8 +69,8 @@
                                 <p>
                                     <label for="ques<%=i%>option<%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
                                         <input type="checkbox" name="ques<%=questions[randomQuestion].qid %>" id="ques<%=i%>option<%=j%>"
-                                            class="option<%=i%> filled-in" value="<%=questions[randomQuestion].options[randomOption]%>">
-                                        <span><%=questions[randomQuestion].options[randomOption]%></span>
+                                            class="option<%=i%> filled-in" value="<%=questions[randomQuestion].options[randomOption].key%>">
+                                        <span><%=questions[randomQuestion].options[randomOption].text%></span>
                                     </label>
                                 </p>
                             </div>

@@ -14,17 +14,16 @@
         <br><br>
         <ul class="collapsible">
         <% result.forEach((ele) => { %>
-            <% if (ele.results.length) {%>
                 <% flag = false;  %>
                 <li>
-                    <div class="collapsible-header"><%=ele.eventName%></div>
+                    <div class="collapsible-header"><%=ele._id.eventName%> -- Prelims</div>
                     <div class="collapsible-body">
                             <div class="row">
                 
                                     <div class="col s12 card-panel">
                                         <div class="row">
                                             <div class="col s12">
-                                                <h4><%=ele.eventName%></h4>
+                                                <h4><%=ele._id.eventName%></h4>
                                             </div>
                                             <div class="col s12">
                                                 <table>
@@ -35,12 +34,12 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <% ele.results.forEach(r => { %>
+                                                        <% for (let i = 0; i < ele.names.length; i++) { %>
                                                             <tr>
-                                                            <td><%-r.name%></td>
-                                                            <td><%-r.college%></td>
+                                                            <td><%-ele.names[i]%></td>
+                                                            <td><%-ele.college[i]%></td>
                                                         </tr>
-                                                            <%});%>
+                                                            <%}%>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -51,8 +50,7 @@
                             </div>
                     </div>
         </li>
-            <% } %>
-            <%});%>
+             <%});%>
         </ul>
             <% if (flag) {%>
                 <h3>Results are not available yet.</h3>
@@ -65,6 +63,7 @@
     var instances = M.Collapsible.init(elems);
   });
     
+  document.querySelector('a[href="/events/results"]').parentNode.classList.toggle('active');
     </script> 
 </body>
 </html>

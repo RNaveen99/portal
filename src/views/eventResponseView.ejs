@@ -24,13 +24,13 @@
         </div>
         <div class="row">
             <div class="col s12">
-                    <% for (let i = 0; i < response.dataArray.length; i++) {%>
-                        <% let status = response.dataArray[i].status;%>
+                    <% for (let i = 0; i < response.responseStorage.length; i++) {%>
+                        <% let status = response.responseStorage[i].status;%>
                         <div class="row card-panel"  style=" display: flex; flex-direction: row;">
                         <div class="col s10">
                             <div class="row">
                                 <div class="col s11 card">
-                                    <h5><%-questions[i].qid%>.<%=questions[i].ques %></h5>
+                                    <h5><%-questions[i].qid%>.<%=questions[i].text %></h5>
                                 </div>
                                 <% if (questions[i].code) {%>
                                     <div class="col s11 card">
@@ -39,7 +39,7 @@
                                     <%}%>
                                     <% if (questions[i].image) {%>
                                         <div class="col s11 card">
-                                            <%-questions[i].image%>
+                                            <img src="/images/events/<%=questions[i].image%>">
                                         </div>
                                         <%}%>
                                 <div class="col s12">
@@ -47,27 +47,30 @@
                                         <%if (status === 'Not Attempted') {%>
                                         <% questions[i].options.forEach((opt) => {%>
                                             <div class="col s5 card-panel">
-                                                    <h6><%=opt%></h6>
+                                                    <h6><%=opt.text%></h6>
                                                 </div>
                                                 <div class="col s1"></div>
                                             <% }); %>
                                             <div class="col s11 card-panel green">
-                                                <h6><%=questions[i].answer%></h6>
+                                                <h6>
+                                                    <%=questions[i].options.find((ele) => ele.key === questions[i].answer).text%>
+                                                    
+                                                </h6>
                                             </div>
                                         <%} else if (status === 'correct') {%>
-                                            <% let index = questions[i].options.indexOf(questions[i].answer);%>
+                                            <% let index = questions[i].options.findIndex((ele) => ele.key === questions[i].answer);%>
                                             <% for (let j = 0; j < questions[i].options.length; j++) {%>
                                                 <div class="col s5 card-panel <%if (index === j) {%> green <%}%>">
-                                                        <h6><%=questions[i].options[j]%></h6>
+                                                        <h6><%=questions[i].options[j].text%></h6>
                                                     </div>
                                                     <div class="col s1"></div>
                                                 <% } %>
-                                                <%} else if (status === 'wrong') {%>
-                                                    <% let correctIndex = questions[i].options.indexOf(questions[i].answer);%>
-                                                    <% let wrongIndex = questions[i].options.indexOf(response.dataArray[i][`ques${i + 1}`]);%>
+                                        <%} else if (status === 'wrong') {%>
+                                            <% let correctIndex = questions[i].options.findIndex((ele) => ele.key === questions[i].answer);%>
+                                            <% let wrongIndex = questions[i].options.findIndex((ele) => ele.key === response.responseStorage[i][`ques${i + 1}`]);%>
                                             <% for (let j = 0; j < questions[i].options.length; j++) {%>
                                                 <div class="col s5 card-panel <%if (j === correctIndex) {%> green <%} else if (j === wrongIndex) {%> red <%}%>">
-                                                        <h6><%=questions[i].options[j]%></h6>
+                                                        <h6><%=questions[i].options[j].text%></h6>
                                                     </div>
                                                     <div class="col s1"></div>
                                                 <% }} %>
@@ -76,7 +79,7 @@
                             </div>
                         </div>
                         <div  style=" align-self:auto;" class="col s2 card-panel valign-wrapper<% if (status === 'correct') { %> green <%} else if (status === 'wrong') {%> red <%} else {%> grey <%}%>">
-                            <h1 style="padding-left:.5em;"><%=response.dataArray[i].score%></h1>
+                            <h1 style="padding-left:.5em;"><%=response.responseStorage[i].score%></h1>
                         </div>
                     </div>
                         <%}%>
