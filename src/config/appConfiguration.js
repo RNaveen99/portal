@@ -41,7 +41,8 @@ const appConfiguration = (app) => {
   app.use(express.static('node_modules/materialize-css/dist/'));
   app.use((req, res, next) => {
     res.locals.error = req.flash('error');
-    res.locals.success = req.flash('success');
+    res.locals.loginMsgSuccess = req.flash('success');
+    res.locals.eventRulesMsg = req.flash('eventRulesMsg');
     res.locals.responseMsgSuccess = req.flash('responseMsgSuccess');
     res.locals.responseMsgFailure = req.flash('responseMsgFailure');
     res.locals.friendsEmailSuccess = req.flash('friendsEmailSuccess');
