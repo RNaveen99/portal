@@ -23,35 +23,50 @@
                     <div class="input-field col s10">
                         <input type="text" name="name" id="name" class="validate" value="<%=tempUser.name %>" required>
                         <label for="name">Name</label>
-                        <span class="helper-text red-text"><%=errorData.name%></span>
+                        <span class="helper-text red-text name-helper"><%=errorData.name%></span>
+                    </div>
+                    <div class="input-field col s2">
+                        <i class="material-icons medium name-icon"><%if(errorData.name){%>clear<%} else {%>check<%}%></i>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
-                        <input type="text" name="college" id="college" class="autocomplete" class="validate" value="<%=tempUser.college%>" required>
+                        <input type="text" name="college" id="college" class="autocomplete validate" value="<%=tempUser.college%>" required>
                         <label for="college">College</label>
-                        <span class="helper-text red-text"><%=errorData.college%></span>
+                        <span class="helper-text red-text college-helper"><%=errorData.college%></span>
+                    </div>
+                    <div class="input-field col s2">
+                        <i class="material-icons medium college-icon"><%if(errorData.college){%>clear<%} else {%>check<%}%></i>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
                         <input type="number" name="number" id="number" class="validate" value="<%=tempUser.number%>" required>
                         <label for="number">Mobile Number</label>
-                        <span class="helper-text red-text"><%=errorData.number%></span>
+                        <span class="helper-text red-text number-helper"><%=errorData.number%></span>
+                    </div>
+                    <div class="input-field col s2">
+                        <i class="material-icons medium number-icon"><%if(errorData.number){%>clear<%} else {%>check<%}%></i>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
                         <input type="email" name="email" id="email" class="validate" value="<%=tempUser.email%>" required>
                         <label for="email">Email id</label>
-                        <span class="helper-text red-text"><%=errorData.email%></span>
+                        <span class="helper-text red-text email-helper"><%=errorData.email%></span>
+                    </div>
+                    <div class="input-field col s2">
+                        <i class="material-icons medium email-icon"><%if(errorData.email){%>clear<%} else {%>check<%}%></i>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s10">
                         <input type="password" name="password" id="password" class="validate" value="<%=tempUser.password%>" required>
                         <label for="password">password</label>
-                        <span class="helper-text red-text"><%=errorData.password %></span>
+                        <span class="helper-text red-text password-helper"><%=errorData.password %></span>
+                    </div>
+                    <div class="input-field col s2">
+                        <i class="material-icons medium password-icon"><%if(errorData.password){%>clear<%} else {%>check<%}%></i>
                     </div>
                 </div>
                 <div class="row">
