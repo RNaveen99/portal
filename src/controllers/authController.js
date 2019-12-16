@@ -24,12 +24,6 @@ const authController = () => {
       req.session.tempUser = userData;
     }
     res.render('signUp', { errorData: req.session.errors, tempUser: req.session.tempUser });
-    req.session.errors.name = null;
-    req.session.errors.college = null;
-    req.session.errors.number = null;
-    req.session.errors.email = null;
-    req.session.errors.password = null;
-    req.session.save();
   };
   const signUpPost = (req, res) => {
     req.session.tempUser.name = req.body.name;
@@ -41,38 +35,61 @@ const authController = () => {
 
     const { errors } = validationResult(req);
     if (errors.length > 0) {
-      errors.find((ele) => {
+      const nameError = errors.find((ele) => {
         if (ele.param === 'name') {
           req.session.errors.name = ele.msg;
         }
+        return ele.param === 'name';
       });
-      errors.find((ele) => {
+      if (!nameError) {
+        req.session.errors.name = null;
+      }
+
+      const collegeError = errors.find((ele) => {
         if (ele.param === 'college') {
           req.session.errors.college = ele.msg;
         }
+        return ele.param === 'college';
       });
-      errors.find((ele) => {
+      if (!collegeError) {
+        req.session.errors.college = null;
+      }
+
+      const numberError = errors.find((ele) => {
         if (ele.param === 'number') {
           req.session.errors.number = ele.msg;
         }
+        return ele.param === 'number';
       });
-      errors.find((ele) => {
+      if (!numberError) {
+        req.session.errors.number = null;
+      }
+
+      const emailError = errors.find((ele) => {
         if (ele.param === 'email') {
           req.session.errors.email = ele.msg;
         }
+        return ele.param === 'email';
       });
-      errors.find((ele) => {
+      if (!emailError) {
+        req.session.errors.email = null;
+      }
+
+      const passwordError = errors.find((ele) => {
         if (ele.param === 'password') {
           req.session.errors.password = ele.msg;
         }
+        return ele.param === 'password';
       });
+      if (!passwordError) {
+        req.session.errors.password = null;
+      }
+
       res.redirect('/auth/signUp');
     } else {
       addUser(req, res, req.session.tempUser);
       delete req.session.errors;
       delete req.session.tempUser;
-      req.session.save();
-      debug(req.session);
     }
   };
   return {
