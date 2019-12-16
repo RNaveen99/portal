@@ -7,8 +7,7 @@ const mongo = () => {
   const username = process.env.DB_USERNAME || '';
   const password = process.env.DB_PASSWORD || '';
   const dbName = 'portal';
-  // const url = `mongodb://${username}:${password}@${host}:${port}`;
-  const url = `mongodb://${host}:${port}`;
+  const url = `mongodb://${username.length ? `${username}:${password}@` : ``}${host}:${port}`;
 
   const createConnection = async () => {
     debug('request for connection sent');

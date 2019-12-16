@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Find Users</title>
+    <% include meta-data%>
+</head>
+<body>
+    <% include header%>
+        <div class="container">
+            <div class="row">
+                <form action="/findUsers" method="post" class="col s12">
+                    <div class="row">
+                        <div class="input-field col s8">
+                            <input type="email" name="email" id="email" value="<% if (email) {%><%=email%><%}%>" placeholder="xyz@gmail.com" required>
+                        </div>
+                        <div class="input-field col s3">
+                            <button class="btn waves-effect waves-light" id="find" type="submit" name="submit">Find
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div></form>
+            </div>
+            <% if(email && user) {%>
+            <div class="row results">
+                <div class="col s12 card">
+                        <table>
+                                <thead><tr><th>Name</th><th>Email</th><th>College</th><th>Number</th><th>Password</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><%=user.name%></td>
+                                        <td><%=user.email%></td>
+                                        <td><%=user.college%></td>
+                                        <td><%=user.number%></td>
+                                        <!-- <td><%=user.password%></td> -->
+                                        <td>********</td>
+                                    </tr>
+                                </tbody>
+                              </table>
+                </div>
+                <div class="col s12 card">
+                        <table>
+                                <thead><tr><th>Event</th><th>Participants</th><th>Score</th><th>Correct</th><th>Wrong</th><th>UnAttempted</th><th>View</th></tr>
+                                </thead>
+                                <tbody>
+                                        <% allResponses.forEach((ele) => {%>
+                                                
+                                    <tr>
+                                        <td><%=ele.eventName%></td>
+                                        <td><%=ele.user.name%> <% if (ele.user.friendName) {%> and <%=ele.user.friendName%> <% }%></td>
+                                        <td><%=ele.score%></td>
+                                        <td><%=ele.correct%></td>
+                                        <td><%=ele.wrong%></td>
+                                        <td><%=ele.notAttempted%></td>
+                                        <td><a href="/events/responses/view?event=<%=ele.event%>&email=<%=email%>"><b>VIEW</b></a></td>
+                                    </tr>
+                                    <%});%>
+                                </tbody>
+                              </table>
+                </div>
+            </div>
+            <%} else if (email && !user) {%>
+                <H3>User not found</H3>
+                <%}%>
+        </div>
+    <% include footer%>
+    <script>
+        
+  document.querySelector('a[href="/findUsers"]').parentNode.classList.toggle('active');
+    </script>
+</body>
+</html>
