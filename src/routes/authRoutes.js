@@ -18,6 +18,10 @@ const router = () => {
     .route('/signIn')
     .all(ifNotSignIn)
     .get((req, res) => {
+      if (req.session.errors) {
+        delete req.session.errors;
+        delete req.session.tempUser;
+      }
       res.render('signIn');
     })
     .post((req, res, next) => {
@@ -34,7 +38,7 @@ const router = () => {
     .all(ifSignIn)
     .get((req, res) => {
       req.logOut();
-      req.session.destroy();
+      // req.session.destroy();
       res.redirect('/auth/signIn');
     });
 
