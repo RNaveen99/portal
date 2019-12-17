@@ -3,7 +3,7 @@
   -webkit-transition: transform 1s;
   transition: transform 1s;
 }
-.reload:hover {
+.reload:hover, .reverse:hover {
   cursor: pointer;
 }
 .flip {
