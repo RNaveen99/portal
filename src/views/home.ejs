@@ -8,41 +8,8 @@
 </head>
 <body>
     <div class="container">
-        <button id="submit">Submit</button>
     </div>
     <script>
-    document.querySelector('#submit').addEventListener('click', (e) => {
-        let xhttp;
-        xhttp = new XMLHttpRequest();
-        //  request not initialised
-        console.log(xhttp.readyState);
-
-        // optional --used for loaders
-        xhttp.onprogress = function() {
-            console.log(this.readyState);
-        }
-        xhttp.onload = function() {
-            // request finished and response is  ready status
-            console.log(this.readyState);
-            if (this.status == 200) {
-                console.log(this.responseText);
-            }
-        }
-        xhttp.onerror = function() {
-            console.log('Request eror');
-        }
-        // xhttp.onreadystatechange = function(){
-        //     console.log('sending');
-        //     if (this.readyState == 4 && this.status == 200) {
-        //         console.log('hello');
-        //         console.log(this.responseText);
-        //     }
-        // }
-        xhttp.open('GET', '/ajax', true);
-        //connection esablished status
-        console.log(xhttp.readyState);
-        xhttp.send();
-    });
     </script>
 </body>
 </html>
