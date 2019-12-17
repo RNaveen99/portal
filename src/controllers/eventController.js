@@ -55,6 +55,7 @@ const eventController = () => {
   const eventsPost = async (req, res) => {
     const requestData = {
       event: req.body.event,
+      eventName:  req.body.eventName,
       name: req.user.name,
       email: req.user.email,
       college: req.user.college,
