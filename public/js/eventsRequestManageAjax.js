@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </label>
       </div>
       </td>
-      <td>${ele.hasStarted ? ` true ` : ` false `}</td>
-      <td>${ele.hasCompleted ? ` true ` : ` false `}</td>
+      <td>${ele.hasStarted ? ` <a class="material-icons">check</a> ` : `<a class="material-icons">clear</a> `}</td>
+      <td>${ele.hasCompleted ? `<a class="material-icons">check</a>` : ` <a class="material-icons">clear</a>`}</td>
       `;
       if (ele.isAllowed) {
         allowed += 1;

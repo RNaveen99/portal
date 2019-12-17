@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const xhttp = new XMLHttpRequest();
     const data = {
       event: e.target.parentNode.getAttribute('event'),
+      eventName: e.target.parentNode.getAttribute('eventName'),
     };
     xhttp.open('POST', '/events', true);
     xhttp.setRequestHeader('Content-type', 'application/json');
