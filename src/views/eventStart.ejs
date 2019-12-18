@@ -22,11 +22,11 @@
             </div>
             <div class="col s12 m8 l8 push-l1 push-m1">
                 <div class="row">
-                    <form action="/events/<%=event%>/end" method="post" class="col s12" id="quiz">
+                    <form action="/events/<%=eventCode%>/end" method="post" class="col s12" id="quiz">
                         <input type="hidden" value="<%=questions.length%>" name="numOfQuestions" id="numOfQuestions">
                         <input type="hidden" value="<%=timeLimit%>" id="timeLimit">
                         <input type="hidden" value="<%=friendEmail%>" name="friendEmail">
-                        <input type="hidden" value="<%=event%>" name="event">
+                        <input type="hidden" value="<%=eventCode%>" name="eventCode">
                         <%
                         let randomSize = questions.length;
                         let randomArray = Array.from(Array(randomSize).keys());

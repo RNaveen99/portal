@@ -22,7 +22,7 @@
             </div>
             <form action="<%=event.link%>/start" method="post" class="col s12">
                 <div class="input-field col s12">
-                    <input type="hidden" name="event" value="<%=event.event%>">
+                    <input type="hidden" name="eventCode" value="<%=event.eventCode%>">
                 </div>
                 <div class="input-field col s12">
                     <select name="friendEmail">
@@ -34,11 +34,10 @@
                     <label>Participating With:</label>
                 </div>
                 <div class="input-field col s12">
-                    <a href="<%=event.link%>/start"><button class="btn waves-effect waves-light">Agree &amp continue
+                    <button class="btn waves-effect waves-light" type="submit">Agree &amp continue
                             <i class="material-icons right">send</i>
                         </button>
-                    </a>
-                </div>
+                    </div>
             </form>
         </div>
     </div>

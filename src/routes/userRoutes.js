@@ -20,17 +20,17 @@ const router = () => {
         let allRequests = await findRequestByUser(email);
         allRequests = allRequests.map((ele) => {
           const obj = {
-            event: ele.event,
+            eventCode: ele.eventCode,
             eventName: ele.eventName,
           };
           return obj;
         });
         for (let i = 0; i < allRequests.length; i += 1) {
-          allResponses.push(findResponseByEventUser(`${allRequests[i].event}`, email).then((response) => {
+          allResponses.push(findResponseByEventUser(`${allRequests[i].eventCode}`, email).then((response) => {
             if (response) {
               delete response.responseStorage;
               delete response._id;
-              response.event = allRequests[i].event;
+              response.eventCode = allRequests[i].eventCode;
               response.eventName = allRequests[i].eventName;
             }
             return response;

@@ -10,12 +10,13 @@
 <body>
     <% include header %>
     
-        <div class="row">
+        <div class="container">
+          <div class="row">
             <div class="input-field col s9">
                 <select id="events">
                   <option value="" disabled selected>Choose Event</option>
-                  <% data.forEach((event) => { %>
-                  <option value="<%=event.event%>"><%=event.eventName%></option>
+                  <% allEvents.forEach((event) => { %>
+                  <option value="<%=event.eventCode%>"><%=event.eventName%></option>
                   <% }); %>
                 </select>
                 <label>Event Select</label>
@@ -39,6 +40,7 @@
                       </div>
                   </div>
               </div>
+        </div>
         </div>
         <div class="container center-align preloader">
             <div class="preloader-wrapper big active">

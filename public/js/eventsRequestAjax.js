@@ -5,11 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'add': {
         symbol = 'remove';
         e.target.parentNode.setAttribute('data-tooltip', 'Not Interested');
+        e.target.parentNode.classList.toggle('red');
+        e.target.parentNode.classList.toggle('green');
         break;
       }
       default: {
         symbol = 'add';
         e.target.parentNode.setAttribute('data-tooltip', `Click to participate in ${e.target.parentNode.getAttribute('eventName')}`);
+        e.target.parentNode.classList.toggle('green');
+        e.target.parentNode.classList.toggle('red');
       }
     }
     e.target.innerText = symbol;
@@ -18,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ajax = (e) => {
     const xhttp = new XMLHttpRequest();
     const data = {
-      event: e.target.parentNode.getAttribute('event'),
+      eventCode: e.target.parentNode.getAttribute('eventCode'),
       eventName: e.target.parentNode.getAttribute('eventName'),
     };
     xhttp.open('POST', '/events', true);
@@ -32,8 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ele.addEventListener('click', changeSymbol);
   });
 
-  document.querySelector('a[href="/events"]').parentNode.classList.toggle('active');
-
+  document.querySelectorAll('a[href="/events"]').forEach((ele) => {
+    ele.parentNode.classList.toggle('active');
+  });
   M.Tooltip.init(document.querySelectorAll('.tooltipped'));
   M.Modal.init(document.querySelectorAll('.modal'));
   const elem = document.querySelector('#modal1');

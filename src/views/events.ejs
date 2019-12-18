@@ -18,36 +18,36 @@
         <% if (responseMsgSuccess.length) { %>
             <div id="modal1" class="modal green" style="margin-top: 12%;">
                 <div class="modal-content">
-                  <h4><%=responseMsgSuccess%></h4>
+                  <h5><%=responseMsgSuccess%></h5>
                 </div>
               </div>
         <% } %>
         <% if (responseMsgFailure.length || eventRulesMsg.length) { %>
             <div id="modal1" class="modal red" style="margin-top: 12%;">
                 <div class="modal-content">
-                  <h4><%=responseMsgFailure%></h4>
-                  <h4><%=eventRulesMsg%></h4>
+                  <h5><%=responseMsgFailure%></h5>
+                  <h5><%=eventRulesMsg%></h5>
                 </div>
               </div>
         <% } %>
         
-        <h1 class="center-align card-panel">Events</h1>
+        <h1 class="center-align card">Events</h1>
         <div class="row card-panel">
             <%liveEvents.forEach((ele) => {%>
             <div class="col s12 m6 l6">
-                <div class="card brown lighten-1 hoverable">
+                <div class="card hoverable" style="background-color: #a03f42">
                     <div class="card-content white-text">
                         <span class="card-title"><%=ele.eventName%></span>
                         <p><%=ele.intro%></p>
                     </div>
                     <div class="card-action">
-                        <% const request = requests.find((request) => { return request.event === ele.event; });%>
+                        <% const request = requests.find((request) => { return request.eventCode === ele.eventCode; });%>
                         <% if (request && request.isAllowed && !request.hasStarted) { %>
                         <a href="<%=ele.link%>">Take Quiz</a>
                         <% } else if (request && request.isAllowed && request.hasStarted) { %>
                         <a>You have taken quiz</a>
                         <% } else {%>
-                        <a class="btn-floating btn-large tooltipped red events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" event="<%=ele.event%>" eventName="<%=ele.eventName%>">
+                        <a class="btn-floating btn-large tooltipped <%if(!request){%>green<%}else{%>red<%}%> events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" eventCode="<%=ele.eventCode%>" eventName="<%=ele.eventName%>">
                             <i class="material-icons">
                                 <% if (request) { %>
                                 remove
@@ -64,7 +64,6 @@
         </div>
     </div>
     <% include footer %>
-    <script src="/js/materialize.js"></script>
     <script src="/js/eventsRequestAjax.js"></script>
     <script>
             function toast(msg, classes) {

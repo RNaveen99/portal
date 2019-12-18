@@ -74,18 +74,18 @@ const router = () => {
     .post(ifSignInAdmin, eventsResultsPost);
 
   eventRouter
-    .route('/:id')
+    .route('/:eventCode')
     .all(ifSignIn)
     .get(eventRulesGet);
 
   eventRouter
-    .route('/:id/start')
+    .route('/:eventCode/start')
     .all(ifSignIn)
     .get(eventStartGet)
     .post(eventStartPost);
 
   eventRouter
-    .route('/:id/end')
+    .route('/:eventCode/end')
     .all(ifSignIn)
     .get(eventStartGet)
     .post(eventEndPost);

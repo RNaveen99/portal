@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const participantData = {
       email: e.target.value,
-      event: eventName.value,
+      eventCode: eventName.value,
     };
     requestAjax(xhttp, participantData);
   }
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const eventData = {
       email: null,
-      event: eventName.value,
+      eventCode: eventName.value,
     };
     requestAjax(xhttp, eventData);
   }

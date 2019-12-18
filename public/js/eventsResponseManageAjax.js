@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Error occured at addToResults');
     };
     const participantResponseData = {
-      event: eventName.value,
+      eventCode: eventName.value,
       eventName: eventName.querySelectorAll('option')[eventName.selectedIndex].innerText,
       name: e.target.getAttribute('data-name'),
       college: e.target.getAttribute('data-college'),
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${email} </td>
         <td>${number} </td>
         <td>${ele.score}</td>
-        <td><a class="waves-effect waves-teal btn-flat blue-text" href="/events/responses/view?event=${eventName.value}&email=${ele.user.email}">view</a></td>
+        <td><a class="waves-effect waves-teal btn-flat blue-text" href="/events/responses/view?eventCode=${eventName.value}&email=${ele.user.email}">view</a></td>
         <td><div class="switch"><label>remove<input type="checkbox"
         `;
       const tempResult = results.find((r) => r.name === name);
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Error occured at ajaxParticipantsResponse');
     };
     const eventData = {
-      event: eventName.value,
+      eventCode: eventName.value,
     };
     requestAjax(xhttp, eventData, 'responses');
   }

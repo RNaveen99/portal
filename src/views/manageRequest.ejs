@@ -17,7 +17,7 @@
                 <select id="events">
                   <option value="null" disabled selected>Choose Event</option>
                   <% allEvents.forEach((event) => { %>
-                  <option value="<%=event.event%>"><%=event.eventName%></option>
+                  <option value="<%=event.eventCode%>"><%=event.eventName%></option>
                   <% }); %>
                 </select>
                 <label>Event Select</label>
