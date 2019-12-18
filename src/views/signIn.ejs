@@ -6,41 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <% include meta-data %>
+    <link rel="stylesheet" href="/css/signIn.css">
     <title>SignIn</title>
 </head>
 
 <body>
     <% include header %>
-    <div class="container">
+    <div class="container" id="form-container">
         <div class="row">
-            <form method="POST" action="/auth/signIn" class="col s12 l6 push-l3 card-panel">
-                <div class="row">
-                    <div class="col s12 center">
-                        <h2>Sign In </h2>
-                    </div>
+            <form method="POST" action="/auth/signIn" class="col s10 m8 l6 push-s1 push-m2 push-l3 card-panel">
+                <div class="center" id="signIn">
+                    <h2>Sign In </h2>
                 </div>
                 <div class="row">
-                    <span class="helper-text red-text">&nbsp;&nbsp;&nbsp;<%=error%></span>
-                </div>
-                <div class="row">
+                        <span class="helper-text red-text">&nbsp;&nbsp;&nbsp;<%=error%></span>
                     <div class="input-field col s12">
                         <input type="email" name="username" id="email" required>
                         <label for="email">Email </label>
                     </div>
-                </div>
-                <div class="row">
                     <div class="input-field col s12">
-                        <input type="password" name="password" id="password" required>
-                        <label for="password">password</label>
-                    </div>
+                            <input type="password" name="password" id="password" required>
+                            <label for="password">password</label>
+                        </div>
                 </div>
                 <div class="row">
-                    <div class="col s4 l3">
+                    <div class="col s8 m4 l4">
                         <button class="btn waves-effect waves-light" type="submit" name="action">Sign In
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
-                    <span>Don't have an account <a href="/auth/signUp">sign Up</a> here</span>
+                    <span class="col s12 m8 l8">
+                            Don't have an account <a href="/auth/signUp">sign Up</a> here
+                    </span>
                 </div>
             </form>
         </div>
