@@ -272,8 +272,7 @@ const mongo = () => {
             event: '$event',
             eventName: '$eventName',
           },
-          names: { $push: '$name' },
-          college: { $push: '$college' },
+          fields: { $push: { 'name': '$name', 'college': '$college' } },
         },
       }
     ]).toArray();

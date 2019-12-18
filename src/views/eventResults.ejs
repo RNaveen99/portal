@@ -34,12 +34,12 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <% for (let i = 0; i < ele.names.length; i++) { %>
+                                                        <% ele.fields.forEach((r) => { %>
                                                             <tr>
-                                                            <td><%-ele.names[i]%></td>
-                                                            <td><%-ele.college[i]%></td>
+                                                            <td><%-r.name%></td>
+                                                            <td><%-r.college%></td>
                                                         </tr>
-                                                            <%}%>
+                                                            <%});%>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -63,7 +63,7 @@
     var instances = M.Collapsible.init(elems);
   });
     
-  document.querySelector('a[href="/events/results"]').parentNode.classList.toggle('active');
+  document.querySelectorAll('a[href="/events/results"]').forEach((ele) => {ele.parentNode.classList.toggle('active');});
     </script> 
 </body>
 </html>
