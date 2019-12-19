@@ -4,19 +4,19 @@ const fs = require('fs');
 const {
   addEvent,
   findAllEvents,
-  findEventByLive,
+  findLiveEvents,
   findEvent,
   findEventAndUpdateIsLive,
   findEventAndDelete,
   findRequestByEvent,
-  findRequestByUser,
+  findRequestsByUser,
   findRequestByEventUserAddRemove,
   updateIsAllowed,
   updateHasStarted,
   updateHasCompleted,
   findUserByEmail,
   addResponseInEvent,
-  findResponseByEvent,
+  findResponsesByEvent,
   findResponseByEventUser,
   resultsOfEventAddRemove,
   findResultByEvent,
@@ -47,8 +47,8 @@ const eventController = () => {
 
   const eventsGet = async (req, res) => {
     const { email } = req.user;
-    const liveEvents = await findEventByLive();
-    const requests = await findRequestByUser(email);
+    const liveEvents = await findLiveEvents();
+    const requests = await findRequestsByUser(email);
     res.render('events', { liveEvents, requests });
   };
 
@@ -138,20 +138,18 @@ const eventController = () => {
   };
 
   const eventsRequestManagePost = async (req, res) => {
-    const data = {};
-    data.email = req.body.email;
-    data.eventCode = req.body.eventCode;
-    if (!data.email) {
-      const requests = await findRequestByEvent(data.eventCode);
+    const { email, eventCode } = req.body;
+    if (!email) {
+      const requests = await findRequestByEvent(eventCode);
       res.json(requests);
     } else {
-      const request = await findRequestByEventUserAddRemove(data, false);
+      const request = await findRequestByEventUserAddRemove({ eventCode, email }, false);
       if (request) {
         let flag = true;
         if (request.isAllowed) {
           flag = false;
         }
-        await updateIsAllowed(data, flag);
+        await updateIsAllowed(eventCode, email, flag);
       }
       res.json();
     }
@@ -221,11 +219,14 @@ const eventController = () => {
     res.redirect('/events');
   };
 
-  const eventEndPost = async (req, res) => {
+  const eventEndPost = async (req, res) => {debug(req.body)
     const { eventCode } = req.body;
     const event = await findEvent(eventCode);
     if (event && event.isEventLive && event.isQuizLive) {
       const request = await findRequestByEventUserAddRemove({ eventCode, email: req.user.email }, false);
+      if (!(request && request.isAllowed && request.hasStarted)) {
+        return res.redirect('/events');
+      }
       if (request.hasCompleted) {
         req.flash('responseMsgFailure', 'You have already responded.');
         return res.redirect('/events');
@@ -293,7 +294,8 @@ const eventController = () => {
       req.flash('responseMsgSuccess', 'Your response has been recorded successfully.');
       return res.redirect('/events');
     }
-    req.flash('responseMsgFailure', `${req.body.event} is not accepting responses right now.`);
+    req.flash('responseMsgFailure', `${req.body.eventName} is not accepting responses right now.`);
+    res.redirect('/events');
   };
 
   const eventsResponseManageGet = async (req, res) => {
@@ -304,7 +306,7 @@ const eventController = () => {
   const eventsResponseManagePost = async (req, res) => {
     const { eventCode } = req.body;
     const results = await findResultByEvent(eventCode);
-    let responses = await findResponseByEvent(eventCode);
+    let responses = await findResponsesByEvent(eventCode);
     responses = responses.map((ele) => ({
       user: ele.user,
       score: ele.score,

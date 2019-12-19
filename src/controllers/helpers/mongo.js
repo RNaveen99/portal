@@ -91,7 +91,7 @@ const mongo = () => {
     return allEvents;
   };
 
-  const findEventByLive = async () => {
+  const findLiveEvents = async () => {
     const { client, db } = await createConnection();
     const col = await db.collection('events');
     const liveEvents = await col
@@ -118,7 +118,7 @@ const mongo = () => {
     return result;
   };
 
-  const findRequestByUser = async (email) => {
+  const findRequestsByUser = async (email) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
     const result = await col.find({ email }).toArray();
@@ -148,11 +148,11 @@ const mongo = () => {
     return result;
   };
 
-  const updateIsAllowed = async (data, flag) => {
+  const updateIsAllowed = async (eventCode, email, flag) => {
     const { client, db } = await createConnection();
     const col = await db.collection('requests');
     const results = await col.findOneAndUpdate(
-      { eventCode: data.eventCode, email: data.email },
+      { eventCode, email },
       { $set: { isAllowed: flag } },
     );
     client.close();
@@ -209,7 +209,7 @@ const mongo = () => {
     return result;
   };
 
-  const findResponseByEvent = async (eventCode) => {
+  const findResponsesByEvent = async (eventCode) => {
     const { client, db } = await createConnection();
     const col = await db.collection(`${eventCode}`);
     const result = await col.find({}, { projection: { responseStorage: false } }).toArray();
@@ -277,18 +277,18 @@ const mongo = () => {
     findEvent,
     findEventAndUpdateIsLive,
     addEvent,
-    findEventByLive,
+    findLiveEvents,
     findAllEvents,
     findEventAndDelete,
     findRequestByEvent,
-    findRequestByUser,
+    findRequestsByUser,
     findRequestByEventUserAddRemove,
     updateIsAllowed,
     updateHasStarted,
     updateHasCompleted,
     addFriend,
     addResponseInEvent,
-    findResponseByEvent,
+    findResponsesByEvent,
     findResponseByEventUser,
     resultsOfEventAddRemove,
     findResultByEvent,

@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        <div class="row card-panel">
+        <div class="row card">
             <div class="col s12">
                 <h1 class="center-align"><%=event.eventName%></h1>
             </div>
@@ -20,7 +20,7 @@
                 <blockquote><%-ele%></blockquote>
                 <%})%>
             </div>
-            <form action="<%=event.link%>/start" method="post" class="col s12">
+            <form action="/events/<%=event.eventCode%>/start" method="post" class="col s12">
                 <div class="input-field col s12">
                     <input type="hidden" name="eventCode" value="<%=event.eventCode%>">
                 </div>

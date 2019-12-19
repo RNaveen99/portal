@@ -53,6 +53,10 @@ const appConfiguration = (app) => {
     if (res.locals.isAuthenticated && req.user.privileges === 'admin') {
       res.locals.privileges = true;
     }
+    if (res.locals.isAuthenticated) {
+      res.locals.userName = req.user.name;
+      res.locals.userEmail = req.user.email;
+    }
     next();
   });
 };

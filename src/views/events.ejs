@@ -31,8 +31,8 @@
               </div>
         <% } %>
         
-        <h1 class="center-align card">Events</h1>
-        <div class="row card-panel">
+        <div class="row card">
+                <h1 class="center-align">Events</h1>
             <%liveEvents.forEach((ele) => {%>
             <div class="col s12 m6 l6">
                 <div class="card hoverable" style="background-color: #a03f42">
@@ -43,11 +43,11 @@
                     <div class="card-action">
                         <% const request = requests.find((request) => { return request.eventCode === ele.eventCode; });%>
                         <% if (request && request.isAllowed && !request.hasStarted) { %>
-                        <a href="<%=ele.link%>">Take Quiz</a>
+                        <a href="/events/<%=ele.eventCode%>" class="btn">Take Quiz</a>
                         <% } else if (request && request.isAllowed && request.hasStarted) { %>
-                        <a>You have taken quiz</a>
+                        <a class="btn disabled">You have taken quiz</a>
                         <% } else {%>
-                        <a class="btn-floating btn-large tooltipped <%if(!request){%>green<%}else{%>red<%}%> events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" eventCode="<%=ele.eventCode%>" eventName="<%=ele.eventName%>">
+                        <a class="btn-floating tooltipped <%if(!request){%>green<%}else{%>red<%}%> events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" eventCode="<%=ele.eventCode%>" eventName="<%=ele.eventName%>">
                             <i class="material-icons">
                                 <% if (request) { %>
                                 remove

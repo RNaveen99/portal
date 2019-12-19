@@ -1,0 +1,11 @@
+.reload {
+  -moz-transition: transform 1s;
+  -webkit-transition: transform 1s;
+  transition: transform 1s;
+}
+.reload:hover, .reverse:hover {
+  cursor: pointer;
+}
+.flip {
+  transform: rotate(180deg);
+}

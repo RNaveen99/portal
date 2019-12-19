@@ -141,6 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAjax(xhttp, eventData, 'responses');
   }
 
+  function reloadAnimation() {
+    reload.classList.toggle('flip');
+  }
+
   function init() {
     options.style.display = 'none';
     preloaderVisibility('none');
@@ -150,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     reload.addEventListener('click', ajaxParticipantsResponse);
     sort.addEventListener('change', printV2);
     reverse.addEventListener('click', printV3);
+    reload.addEventListener('click', reloadAnimation);
 
     eventName.addEventListener('change', () => {
       options.style.display = 'block';

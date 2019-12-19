@@ -67,7 +67,9 @@
     </div>
     <% include footer %>
     <script>
-            document.querySelector('a[href="/friends"]').parentNode.classList.toggle('active');</script>
+            document.querySelectorAll('a[href="/friends"]').forEach((ele) => {
+                ele.parentNode.classList.toggle('active');
+            })</script>
 </body>
 
 </html>

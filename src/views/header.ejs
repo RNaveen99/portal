@@ -13,11 +13,18 @@
                 <li><a href="/events/generate">Generate Events</a></li>
                 <li><a href="/events/upload">Image Upload</a></li>
                 <li><a href="/events/manage">Manage Events</a></li>
-                <li><a href="/events/requests">Manage Requests</a></li>
-                <li><a href="/events/responses">Manage Responses</a></li>
+                <li><a href="/events/requests">Requests</a></li>
+                <li><a href="/events/responses">Responses</a></li>
                 <li><a href="/findUsers">Find Users</a></li>
                 <% }%>
-                <li><a href="/auth/signOut">Sign Out</a></li>
+                <li id="profile-icon">
+                    <ul id="profile">
+                        <li><a class="center-align"><%=userName%></a></li>
+                        <li><a><%=userEmail%></a></li>
+                    </ul>
+                    <a><i class="material-icons">account_circle</i></a>
+                </li>
+                <li><a href="/auth/signOut"><i class="material-icons">power_settings_new</i></a></li>
                 <% }%>
 
             </ul>
@@ -38,6 +45,13 @@
             <li><a href="/findUsers">Find Users</a></li>
             <% }%>
             <li><a href="/auth/signOut">Sign Out</a></li>
+            <li>
+                <ul>
+                    <li><a class="center-align"><%=userName%></a></li>
+                    <li><a><%=userEmail%></a></li>
+                </ul>
+                
+            </li>
             <% }%>
     </ul>
 </header>
