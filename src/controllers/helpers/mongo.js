@@ -11,7 +11,7 @@ const mongo = () => {
 
   const createConnection = async () => {
     debug('request for connection sent');
-    const client = await MongoClient.connect(url, { useNewUrlParser: true });
+    const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = client.db(dbName);
     debug('request for connection accepted');
     return { client, db };

@@ -1,7 +1,7 @@
 const express = require('express');
 const debug = require('debug')('app:userRoutes');
 const { ifSignInAdmin } = require('../controllers/helpers/restrictions')();
-const { findUserByEmail, findRequestByUser, findResponseByEventUser } = require('../controllers/helpers/mongo')();
+const { findUserByEmail, findRequestsByUser, findResponseByEventUser } = require('../controllers/helpers/mongo')();
 
 const userRouter = express.Router();
 
@@ -17,7 +17,7 @@ const router = () => {
       const user = await findUserByEmail(email);
       let allResponses = [];
       if (user) {
-        let allRequests = await findRequestByUser(email);
+        let allRequests = await findRequestsByUser(email);
         allRequests = allRequests.map((ele) => {
           const obj = {
             eventCode: ele.eventCode,
