@@ -1,11 +1,9 @@
 const express = require('express');
-const path = require('path');
 const debug = require('debug')('app:appConfiguration');
 const redis = require('redis');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const flash = require('connect-flash');
 const passportFunction = require('./passport.js');
@@ -17,23 +15,25 @@ const client = redis.createClient({
 
 const appConfiguration = (app) => {
   app.use(morgan('dev'));
-  app.use(
-    session({
-      secret: 'webPortal',
-      store: new RedisStore({
-        host: process.env.REDIS_HOST || 'localhost',
-        port: process.env.REDIS_PORT || 6379,
-        client,
-        ttl: 3600,
-      }),
-      saveUninitialized: false,
-      resave: false,
+  const sessionOptions = {
+    secret: 'webPortal',
+    store: new RedisStore({
+      host: process.env.REDIS_HOST || 'localhost',
+      port: process.env.REDIS_PORT || 6379,
+      client,
+      ttl: 3600,
     }),
-  );
+    saveUninitialized: false,
+    resave: true,
+    cookie: {},
+  };
+  if (process.env.NODE_ENV === 'production') {
+    sessionOptions.cookie.secure = true;
+  }
+  app.use(session(sessionOptions));
   passportFunction(app);
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(cookieParser());
   app.use(flash());
   app.set('view engine', 'ejs');
   app.set('views', './src/views');
