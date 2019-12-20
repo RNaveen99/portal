@@ -27,7 +27,7 @@ const router = () => {
               const friend = { name: result.name, email: result.email, college: result.college };
               result = await addFriend(req.user.email, friend);
               req.user.friends.push(friend);
-              req.session.save();
+              // req.session.save();
               req.flash('friendsEmailSuccess', 'Friend added in your friend list.');
             } else {
               req.flash('friendsEmailFailure', 'Email entered is not registered.');
