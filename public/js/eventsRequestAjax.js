@@ -1,19 +1,22 @@
+function toast(msg, classes) {
+  M.toast({ html: msg, classes, position: 'top' });
+}
 document.addEventListener('DOMContentLoaded', () => {
   const changeSymbol = (e) => {
     let symbol = e.target.innerText;
     switch (symbol) {
       case 'add': {
         symbol = 'remove';
-        e.target.parentNode.setAttribute('data-tooltip', 'Not Interested');
         e.target.parentNode.classList.toggle('red');
         e.target.parentNode.classList.toggle('green');
+        toast(`Request to participate in ${e.target.parentNode.getAttribute('eventName')} sent`, 'green rounded');
         break;
       }
       default: {
         symbol = 'add';
-        e.target.parentNode.setAttribute('data-tooltip', `Click to participate in ${e.target.parentNode.getAttribute('eventName')}`);
         e.target.parentNode.classList.toggle('green');
         e.target.parentNode.classList.toggle('red');
+        toast(`Request withdrawn from ${e.target.parentNode.getAttribute('eventName')}`, 'red rounded');
       }
     }
     e.target.innerText = symbol;
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a[href="/events"]').forEach((ele) => {
     ele.parentNode.classList.toggle('active');
   });
-  M.Tooltip.init(document.querySelectorAll('.tooltipped'));
+
   M.Modal.init(document.querySelectorAll('.modal'));
   const elem = document.querySelector('#modal1');
   if (elem) { M.Modal.getInstance(elem).open(); }

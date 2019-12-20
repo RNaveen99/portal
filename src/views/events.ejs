@@ -47,7 +47,7 @@
                         <% } else if (request && request.isAllowed && request.hasStarted) { %>
                         <a class="btn disabled">You have taken quiz</a>
                         <% } else {%>
-                        <a class="btn-floating tooltipped <%if(!request){%>green<%}else{%>red<%}%> events"  data-tooltip="<%if(!request){%>Click to participate in <%=ele.eventName%><%} else {%>Not Interested <%}%>" eventCode="<%=ele.eventCode%>" eventName="<%=ele.eventName%>">
+                        <a class="btn-floating <%if(!request){%>green<%}else{%>red<%}%> events" eventCode="<%=ele.eventCode%>" eventName="<%=ele.eventName%>">
                             <i class="material-icons">
                                 <% if (request) { %>
                                 remove
@@ -65,11 +65,6 @@
     </div>
     <% include footer %>
     <script src="/js/eventsRequestAjax.js"></script>
-    <script>
-            function toast(msg, classes) {
-                M.toast({html: msg, classes, position: 'top' });
-            }
-            </script>
 </body>
 
 </html>

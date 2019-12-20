@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // const index = responded[questionId].indexOf(optionId);
             // if (index !== -1) responded[i].splice(index, 1);
           }
-          console.log(responded);
+          // console.log(responded);
         });
       });
     }
