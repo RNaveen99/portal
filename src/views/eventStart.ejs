@@ -25,7 +25,9 @@
                     <form action="/events/<%=eventCode%>/end" method="post" class="col s12" id="quiz">
                         <input type="hidden" value="<%=questions.length%>" name="numOfQuestions" id="numOfQuestions">
                         <input type="hidden" value="<%=timeLimit%>" id="timeLimit">
-                        <input type="hidden" value="<%=friendEmail%>" name="friendEmail">
+                        <% teamMemberEmails.forEach((teamMember) => {%>
+                            <input type="hidden" value="<%=teamMember%>" name="teamMemberEmails[]">
+                        <%});%>
                         <input type="hidden" value="<%=eventCode%>" name="eventCode">
                         <input type="hidden" value="<%=eventName%>" name="eventName">
                         <%

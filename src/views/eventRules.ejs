@@ -20,18 +20,24 @@
                 <blockquote><%-ele%></blockquote>
                 <%})%>
             </div>
+            <input type="hidden" name="teamSizeMin" value="<%=teamSizeMin%>" id="teamSizeMin">
+            <input type="hidden" name="teamSizeMax" value="<%=teamSizeMax%>" id="teamSizeMax">
             <form action="/events/<%=event.eventCode%>/start" method="post" class="col s12">
                 <div class="input-field col s12">
                     <input type="hidden" name="eventCode" value="<%=event.eventCode%>">
                 </div>
-                <div class="input-field col s12">
-                    <select name="friendEmail">
-                        <option value="" selected>Individual</option>
+                <div class="input-field col s10">
+                    <select name="teamMemberEmails[]" multiple>
+                        <option value="" disabled>Individual</option>
                         <% friends.forEach((friend) => { %>
                         <option value="<%=friend.email%>"><%=friend.name%></option>
                         <%});%>
                     </select>
                     <label>Participating With:</label>
+                    <span class="helper-text red-text teamMemberEmails-helper"></span>
+                </div>
+                <div class="input-field col s2">
+                    <i class="material-icons small teamMemberEmails-icon"></i>
                 </div>
                 <div class="input-field col s12">
                     <button class="btn waves-effect waves-light" type="submit">Agree &amp continue
@@ -44,8 +50,27 @@
     <script src="/js/materialize.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems);
+            const elems = document.querySelectorAll('select');
+            const instances = M.FormSelect.init(elems);
+            const submitButton = document.querySelector('button[type="submit"]');
+            const teamSizeMin = Number(document.querySelector('#teamSizeMin').value);
+            const teamSizeMax = Number(document.querySelector('#teamSizeMax').value);
+            const teamMemberEmailsIcon = document.querySelector('.teamMemberEmails-icon');
+            const teamMemberEmailsHelper = document.querySelector('.teamMemberEmails-helper');
+            submitButton.addEventListener('click', (e) => {
+                const instance = M.FormSelect.getInstance(elems[0]);
+                const teamSize = instance.getSelectedValues().length;
+                if (teamSize >= teamSizeMax) {
+                    teamMemberEmailsIcon.textContent = 'clear';
+                    teamMemberEmailsHelper.textContent = `Team Size cannot exceed ${teamSizeMax}`;
+                    e.preventDefault();    
+                }
+                // if (teamSize < teamSizeMin - 1) {
+                //     teamMemberEmailsIcon.textContent = 'clear';
+                //     teamMemberEmailsHelper.textContent = `Min Team Size Required is ${teamSizeMin}`;
+                //     e.preventDefault();
+                // }
+            });
         });
     </script>
 </body>

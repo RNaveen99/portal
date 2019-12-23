@@ -15,7 +15,11 @@
                 <h4><%=eventName%></h4>
             </div>
             <div class="col s12">
-                <h5>Participants: <%=response.user.name%> <% if (response.user.friendName) {%> and <%=response.user.friendName%> <% }%></h5>
+                <h5>Participants: <%=response.user.name%> 
+                    <% if (response.user.teamMembers) {%>, 
+                        <%=response.user.teamMembers.map((ele) => ele.name).join(',')%>
+                         <% }%>
+                </h5>
             </div>
             <div class="col s3"><h5>Score: <%=response.score%></h5></div>
             <div class="col s2 green-text"><h5>Correct:  <%=response.correct%></h5></div>

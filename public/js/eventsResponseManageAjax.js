@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const participantResponseData = {
       eventCode: eventName.value,
       eventName: eventName.querySelectorAll('option')[eventName.selectedIndex].innerText,
-      name: e.target.getAttribute('data-name'),
-      college: e.target.getAttribute('data-college'),
+      user: responses.find((ele) => ele.user.email === e.target.getAttribute('data-email')).user,
+      resultType: e.target.getAttribute('data-resultType'),
     };
     requestAjax(xhttp, participantResponseData, 'results');
   };
@@ -63,10 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function print() {
     totalResponses.innerText = `Total Responses = ${responses.length}`;
     responses.forEach((ele) => {
-      const name = `${ele.user.name} ${ele.user.friendName ? `<br> ${ele.user.friendName}` : ``}`;
-      const college = `${ele.user.college} ${ele.user.friendName ? `<br> ${ele.user.friendCollege}` : ``}`;
-      const email = `${ele.user.email} ${ele.user.friendName ? `<br> ${ele.user.friendEmail}` : ``}`;
-      const number = `${ele.user.number} ${ele.user.friendName ? `<br> ${ele.user.friendNumber}` : ``}`;
+      const name = `${ele.user.name} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.name).join('<br>')}` : ``}`;
+      const college = `${ele.user.college} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.college).join('<br>')}` : ``}`;
+      const email = `${ele.user.email} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.email).join('<br>')}` : ``}`;
+      const number = `${ele.user.number} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.number).join('<br>')}` : ``}`;
       const tableRow = document.createElement('tr');
       let div1;
       div1 = `
@@ -78,11 +78,19 @@ document.addEventListener('DOMContentLoaded', () => {
         <td><a class="waves-effect waves-teal btn-flat blue-text" href="/events/responses/view?eventCode=${eventName.value}&email=${ele.user.email}">view</a></td>
         <td><div class="switch"><label>remove<input type="checkbox"
         `;
-      const tempResult = results.find((r) => r.name === name);
+      let tempResult = results.find((r) => (r.email === ele.user.email) && (r.resultType === 'prelims'));
       if (tempResult) {
         div1 += `checked `;
       }
-      div1 += `data-name="${name}" data-college="${college}"><span class="lever"></span>Add</label></div></td>`;
+      div1 += `data-email="${ele.user.email}" data-resultType="prelims"><span class="lever"></span>Add</label></div></td>
+      <td><div class="switch"><label>remove<input type="checkbox"
+      `;
+      tempResult = results.find((r) => (r.email === ele.user.email) && (r.resultType === 'finals'));
+      if (tempResult) {
+        div1 += `checked `;
+      }
+      div1 += `data-email="${ele.user.email}" data-resultType="finals"><span class="lever"></span>Add</label></div></td>
+      `;
       tableRow.innerHTML = div1;
       tbody.appendChild(tableRow);
     });
@@ -160,7 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
       options.style.display = 'block';
     }, { once: true });
 
-    document.querySelector('a[href="/events/responses"]').parentNode.classList.toggle('active');
+    document.querySelectorAll('a[href="/events/responses"]').forEach((ele) => {
+      ele.parentNode.classList.toggle('active');
+    })
     M.FormSelect.init(document.querySelectorAll('select'));
   }
   init();

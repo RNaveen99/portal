@@ -14,7 +14,6 @@ const {
   updateIsAllowed,
   updateHasStarted,
   updateHasCompleted,
-  findUserByEmail,
   addResponseInEvent,
   findResponsesByEvent,
   findResponseByEventUser,
@@ -151,7 +150,7 @@ const eventController = () => {
         }
         await updateIsAllowed(eventCode, email, flag);
       }
-      res.json();
+      res.json({ success: true });
     }
   };
 
@@ -165,9 +164,9 @@ const eventController = () => {
           if (request) {
             if (request.isAllowed) {
               if (!request.hasStarted) {
-                const { instructions } = event;
+                const { instructions, teamSizeMin, teamSizeMax } = event;
                 const { friends } = req.user;
-                return res.render('eventRules', { event, instructions, friends });
+                return res.render('eventRules', { event, instructions, friends, teamSizeMin, teamSizeMax });
               }
               req.flash('eventRulesMsg', `It seems that you have already participated in ${event.eventName}.`);
             } else {
@@ -193,25 +192,22 @@ const eventController = () => {
   };
 
   const eventStartPost = async (req, res) => {
-    const { eventCode, friendEmail } = req.body;
-    debug(req.body);
+    const { eventCode } = req.body;
+    let { teamMemberEmails } = req.body;
+    if (!teamMemberEmails) {
+      teamMemberEmails = [];
+    }
     const event = await findEvent(eventCode);
     if (event && event.isEventLive && event.isQuizLive) {
       const request = await findRequestByEventUserAddRemove({ eventCode, email: req.user.email }, false);
       if (request && request.isAllowed && !request.hasStarted) {
-        if (friendEmail.length) {
-          const friend = req.user.friends.find((ele) => ele.email === friendEmail);
-          if (!friend) {
-            return res.redirect('/events');
-          }
-        }
         const { questions } = event;
         await updateHasStarted(eventCode, req.user.email);
         return res.render('eventStart', {
           eventName: event.eventName,
           eventCode,
           timeLimit: event.timeLimit,
-          friendEmail,
+          teamMemberEmails,
           questions,
         });
       }
@@ -219,8 +215,8 @@ const eventController = () => {
     res.redirect('/events');
   };
 
-  const eventEndPost = async (req, res) => {debug(req.body)
-    const { eventCode } = req.body;
+  const eventEndPost = async (req, res) => {
+    const { eventCode, teamMemberEmails } = req.body;
     const event = await findEvent(eventCode);
     if (event && event.isEventLive && event.isQuizLive) {
       const request = await findRequestByEventUserAddRemove({ eventCode, email: req.user.email }, false);
@@ -228,32 +224,35 @@ const eventController = () => {
         return res.redirect('/events');
       }
       if (request.hasCompleted) {
-        req.flash('responseMsgFailure', 'You have already responded.');
+        req.flash('responseMsgFailure', 'You have already responded. Response will not be recorded again.');
         return res.redirect('/events');
-      }
-      const { friendEmail } = req.body;
-      if (friendEmail.length) {
-        const friend = req.user.friends.find((ele) => ele.email === friendEmail);
-        if (!friend) {
-          req.flash('responseMsgFailure', 'Your friend is not listed in your friend list.');
-          return res.redirect('/events');
-        }
       }
       await updateHasCompleted(eventCode, req.user.email);
       const { questions } = event;
       const numOfQuestions = questions.length;
       const userResponse = {};
-      const user = {};
-      user.name = req.user.name;
-      user.email = req.user.email;
-      user.college = req.user.college;
-      user.number = req.user.number;
-      if (req.body.friendEmail) {
-        const friend = await findUserByEmail(req.body.friendEmail);
-        user.friendName = friend.name;
-        user.friendEmail = req.body.friendEmail;
-        user.friendCollege = friend.college;
-        user.friendNumber = friend.number;
+      const user = {
+        name: req.user.name,
+        email: req.user.email,
+        college: req.user.college,
+        number: req.user.number,
+      };
+
+      if (teamMemberEmails) {
+        user.teamMembers = [];
+        teamMemberEmails.forEach((teamMemberEmail) => {
+          req.user.friends.find((friend) => {
+            if (friend.email === teamMemberEmail) {
+              user.teamMembers.push({
+                name: friend.name,
+                email: friend.email,
+                college: friend.college,
+                number: friend.number,
+              });
+              return true;
+            }
+          });
+        });
       }
       userResponse.user = user;
       const responseStorage = [];
@@ -270,15 +269,15 @@ const eventController = () => {
         if (!userAnswer) {
           singleResponse.status = 'Not Attempted';
           singleResponse.score = questions[i].scores[2];
-          totalNotAttempted++;
+          totalNotAttempted += 1;
         } else if (userAnswer === questions[i].answer) {
           singleResponse.status = 'correct';
           singleResponse.score = questions[i].scores[0];
-          totalCorrect++;
+          totalCorrect += 1;
         } else {
           singleResponse.status = 'wrong';
           singleResponse.score = questions[i].scores[1];
-          totalWrong++;
+          totalWrong += 1;
         }
         totalScore += singleResponse.score;
         responseStorage.push(singleResponse);
@@ -288,7 +287,6 @@ const eventController = () => {
       userResponse.correct = totalCorrect;
       userResponse.wrong = totalWrong;
       userResponse.notAttempted = totalNotAttempted;
-      // debug(userResponse);
 
       await addResponseInEvent(eventCode, userResponse);
       req.flash('responseMsgSuccess', 'Your response has been recorded successfully.');
@@ -322,13 +320,27 @@ const eventController = () => {
   };
 
   const eventsResultsGet = async (req, res) => {
-    const result = await findResultOfAllEvents();
-    res.render('eventResults', { result });
+    const { prelimsResults, finalsResults } = await findResultOfAllEvents();
+    res.render('eventResults', { prelimsResults, finalsResults });
   };
 
   const eventsResultsPost = async (req, res) => {
-    const { eventCode, eventName, name, college } = req.body;
-    await resultsOfEventAddRemove(eventCode, eventName, name, college);
+    const { eventCode, eventName, user, resultType } = req.body;
+    const userObj = {
+      name: user.name,
+      email: user.email,
+      college: user.college,
+    };
+    if (user.teamMembers) {
+      userObj.teamMembers = user.teamMembers.map((ele) => {
+        const obj = {
+          name: ele.name,
+          college: ele.college,
+        }
+        return obj;
+      });
+    }
+    await resultsOfEventAddRemove(eventCode, eventName, userObj, resultType);
     res.json({ success: true });
   };
 

@@ -183,7 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
 
     M.FormSelect.init(document.querySelectorAll('select'));
-    document.querySelector('a[href="/events/requests"]').parentNode.classList.toggle('active');
+    document.querySelectorAll('a[href="/events/requests"]').forEach((ele) => {
+      ele.parentNode.classList.toggle('active');
+    });
   }
   init();
 });

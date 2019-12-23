@@ -192,6 +192,7 @@ const mongo = () => {
             name: friend.name,
             email: friend.email,
             college: friend.college,
+            number: friend.number,
           },
         },
       },
@@ -225,18 +226,18 @@ const mongo = () => {
     return result;
   };
 
-  const resultsOfEventAddRemove = async (eventCode, eventName, name, college) => {
+  const resultsOfEventAddRemove = async (eventCode, eventName, user, resultType) => {
     const { client, db } = await createConnection();
     const col = await db.collection('results');
     const result = await col.findOne({
       eventCode,
-      name,
-      college,
+      email: user.email,
+      resultType,
     });
     if (result) {
-      await col.findOneAndDelete({ eventCode, name, college });
+      await col.findOneAndDelete({ eventCode, email: user.email, resultType });
     } else {
-      await col.insertOne({ eventCode, eventName, name, college });
+      await col.insertOne({ eventCode, eventName, name: user.name, email: user.email, college: user.college, teamMembers: user.teamMembers, resultType });
     }
 
     client.close();
@@ -254,7 +255,10 @@ const mongo = () => {
   const findResultOfAllEvents = async () => {
     const { client, db } = await createConnection();
     const col = await db.collection('results');
-    const results = await col.aggregate([
+    const prelimsResults = await col.aggregate([
+      {
+        $match: { resultType: 'prelims' }
+      },
       {
         $group:
         {
@@ -262,12 +266,27 @@ const mongo = () => {
             eventCode: '$eventCode',
             eventName: '$eventName',
           },
-          fields: { $push: { 'name': '$name', 'college': '$college' } },
+          fields: { $push: { 'name': '$name', 'college': '$college', 'teamMembers': '$teamMembers' } },
         },
-      }
+      },
+    ]).toArray();
+    const finalsResults = await col.aggregate([
+      {
+        $match: { resultType: 'finals' }
+      },
+      {
+        $group:
+        {
+          _id: {
+            eventCode: '$eventCode',
+            eventName: '$eventName',
+          },
+          fields: { $push: { 'name': '$name', 'college': '$college', 'teamMembers': '$teamMembers' } },
+        },
+      },
     ]).toArray();
     client.close();
-    return results;
+    return { prelimsResults, finalsResults };
   }
 
   return {

@@ -11,6 +11,8 @@
   "isEventLive": false,
   "isQuizLive": false,
   "timeLimit": 30,
+  "teamSizeMin" : 1,
+  "teamSizeMax" : 2,
   "questions": [
     {
       "qid": 1,

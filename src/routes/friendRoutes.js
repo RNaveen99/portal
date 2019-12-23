@@ -24,7 +24,7 @@ const router = () => {
           if (!result) {
             result = await findUserByEmail(friendsEmail);
             if (result) {
-              const friend = { name: result.name, email: result.email, college: result.college };
+              const friend = { name: result.name, email: result.email, college: result.college, number: result.number };
               result = await addFriend(req.user.email, friend);
               req.user.friends.push(friend);
               // req.session.save();

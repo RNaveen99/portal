@@ -50,7 +50,7 @@
                                                 
                                     <tr>
                                         <td><%=ele.eventName%></td>
-                                        <td><%=ele.user.name%> <% if (ele.user.friendName) {%> and <%=ele.user.friendName%> <% }%></td>
+                                        <td><%=ele.user.name%> <% if (ele.user.teamMembers) {%> , <%=ele.user.teamMembers.map((t) => t.name).join(',')%> <% }%></td>
                                         <td><%=ele.score%></td>
                                         <td><%=ele.correct%></td>
                                         <td><%=ele.wrong%></td>
