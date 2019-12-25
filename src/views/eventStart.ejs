@@ -55,32 +55,38 @@
                                 <img src="/images/events/<%=questions[randomQuestion].image%>">
                             </div>
                             <%}%>
-                    <div class="col s12">
-                        <div class="row">
-                                <%
-                                let randomOptionSize = questions[randomQuestion].options.length;
-                                let randomOptionArray = Array.from(Array(randomOptionSize).keys());
-                                let randomOptionIndex, randomOption;
-                                %>
-                            <% for (let j = 1; j <= questions[randomQuestion].options.length; j++) { 
-                                randomOptionIndex = Math.round(Math.random() * 100) % randomOptionSize;
-                                randomOption = randomOptionArray[randomOptionIndex];
-                                randomOptionArray.splice(randomOptionIndex, 1);
-                                randomOptionSize--;
-                                %>
-                            <div class="col s5">
-                                <p>
-                                    <label for="ques<%=i%>option<%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
-                                        <input type="checkbox" name="ques<%=questions[randomQuestion].qid %>" id="ques<%=i%>option<%=j%>"
-                                            class="option<%=i%> filled-in" value="<%=questions[randomQuestion].options[randomOption].key%>">
-                                        <span><%=questions[randomQuestion].options[randomOption].text%></span>
-                                    </label>
-                                </p>
+                    <% if (questions[randomQuestion].options) {%>
+                        <div class="col s12">
+                            <div class="row">
+                                    <%
+                                    let randomOptionSize = questions[randomQuestion].options.length;
+                                    let randomOptionArray = Array.from(Array(randomOptionSize).keys());
+                                    let randomOptionIndex, randomOption;
+                                    %>
+                                <% for (let j = 1; j <= questions[randomQuestion].options.length; j++) { 
+                                    randomOptionIndex = Math.round(Math.random() * 100) % randomOptionSize;
+                                    randomOption = randomOptionArray[randomOptionIndex];
+                                    randomOptionArray.splice(randomOptionIndex, 1);
+                                    randomOptionSize--;
+                                    %>
+                                <div class="col s5">
+                                    <p>
+                                        <label for="ques<%=i%>option<%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
+                                            <input type="checkbox" name="ques<%=questions[randomQuestion].qid %>" id="ques<%=i%>option<%=j%>"
+                                                class="option<%=i%> filled-in" value="<%=questions[randomQuestion].options[randomOption].key%>">
+                                            <span><%=questions[randomQuestion].options[randomOption].text%></span>
+                                        </label>
+                                    </p>
+                                </div>
+                                <div class="col s1"></div>
+                                <% }%>
                             </div>
-                            <div class="col s1"></div>
-                            <% }%>
                         </div>
-                    </div>
+                        <% } %>
+                        <h6 class="col s1 green lighten-1 center-align push-l9 push-m9 push-s9" style="border-radius:30px; border: solid green"><%=questions[randomQuestion].scores[0]%></h6>
+                        <h6 class="col s1 grey lighten-1 center-align push-l9 push-m9 push-s9" style="border-radius:30px; border: solid grey"><%=questions[randomQuestion].scores[2]%></h6>
+                        <h6 class="col s1 red lighten-1 center-align push-l9 push-m9 push-s9" style="border-radius:30px; border: solid red"><%=questions[randomQuestion].scores[1]%></h6>
+                    
                 </div>
                 <% } %>
                 <div class="row">
