@@ -1,7 +1,7 @@
 const express = require('express');
 const debug = require('debug')('app:userRoutes');
 const { ifSignInAdmin } = require('../controllers/helpers/restrictions')();
-const { findUserByEmail, findRequestsByUser, findResponseByEventUser } = require('../controllers/helpers/mongo')();
+const { findUserByEmail, findAllUsers, findRequestsByUser, findResponseByEventUser } = require('../controllers/helpers/mongo')();
 
 const userRouter = express.Router();
 
@@ -9,8 +9,9 @@ const router = () => {
   userRouter
     .route('/')
     .all(ifSignInAdmin)
-    .get((req, res) => {
-      res.render('findUsers', { email: req.body.email });
+    .get(async (req, res) => {
+      const allUsers = await findAllUsers();
+      res.render('findUsers', { email: req.body.email, allUsers });
     })
     .post(async (req, res) => {
       const { email } = req.body;

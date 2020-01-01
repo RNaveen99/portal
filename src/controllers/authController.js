@@ -1,6 +1,7 @@
 const debug = require('debug')('app:authController');
 const { validationResult } = require('express-validator');
 const { addUser } = require('./helpers/mongo')();
+const bcrypt = require('bcrypt');
 
 const authController = () => {
   const signUpGet = (req, res) => {
@@ -87,9 +88,12 @@ const authController = () => {
 
       res.redirect('/auth/signUp');
     } else {
-      addUser(req, res, req.session.tempUser);
-      delete req.session.errors;
-      delete req.session.tempUser;
+      bcrypt.hash(req.session.tempUser.password, 10, (err, hash) => {
+        req.session.tempUser.password = hash;
+        addUser(req, res, req.session.tempUser);
+        delete req.session.errors;
+        delete req.session.tempUser;
+      });
     }
   };
   return {

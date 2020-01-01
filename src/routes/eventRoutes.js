@@ -47,7 +47,7 @@ const router = () => {
   eventRouter
     .route('/upload')
     .all(ifSignInAdmin)
-    .get(eventsImageUploadGet)
+    // .get(eventsImageUploadGet)
     .post(eventsImageUploadPost);
 
   eventRouter

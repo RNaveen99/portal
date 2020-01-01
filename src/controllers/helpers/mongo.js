@@ -2,12 +2,12 @@ const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:mongoHelper');
 
 const mongo = () => {
-  const port = process.env.DB_PORT || 27017;
-  const host = process.env.DB_HOST || 'localhost';
-  const username = process.env.DB_USERNAME || '';
-  const password = process.env.DB_PASSWORD || '';
+  const DB_PORT = process.env.DB_PORT || 27017;
+  const DB_HOST = process.env.DB_HOST || 'localhost';
+  const DB_USERNAME = process.env.DB_USERNAME || '';
+  const DB_PASSWORD = process.env.DB_PASSWORD || '';
   const dbName = 'portal';
-  const url = `mongodb://${username.length ? `${username}:${password}@` : ``}${host}:${port}`;
+  const url = `mongodb://${DB_USERNAME.length ? `${DB_USERNAME}:${DB_PASSWORD}@` : ``}${DB_HOST}:${DB_PORT}`;
 
   const createConnection = async () => {
     debug('request for connection sent');
@@ -19,9 +19,10 @@ const mongo = () => {
 
   const addUser = async (req, res, userAccount) => {
     const { client, db } = await createConnection();
-    debug('Connected correctly to server');
     const col = await db.collection('users');
     const results = await col.insertOne(userAccount);
+    delete results.ops[0]._id;
+    delete results.ops[0].password;
     req.logIn(results.ops[0], () => {
       res.redirect('/events');
     });
@@ -34,6 +35,25 @@ const mongo = () => {
     const results = await col.findOne({ email });
     client.close();
     return results;
+  };
+
+  const findAllUsers = async () => {
+    const { client, db } = await createConnection();
+    const col = await db.collection('users');
+    const allUsers = await col
+      .find(
+        {},
+        {
+          projection: {
+            _id: false,
+            password: false,
+            friends: false,
+          },
+        },
+      )
+      .toArray();
+    client.close();
+    return allUsers;
   };
 
   const findEvent = async (eventCode) => {
@@ -289,10 +309,22 @@ const mongo = () => {
     return { prelimsResults, finalsResults };
   }
 
+  const updatePassword = async (email, password) => {
+    const { client, db } = await createConnection();
+    const col = await db.collection('users');
+    const results = await col.findOneAndUpdate(
+      { email },
+      { $set: { password } },
+    );
+    client.close();
+    return results;
+  };
+
   return {
     createConnection,
     addUser,
     findUserByEmail,
+    findAllUsers,
     findEvent,
     findEventAndUpdateIsLive,
     addEvent,
@@ -312,6 +344,7 @@ const mongo = () => {
     resultsOfEventAddRemove,
     findResultByEvent,
     findResultOfAllEvents,
+    updatePassword,
   };
 };
 

@@ -27,7 +27,7 @@
             <div class="row results">
                 <div class="col s12 card">
                         <table>
-                                <thead><tr><th>Name</th><th>Email</th><th>College</th><th>Number</th><th>Password</th>
+                                <thead><tr><th>Name</th><th>Email</th><th>College</th><th>Number</th>
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -35,8 +35,6 @@
                                         <td><%=user.email%></td>
                                         <td><%=user.college%></td>
                                         <td><%=user.number%></td>
-                                        <!-- <td><%=user.password%></td> -->
-                                        <td>********</td>
                                     </tr>
                                 </tbody>
                               </table>
@@ -64,7 +62,25 @@
             </div>
             <%} else if (email && !user) {%>
                 <H3>User not found</H3>
-                <%}%>
+                <%} else {%>
+                    <div>
+                       <table>
+                        <thead><tr><th>S.no</th><th>Name</th><th>Email</th><th>College</th><th>Number</th>
+                        </thead>
+                        <tbody>
+                            <% for (let i = 0; i < allUsers.length; i += 1) {%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=allUsers[i].name%></td>
+                                    <td><%=allUsers[i].email%></td>
+                                    <td><%=allUsers[i].college%></td>
+                                    <td><%=allUsers[i].number%></td>
+                                    </tr>
+                                <%}%>
+                        </tbody>
+                       </table> 
+                    </div>
+                    <%}%>
         </div>
     <% include footer%>
     <script>
