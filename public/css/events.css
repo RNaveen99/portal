@@ -1,0 +1,19 @@
+@media only screen and (min-width: 601px) {
+    .card-content {
+        height: 150px;
+    }
+    .card-action {
+        height: 72px;
+    }
+}
+@media only screen and (min-width: 721px){
+    .card-content {
+        height: 130px;
+    }
+    .card-action {
+        height: 72px;
+    }
+    .container {
+        width: 80%
+    }
+}

@@ -152,8 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const timerInterval = setInterval(quizTimeCountDown, 1000);
 
-    document.querySelector('button[name="action"]').addEventListener('click', () => {
-      clearInterval(timerInterval);
+    document.querySelector('button[name="action"]').addEventListener('click', (e) => {
+      if (confirm('Are you sure you want to submit ?')) {
+        clearInterval(timerInterval);
+      } else {
+        e.preventDefault();
+      }
     });
   }
 
