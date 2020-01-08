@@ -23,6 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
     xhttp.send(JSON.stringify(ajaxRequestData));
   }
 
+  function updateRequests(e) {
+    requests.find((ele) => {
+      if (e.target.value === ele.email) {
+        if (e.target.checked) {
+          ele.isAllowed = true;
+        } else {
+          ele.isAllowed = false;
+        }
+        return true;
+      }
+    })
+  }
+
   const allowQuiz = (e) => {
     const xhttp = new XMLHttpRequest();
     xhttp.onerror = () => {
@@ -110,13 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function printV2() {
     sortRequests();
     resetResult();
-    print();
+    processResult();
   }
 
   function printV3() {
     requests.reverse();
     resetResult();
-    print();
+    processResult();
   }
 
   function processResult() {
@@ -124,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const participants = document.querySelectorAll('input[type=checkbox]');
     participants.forEach((ele) => {
       ele.addEventListener('change', allowQuiz);
+      ele.addEventListener('change', updateRequests);
     });
   }
 

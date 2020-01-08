@@ -102,13 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function printV2() {
     sortResponses();
     resetResult();
-    print();
+    processResult();
   }
 
   function printV3() {
     responses.reverse();
     resetResult();
-    print();
+    processResult();
   }
   const processResult = () => {
     print();
