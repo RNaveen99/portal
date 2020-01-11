@@ -20,6 +20,7 @@ const {
   resultsOfEventAddRemove,
   findResultByEvent,
   findResultOfAllEvents,
+  updatePrelimsFinalsInResponses,
 } = require('../controllers/helpers/mongo')();
 
 const storage1 = multer.diskStorage({
@@ -241,19 +242,10 @@ const eventController = () => {
       if (teamMemberEmails) {
         user.teamMembers = [];
         teamMemberEmails.forEach((teamMemberEmail) => {
-          req.user.friends.find((friend) => {
-            if (friend.email === teamMemberEmail) {
-              user.teamMembers.push({
-                name: friend.name,
-                email: friend.email,
-                college: friend.college,
-                number: friend.number,
-              });
-              return true;
-            }
-          });
+          user.teamMembers.push(req.user.friends.find((friend) => friend.email === teamMemberEmail));
         });
       }
+
       userResponse.user = user;
       const responseStorage = [];
       let totalScore = 0;
@@ -287,6 +279,8 @@ const eventController = () => {
       userResponse.correct = totalCorrect;
       userResponse.wrong = totalWrong;
       userResponse.notAttempted = totalNotAttempted;
+      userResponse.prelims = false;
+      userResponse.finals = false;
 
       await addResponseInEvent(eventCode, userResponse);
       req.flash('responseMsgSuccess', 'Your response has been recorded successfully.');
@@ -303,13 +297,14 @@ const eventController = () => {
 
   const eventsResponseManagePost = async (req, res) => {
     const { eventCode } = req.body;
-    const results = await findResultByEvent(eventCode);
     let responses = await findResponsesByEvent(eventCode);
     responses = responses.map((ele) => ({
       user: ele.user,
       score: ele.score,
+      prelims: ele.prelims,
+      finals: ele.finals,
     }));
-    res.json({ responses, results });
+    res.json({ responses });
   };
 
   const eventsResponseViewGet = async (req, res) => {
@@ -325,6 +320,7 @@ const eventController = () => {
   };
 
   const eventsResultsPost = async (req, res) => {
+    debug(req.body)
     const { eventCode, eventName, user, resultType } = req.body;
     const userObj = {
       name: user.name,
@@ -341,6 +337,7 @@ const eventController = () => {
       });
     }
     await resultsOfEventAddRemove(eventCode, eventName, userObj, resultType);
+    await updatePrelimsFinalsInResponses(eventCode, user.email, resultType);
     res.json({ success: true });
   };
 

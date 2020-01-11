@@ -24,16 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateRequests(e) {
-    requests.find((ele) => {
-      if (e.target.value === ele.email) {
-        if (e.target.checked) {
-          ele.isAllowed = true;
-        } else {
-          ele.isAllowed = false;
-        }
-        return true;
-      }
-    })
+    const r = requests.find((ele) => e.target.value === ele.email);
+    if (e.target.checked) {
+      r.isAllowed = true;
+    } else {
+      r.isAllowed = false;
+    }
   }
 
   const allowQuiz = (e) => {
@@ -118,6 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
     hasStarted.innerText = '';
     hasCompleted.innerText = '';
     tbody.innerText = '';
+  };
+
+  function processResult() {
+    print();
+    const participants = document.querySelectorAll('input[type=checkbox]');
+    participants.forEach((ele) => {
+      ele.addEventListener('change', allowQuiz);
+      ele.addEventListener('change', updateRequests);
+    });
   }
 
   function printV2() {
@@ -130,15 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
     requests.reverse();
     resetResult();
     processResult();
-  }
-
-  function processResult() {
-    print();
-    const participants = document.querySelectorAll('input[type=checkbox]');
-    participants.forEach((ele) => {
-      ele.addEventListener('change', allowQuiz);
-      ele.addEventListener('change', updateRequests);
-    });
   }
 
   function resetSort() {

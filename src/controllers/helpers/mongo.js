@@ -320,6 +320,30 @@ const mongo = () => {
     return results;
   };
 
+  const updatePrelimsFinalsInResponses = async (eventCode, email, resultType) => {
+    const { client, db } = await createConnection();
+    const col = await db.collection(eventCode);
+    const results = await col.findOne(
+      { 'user.email': email },
+    );
+    const update = { $set: { }}
+    if (results[resultType]) {
+      update.$set[`${resultType}`] = false;
+      await col.findOneAndUpdate(
+        { 'user.email': email },
+        update,
+      );
+    } else {
+      update.$set[`${resultType}`] = true;
+      await col.findOneAndUpdate(
+        { 'user.email': email },
+        update,
+      );
+    }
+    client.close();
+    return results;
+  };
+
   return {
     createConnection,
     addUser,
@@ -345,6 +369,7 @@ const mongo = () => {
     findResultByEvent,
     findResultOfAllEvents,
     updatePassword,
+    updatePrelimsFinalsInResponses,
   };
 };
 

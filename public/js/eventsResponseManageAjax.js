@@ -10,13 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const tbody = document.querySelector('tbody');
   const preloader = document.querySelector('.preloader');
 
+  const STATE_VISIBLE = 'block';
+  const STATE_HIDE = 'none';
+
   let responses;
-  let results;
 
   const requestAjax = (xhttp, ajaxRequestData, path) => {
     xhttp.open('POST', `/events/${path}`, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     xhttp.send(JSON.stringify(ajaxRequestData));
+  }
+
+  function updatePrelimsFinalsResults(e) {
+    const dataEmail = e.target.getAttribute('data-email');
+    const r = responses.find((ele) => dataEmail === ele.user.email);
+    const resultType = e.target.getAttribute('data-resultType');
+    if (e.target.checked) {
+      r[resultType] = true;
+    } else {
+      r[resultType] = false;
+    }
   }
 
   const addToResults = (e) => {
@@ -63,35 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function print() {
     totalResponses.innerText = `Total Responses = ${responses.length}`;
     responses.forEach((ele) => {
-      const name = `${ele.user.name} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.name).join('<br>')}` : ``}`;
-      const college = `${ele.user.college} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.college).join('<br>')}` : ``}`;
-      const email = `${ele.user.email} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.email).join('<br>')}` : ``}`;
-      const number = `${ele.user.number} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.number).join('<br>')}` : ``}`;
       const tableRow = document.createElement('tr');
-      let div1;
-      div1 = `
-        <td>${name} </td>
-        <td>${college}</td>
-        <td>${email} </td>
-        <td>${number} </td>
+      tableRow.innerHTML = `
+        <td>${ele.user.name} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.name).join('<br>')}` : ``}</td>
+        <td>${ele.user.college} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.college).join('<br>')}` : ``}</td>
+        <td>${ele.user.email} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.email).join('<br>')}` : ``} </td>
+        <td>${ele.user.number} ${ele.user.teamMembers ? `<br> ${ele.user.teamMembers.map((teamMember) => teamMember.number).join('<br>')}` : ``} </td>
         <td>${ele.score}</td>
         <td><a class="waves-effect waves-teal btn-flat blue-text" href="/events/responses/view?eventCode=${eventName.value}&email=${ele.user.email}">view</a></td>
-        <td><div class="switch"><label>remove<input type="checkbox"
+        <td><div class="switch"><label>remove<input type="checkbox" ${ele.prelims ? `checked` : ``} data-email="${ele.user.email}" data-resultType="prelims"><span class="lever"></span>Add</label></div></td> 
+        <td><div class="switch"><label>remove<input type="checkbox" ${ele.finals ? 'checked' : ``} data-email="${ele.user.email}" data-resultType="finals"><span class="lever"></span>Add</label></div></td>
         `;
-      let tempResult = results.find((r) => (r.email === ele.user.email) && (r.resultType === 'prelims'));
-      if (tempResult) {
-        div1 += `checked `;
-      }
-      div1 += `data-email="${ele.user.email}" data-resultType="prelims"><span class="lever"></span>Add</label></div></td>
-      <td><div class="switch"><label>remove<input type="checkbox"
-      `;
-      tempResult = results.find((r) => (r.email === ele.user.email) && (r.resultType === 'finals'));
-      if (tempResult) {
-        div1 += `checked `;
-      }
-      div1 += `data-email="${ele.user.email}" data-resultType="finals"><span class="lever"></span>Add</label></div></td>
-      `;
-      tableRow.innerHTML = div1;
       tbody.appendChild(tableRow);
     });
   }
@@ -99,6 +94,16 @@ document.addEventListener('DOMContentLoaded', () => {
     totalResponses.innerText = '';
     tbody.innerText = '';
   }
+
+  const processResult = () => {
+    print();
+    const participants = document.querySelectorAll('input[type=checkbox]');
+    participants.forEach((ele) => {
+      ele.addEventListener('change', addToResults);
+      ele.addEventListener('change', updatePrelimsFinalsResults);
+    });
+  };
+
   function printV2() {
     sortResponses();
     resetResult();
@@ -110,13 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resetResult();
     processResult();
   }
-  const processResult = () => {
-    print();
-    const participants = document.querySelectorAll('input[type=checkbox]');
-    participants.forEach((ele) => {
-      ele.addEventListener('change', addToResults);
-    });
-  };
 
   function resultContentVisibility(state) {
     resultContent.style.display = state;
@@ -126,18 +124,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function ajaxParticipantsResponse() {
     const xhttp = new XMLHttpRequest();
-    preloaderVisibility('block');
+    preloaderVisibility(STATE_VISIBLE);
     resetResult();
-    resultContentVisibility('none');
+    resultContentVisibility(STATE_HIDE);
     xhttp.onload = () => {
       if (xhttp.status == 200) {
-        preloaderVisibility('none');
-        const received = JSON.parse(xhttp.responseText);
-        responses = received.responses;
-        results = received.results;
+        preloaderVisibility(STATE_HIDE);
+        responses = JSON.parse(xhttp.responseText).responses;
         resetSort();
         processResult();
-        resultContentVisibility('block');
+        resultContentVisibility(STATE_VISIBLE);
       }
     };
     xhttp.onerror = () => {
@@ -154,9 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function init() {
-    options.style.display = 'none';
-    preloaderVisibility('none');
-    resultContentVisibility('none');
+    options.style.display = STATE_HIDE;
+    preloaderVisibility(STATE_HIDE);
+    resultContentVisibility(STATE_HIDE);
 
     eventName.addEventListener('change', ajaxParticipantsResponse);
     reload.addEventListener('click', ajaxParticipantsResponse);
@@ -165,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     reload.addEventListener('click', reloadAnimation);
 
     eventName.addEventListener('change', () => {
-      options.style.display = 'block';
+      options.style.display = STATE_VISIBLE;
     }, { once: true });
 
     document.querySelectorAll('a[href="/events/responses"]').forEach((ele) => {
