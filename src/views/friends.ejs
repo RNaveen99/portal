@@ -41,7 +41,7 @@
                 </div>
             </form>
         </div>
-        <% if (friends.length) {%>
+        <% if (allFriends.length) {%>
         <div class="row">
             <h5>Friends</h5>
             <div class="col s12">
@@ -54,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% friends.forEach((friend) => {%>
+                        <% allFriends.forEach((friend) => {%>
                             <tr>
                                 <td><%=friend.name%></td>
                                 <td><%=friend.email%></td>

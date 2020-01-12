@@ -29,7 +29,7 @@
                 <div class="input-field col s10">
                     <select name="teamMemberEmails[]" multiple>
                         <option value="" disabled>Individual</option>
-                        <% friends.forEach((friend) => { %>
+                        <% allFriends.forEach((friend) => { %>
                         <option value="<%=friend.email%>"><%=friend.name%></option>
                         <%});%>
                     </select>
@@ -60,16 +60,23 @@
             submitButton.addEventListener('click', (e) => {
                 const instance = M.FormSelect.getInstance(elems[0]);
                 const teamSize = instance.getSelectedValues().length;
+                let flag = true;
                 if (teamSize >= teamSizeMax) {
                     teamMemberEmailsIcon.textContent = 'clear';
                     teamMemberEmailsHelper.textContent = `Team Size cannot exceed ${teamSizeMax}`;
-                    e.preventDefault();    
+                    flag = false;    
                 }
-                // if (teamSize < teamSizeMin - 1) {
-                //     teamMemberEmailsIcon.textContent = 'clear';
-                //     teamMemberEmailsHelper.textContent = `Min Team Size Required is ${teamSizeMin}`;
-                //     e.preventDefault();
-                // }
+                if (teamSize < teamSizeMin - 1) {
+                    teamMemberEmailsIcon.textContent = 'clear';
+                    teamMemberEmailsHelper.textContent = `Min Team Size Required is ${teamSizeMin}`;
+                    flag = false;
+                }
+                if (flag) {
+                    teamMemberEmailsIcon.textContent = 'check';
+                    teamMemberEmailsHelper.textContent = '';
+                } else {
+                    e.preventDefault();
+                }
             });
         });
     </script>

@@ -201,26 +201,34 @@ const mongo = () => {
     return results;
   };
 
-  const addFriend = async (email, friend) => {
+  const addFriend = async (friend) => {
     const { client, db } = await createConnection();
-    const col = await db.collection('users');
-    const result = await col.findOneAndUpdate(
-      { email },
-      {
-        $push: {
-          friends: {
-            name: friend.name,
-            email: friend.email,
-            college: friend.college,
-            number: friend.number,
-          },
-        },
-      },
-    );
-
+    const col = await db.collection('friends');
+    const result = await col.insertOne(friend);
     client.close();
     return result;
   };
+
+  const getFriend = async (leader, email) => {
+    const { client, db } = await createConnection();
+    const col = await db.collection('friends');
+    const result = await col.findOne({ leader, email }, { projection: { _id: false, leader: false }});
+    client.close();
+    return result;
+  }
+
+  const getAllFriends = async (leader) => {
+    const { client, db } = await createConnection();
+    const col = await db.collection('friends');
+    const result = await col.find({ leader }, {
+      projection: {
+        _id: false,
+        leader: false,
+      },
+    }).toArray();
+    client.close();
+    return result;
+  }
 
   const addResponseInEvent = async (eventCode, userQuizResponse) => {
     const { client, db } = await createConnection();
@@ -362,6 +370,8 @@ const mongo = () => {
     updateHasStarted,
     updateHasCompleted,
     addFriend,
+    getFriend,
+    getAllFriends,
     addResponseInEvent,
     findResponsesByEvent,
     findResponseByEventUser,

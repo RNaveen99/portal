@@ -21,6 +21,7 @@ const {
   findResultByEvent,
   findResultOfAllEvents,
   updatePrelimsFinalsInResponses,
+  getAllFriends,
 } = require('../controllers/helpers/mongo')();
 
 const storage1 = multer.diskStorage({
@@ -166,8 +167,8 @@ const eventController = () => {
             if (request.isAllowed) {
               if (!request.hasStarted) {
                 const { instructions, teamSizeMin, teamSizeMax } = event;
-                const { friends } = req.user;
-                return res.render('eventRules', { event, instructions, friends, teamSizeMin, teamSizeMax });
+                const allFriends = await getAllFriends(req.user.email);
+                return res.render('eventRules', { event, instructions, allFriends, teamSizeMin, teamSizeMax });
               }
               req.flash('eventRulesMsg', `It seems that you have already participated in ${event.eventName}.`);
             } else {
@@ -241,8 +242,9 @@ const eventController = () => {
 
       if (teamMemberEmails) {
         user.teamMembers = [];
+        const allFriends = await getAllFriends(req.user.email);
         teamMemberEmails.forEach((teamMemberEmail) => {
-          user.teamMembers.push(req.user.friends.find((friend) => friend.email === teamMemberEmail));
+          user.teamMembers.push(allFriends.find((friend) => friend.email === teamMemberEmail));
         });
       }
 
