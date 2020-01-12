@@ -1,0 +1,7 @@
+.options {
+    display: flex;
+    flex-wrap: wrap;
+}
+.eachOption {
+    margin-left: 0px !important;
+}

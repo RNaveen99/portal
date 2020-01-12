@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><%=eventName%></title>
     <% include meta-data %>
+    <link rel="stylesheet" href="/css/eventStart.css">
 </head>
 
 <body>
@@ -57,7 +58,7 @@
                             <%}%>
                     <% if (questions[randomQuestion].options) {%>
                         <div class="col s12">
-                            <div class="row">
+                            <div class="row options">
                                     <%
                                     let randomOptionSize = questions[randomQuestion].options.length;
                                     let randomOptionArray = Array.from(Array(randomOptionSize).keys());
@@ -69,16 +70,15 @@
                                     randomOptionArray.splice(randomOptionIndex, 1);
                                     randomOptionSize--;
                                     %>
-                                <div class="col s5">
+                                <div class="col s6 eachOption">
                                     <p>
                                         <label for="ques<%=i%>option<%=j%>" class="black-text" questionId="<%=i%>" optionId="<%=j%>">
                                             <input type="checkbox" name="ques<%=questions[randomQuestion].qid %>" id="ques<%=i%>option<%=j%>"
                                                 class="option<%=i%> filled-in" value="<%=questions[randomQuestion].options[randomOption].key%>">
-                                            <span><%=questions[randomQuestion].options[randomOption].text%></span>
+                                            <span><%-questions[randomQuestion].options[randomOption].text%></span>
                                         </label>
                                     </p>
                                 </div>
-                                <div class="col s1"></div>
                                 <% }%>
                             </div>
                         </div>

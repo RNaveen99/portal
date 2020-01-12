@@ -40,13 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
       previous = current - 1;
       next = current + 1;
       if (previous <= 0) {
-        // previous = 1;
         displayPreviousButton(STATE_HIDE);
       } else {
         displayPreviousButton(STATE_VISIBLE);
       }
       if (next > numOfQuestions) {
-        // next = numOfQuestions;
         displayNextButton(STATE_HIDE);
       } else {
         displayNextButton(STATE_VISIBLE);
@@ -54,18 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
       updateCurrentGridColor(COLOR_VISITING);
       console.log(`previous = ${previous}, current = ${current}, next = ${next}`);
     }
-
-    // function updateQuestionAndGrid(newCurrent) {
-    //   updateQuestionDisplay(current, STATE_HIDE);
-    //   updateQuestionDisplay(newCurrent, STATE_VISIBLE);
-    //   updateGridAndCPN(newCurrent);
-    //   updateCurrentGridColor(COLOR_VISITING);
-    // }
-
-    // function updateDisplay(e) {
-    //   const newCurrent = Number(e.target.textContent);
-    //   updateGridQuestionAndCPN(newCurrent);
-    // }
 
     return {
       updateGridQuestionAndCPN,
@@ -78,8 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     previous = 0;
     next = current + 1;
 
-    // updateQuestionDisplay(current, STATE_VISIBLE);
-    // updateCurrentGridColor(COLOR_VISITING);
     updateGridQuestionAndCPN(current);
 
     grids.forEach((ele) => {
