@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Response View</title>
     <% include meta-data %>
+    <link rel="stylesheet" href="/css/eventResponseView.css">
 </head>
 <body>
     <% include header %>
@@ -38,7 +39,7 @@
                                 </div>
                                 <% if (questions[i].code) {%>
                                     <div class="col s11 card">
-                                        <%-questions[i].code%>
+                                        <code><%-questions[i].code%></code>
                                     </div>
                                     <%}%>
                                     <% if (questions[i].image) {%>
@@ -48,25 +49,25 @@
                                         <%}%>
                                 <% if (questions[i].options) {%>
                                     <div class="col s12">
-                                        <div class="row">
+                                        <div class="row options">
                                             <%if (status === 'Not Attempted') {%>
                                             <% questions[i].options.forEach((opt) => {%>
-                                                <div class="col s5 card-panel">
-                                                        <h6><%=opt.text%></h6>
+                                                <div class="col s5 card-panel eachOption">
+                                                        <h6><%-opt.text%></h6>
                                                     </div>
                                                     <div class="col s1"></div>
                                                 <% }); %>
                                                 <div class="col s11 card-panel green">
                                                     <h6>
-                                                        <%=questions[i].options.find((ele) => ele.key === questions[i].answer).text%>
+                                                        <%-questions[i].options.find((ele) => ele.key === questions[i].answer).text%>
                                                         
                                                     </h6>
                                                 </div>
                                             <%} else if (status === 'correct') {%>
                                                 <% let index = questions[i].options.findIndex((ele) => ele.key === questions[i].answer);%>
                                                 <% for (let j = 0; j < questions[i].options.length; j++) {%>
-                                                    <div class="col s5 card-panel <%if (index === j) {%> green <%}%>">
-                                                            <h6><%=questions[i].options[j].text%></h6>
+                                                    <div class="col s5 card-panel eachOption <%if (index === j) {%> green <%}%>">
+                                                            <h6><%-questions[i].options[j].text%></h6>
                                                         </div>
                                                         <div class="col s1"></div>
                                                     <% } %>
@@ -74,8 +75,8 @@
                                                 <% let correctIndex = questions[i].options.findIndex((ele) => ele.key === questions[i].answer);%>
                                                 <% let wrongIndex = questions[i].options.findIndex((ele) => ele.key === response.responseStorage[i][`ques${i + 1}`]);%>
                                                 <% for (let j = 0; j < questions[i].options.length; j++) {%>
-                                                    <div class="col s5 card-panel <%if (j === correctIndex) {%> green <%} else if (j === wrongIndex) {%> red <%}%>">
-                                                            <h6><%=questions[i].options[j].text%></h6>
+                                                    <div class="col s5 card-panel eachOption <%if (j === correctIndex) {%> green <%} else if (j === wrongIndex) {%> red <%}%>">
+                                                            <h6><%-questions[i].options[j].text%></h6>
                                                         </div>
                                                         <div class="col s1"></div>
                                                     <% }} %>

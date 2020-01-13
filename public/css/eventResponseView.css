@@ -1,0 +1,10 @@
+.options {
+    display: flex;
+    flex-wrap: wrap;
+}
+.eachOption {
+    margin-left: 0px !important;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}

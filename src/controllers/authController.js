@@ -35,53 +35,38 @@ const authController = () => {
 
     const { errors } = validationResult(req);
     if (errors.length > 0) {
-      const nameError = errors.find((ele) => {
-        if (ele.param === 'name') {
-          req.session.errors.name = ele.msg;
-        }
-        return ele.param === 'name';
-      });
-      if (!nameError) {
+      const nameError = errors.find((ele) => ele.param === 'name');
+      if (nameError) {
+        req.session.errors.name = nameError.msg;
+      } else {
         req.session.errors.name = null;
       }
 
-      const collegeError = errors.find((ele) => {
-        if (ele.param === 'college') {
-          req.session.errors.college = ele.msg;
-        }
-        return ele.param === 'college';
-      });
-      if (!collegeError) {
+      const collegeError = errors.find((ele) => ele.param === 'college');
+      if (collegeError) {
+        req.session.errors.college = collegeError.msg;
+      } else {
         req.session.errors.college = null;
       }
 
-      const numberError = errors.find((ele) => {
-        if (ele.param === 'number') {
-          req.session.errors.number = ele.msg;
-        }
-        return ele.param === 'number';
-      });
-      if (!numberError) {
+      const numberError = errors.find((ele) => ele.param === 'number');
+      if (numberError) {
+        req.session.errors.number = numberError.msg;
+      } else {
         req.session.errors.number = null;
       }
 
-      const emailError = errors.find((ele) => {
-        if (ele.param === 'email') {
-          req.session.errors.email = ele.msg;
-        }
-        return ele.param === 'email';
-      });
-      if (!emailError) {
+      const emailError = errors.find((ele) => ele.param === 'email');
+      if (emailError) {
+        req.session.errors.email = emailError.msg;
+      } else {
         req.session.errors.email = null;
       }
 
-      const passwordError = errors.find((ele) => {
-        if (ele.param === 'password') {
-          req.session.errors.password = ele.msg;
-        }
-        return ele.param === 'password';
-      });
-      if (!passwordError) {
+      const passwordError = errors.find((ele) => ele.param === 'password');
+      if (passwordError) {
+        req.session.errors.password = passwordError.msg;
+      } else {
         req.session.errors.password = null;
       }
 
