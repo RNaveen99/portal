@@ -3,3 +3,10 @@ main {
     justify-content: center;
     align-items: center;
 }
+form .center h2 {
+    font-weight: 500;
+}
+
+form[method=post].card-panel {
+    background: transparent;
+}

@@ -31,12 +31,12 @@
                 </div>
               </div>
         <% } %>
-        <div class="card">
-            <h1 class="center-align">Events</h1>
+        <div class="cards">
+            <!-- <h1 class="center-align">Events</h1> -->
         <div class="row">
             <%liveEvents.forEach((ele) => {%>
             <div class="col s12 m6 l6">
-                <div class="card hoverable" style="background-color: #a03f42">
+                <div class="card hoverable">
                     <div class="card-content white-text">
                         <span class="card-title"><%=ele.eventName%></span>
                         <p><%=ele.intro%></p>

@@ -1,0 +1,53 @@
+body {
+    background: url('/images/background/circuit.svg') repeat;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+nav {
+    background: transparent;
+    opacity: 0.6;
+}
+.nav-wrapper>a:first-child {
+    color: black;
+    font-weight: 900;
+}
+nav li a{
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+}
+nav a {
+    color: black
+}
+main {
+    flex: 1 0 auto;
+}
+#profile {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 62px;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+#profile li {
+    float: none;
+}
+#profile-icon:hover #profile {
+    display: block;
+    background: white;
+}
+.page-footer {
+    box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.14), 0 -3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    background: transparent;
+    opacity: 0.6;
+    color: black;
+    font-weight: 1000;
+    max-height: 50px;
+    padding-top: 12px;
+}
+.page-footer .row {
+    margin-bottom: 12px;
+}

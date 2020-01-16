@@ -3,3 +3,10 @@ main {
     justify-content: center;
     align-items: center;
 }
+#signIn h2 {
+    font-weight: 500;
+}
+form[method=post].card-panel {
+    background: transparent;
+    padding-right: 30px;
+}
