@@ -2,67 +2,72 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <% include meta-data %>
-    <link rel="stylesheet" href="/css/signUp.css">
-    <title>SignUp</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<% include meta-data %>
+	<link rel="stylesheet" href="/css/signUp.css">
+	<title>SignUp</title>
 </head>
 
 <body>
-    <% include header %>
-    <div class="container">
-        <div class="row">
-            <form method="POST" action="/auth/signUp" class="col s12 m6 l6 push-m3 push-l3 card-panel">
-                <div class="center">
-                        <h2>Sign Up </h2>
-                </div>
-                <div class="row">
-                    <div class="input-field col s10">
-                        <i class="material-icons prefix">account_box</i>
-                        <input type="text" name="name" id="name" class="validate" value="<%=tempUser.name %>" required>
-                        <label for="name">Name</label>
-                        <span class="helper-text red-text name-helper"><%=errorData.name%></span>
-                    </div>
-                    <div class="input-field col s2">
-                        <i class="material-icons small name-icon"><%if(errorData.name){%>clear<%} else {%>check<%}%></i>
+	<% include header %>
+	<main>
+		<div class="container">
+			<div class="row">
+				<form method="POST" action="/auth/signUp" class="col s12 m6 l6 push-m3 push-l3 card-panel">
+					<div class="center">
+						<h2>Sign Up </h2>
+					</div>
+					<div class="row">
+						<div class="input-field col s10">
+							<i class="material-icons prefix">account_box</i>
+							<input type="text" name="name" id="name" class="validate" value="<%=tempUser.name %>" required>
+							<label for="name">Name</label>
+							<span class="helper-text red-text name-helper"><%=errorData.name%></span>
+						</div>
+						<div class="input-field col s2">
+							<i class="material-icons small name-icon"><%if(errorData.name){%>clear<%} else {%>check<%}%></i>
                     </div>
                     <div class="input-field col s10">
                             <i class="material-icons prefix">school</i>
-                            <input type="text" name="college" id="college" class="autocomplete validate" value="<%=tempUser.college%>" required>
-                            <label for="college">College</label>
-                            <span class="helper-text red-text college-helper"><%=errorData.college%></span>
-                        </div>
-                        <div class="input-field col s2">
-                            <i class="material-icons small college-icon"><%if(errorData.college){%>clear<%} else {%>check<%}%></i>
+                            <input type="text" name="college" id="college" class="autocomplete validate" value="<%=tempUser.college%>"
+								required>
+								<label for="college">College</label>
+								<span class="helper-text red-text college-helper"><%=errorData.college%></span>
+						</div>
+						<div class="input-field col s2">
+							<i class="material-icons small college-icon"><%if(errorData.college){%>clear<%} else {%>check<%}%></i>
                         </div>
                         <div class="input-field col s10">
                                 <i class="material-icons prefix">phone</i>
-                            <input type="number" name="number" id="number" class="validate" value="<%=tempUser.number%>" required>
-                            <label for="number">Mobile Number</label>
-                            <span class="helper-text red-text number-helper"><%=errorData.number%></span>
-                        </div>
-                        <div class="input-field col s2">
-                            <i class="material-icons small number-icon"><%if(errorData.number){%>clear<%} else {%>check<%}%></i>
+                            <input type="number" name="number" id="number" class="validate" value="<%=tempUser.number%>"
+								required>
+								<label for="number">Mobile Number</label>
+								<span class="helper-text red-text number-helper"><%=errorData.number%></span>
+						</div>
+						<div class="input-field col s2">
+							<i class="material-icons small number-icon"><%if(errorData.number){%>clear<%} else {%>check<%}%></i>
                         </div>
                         <div class="input-field col s10">
                                 <i class="material-icons prefix">email</i>
-                        <input type="email" name="email" id="email" class="validate" value="<%=tempUser.email%>" required>
-                        <label for="email">Email id</label>
-                        <span class="helper-text red-text email-helper"><%=errorData.email%></span>
-                    </div>
-                    <div class="input-field col s2">
-                        <i class="material-icons small email-icon"><%if(errorData.email){%>clear<%} else {%>check<%}%></i>
+                        <input type="email" name="email" id="email" class="validate" value="<%=tempUser.email%>"
+								required>
+								<label for="email">Email id</label>
+								<span class="helper-text red-text email-helper"><%=errorData.email%></span>
+						</div>
+						<div class="input-field col s2">
+							<i class="material-icons small email-icon"><%if(errorData.email){%>clear<%} else {%>check<%}%></i>
                     </div>
                     <div class="input-field col s10">
                             <i class="material-icons prefix">lock</i>
-                            <input type="password" name="password" id="password" class="validate" value="<%=tempUser.password%>" required>
-                            <label for="password">Password</label>
-                            <span class="helper-text red-text password-helper"><%=errorData.password %></span>
-                        </div>
-                        <div class="input-field col s2">
-                            <i class="material-icons small password-icon"><%if(errorData.password){%>clear<%} else {%>check<%}%></i>
+                            <input type="password" name="password" id="password" class="validate" value="<%=tempUser.password%>"
+								required>
+								<label for="password">Password</label>
+								<span class="helper-text red-text password-helper"><%=errorData.password %></span>
+						</div>
+						<div class="input-field col s2">
+							<i class="material-icons small password-icon"><%if(errorData.password){%>clear<%} else {%>check<%}%></i>
                         </div>
                 </div>
                 <div class="row">
@@ -76,8 +81,9 @@
             </form>
         </div>
     </div>
+</main>
     <% include footer %>
-    <script src="/js/signUp.js"></script>
+								<script src="/js/signUp.js"></script>
 </body>
 
 </html>

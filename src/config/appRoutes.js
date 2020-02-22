@@ -8,7 +8,7 @@ const resetPasswordRouter = require('../routes/resetPasswordRoutes')();
 const appRoutes = (app) => {
   app.use('/auth', authRouter);
   app.use('/events', eventRouter);
-  app.use('/friends', friendRouter);
+  app.use('/teams', friendRouter);
   app.use('/findUsers', userRouter);
   app.use('/resetPassword', resetPasswordRouter);
   app.get('/', (req, res) => {

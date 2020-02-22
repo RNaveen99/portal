@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function sortResponses() {
     if (sort.value === 'name' || sort.value === 'college') {
       responses.sort((a, b) => {
-        const nameA = a[`${sort.value}`].toUpperCase();
-        const nameB = b[`${sort.value}`].toUpperCase();
+        const nameA = a[`user.${sort.value}`].toUpperCase();
+        const nameB = b[`user.${sort.value}`].toUpperCase();
         if (nameA > nameB) {
           return 1;
         }

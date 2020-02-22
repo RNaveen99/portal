@@ -2,140 +2,142 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Results</title>
-    <% include meta-data %>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Results</title>
+	<% include meta-data %>
 </head>
 
 <body>
-    <%include header%>
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <ul class="tabs">
-                    <li class="tab col s6"><a href="#prelimsResults" class="active">Prelims</a></li>
-                    <li class="tab col s6"><a href="#finalsResults">Finals</a></li>
-                </ul>
-            </div>
-            <div id="prelimsResults" class="col s12">
-                <% let prelimsResultsFlag = true; %>
-                <br><br>
-                <ul class="collapsible popout">
-                    <% prelimsResults.forEach((ele) => { %>
-                    <% prelimsResultsFlag = false;  %>
-                    <li>
-                        <div class="collapsible-header"><%=ele._id.eventName%></div>
-                        <div class="collapsible-body">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h4><%=ele._id.eventName%></h4>
-                                </div>
-                                <div class="col s12">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Rank</th>
-                                                <th>Name</th>
-                                                <th>College</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% ele.fields.forEach((r) => { %>
-                                            <tr>
-                                                <td><%=ele.fields.indexOf(r) + 1%></td>
-                                                <td>
-                                                    <%=r.name%>
-                                                    <% if (r.teamMembers) {%>
-                                                    <%-'<br>'%>
-                                                    <%-r.teamMembers.map(t => t.name).join('<br>')%>
-                                                    <%}%>
+	<%include header%>
+	<main>
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<ul class="tabs">
+						<li class="tab col s6"><a href="#prelimsResults" class="active">Prelims</a></li>
+						<li class="tab col s6"><a href="#finalsResults">Finals</a></li>
+					</ul>
+				</div>
+				<div id="prelimsResults" class="col s12">
+					<% let prelimsResultsFlag = true; %>
+					<br><br>
+					<ul class="collapsible popout">
+						<% prelimsResults.forEach((ele) => { %>
+						<% prelimsResultsFlag = false;  %>
+						<li>
+							<div class="collapsible-header"><%=ele._id.eventName%></div>
+							<div class="collapsible-body">
+								<div class="row">
+									<div class="col s12">
+										<h4><%=ele._id.eventName%></h4>
+									</div>
+									<div class="col s12">
+										<table>
+											<thead>
+												<tr>
+													<th>Rank</th>
+													<th>Name</th>
+													<th>College</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% ele.fields.forEach((r) => { %>
+												<tr>
+													<td><%=ele.fields.indexOf(r) + 1%></td>
+													<td>
+														<%=r.name%>
+														<% if (r.teamMembers) {%>
+														<%-'<br>'%>
+														<%-r.teamMembers.map(t => t.name).join('<br>')%>
+														<%}%>
                                                     </td>
                                                     <td><%=r.college%>
-                                                    <% if (r.teamMembers) {%>
-                                                    <%-'<br>'%>
-                                                    <%-r.teamMembers.map(t => t.college).join('<br>')%>
-                                                    <%}%>
+														<% if (r.teamMembers) {%>
+														<%-'<br>'%>
+														<%-r.teamMembers.map(t => t.college).join('<br>')%>
+														<%}%>
                                                 </td>
                                                 </tr>
                                             <%});%>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <%});%>
-                </ul>
-                <% if (prelimsResultsFlag) {%>
-                <h3>Results are not available yet.</h3>
-                <% } %>
-            </div>
-            <div id="finalsResults" class="col s12">
-                <% let finalsResultsFlag = true; %>
-                <br><br>
-                <ul class="collapsible">
-                    <% finalsResults.forEach((ele) => { %>
-                    <% finalsResultsFlag = false;  %>
-                    <li>
-                        <div class="collapsible-header"><%=ele._id.eventName%></div>
-                        <div class="collapsible-body">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h4><%=ele._id.eventName%></h4>
-                                </div>
-                                <div class="col s12">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Rank</th>
-                                                <th>Name</th>
-                                                <th>College</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% ele.fields.forEach((r) => { %>
-                                            <tr>
-                                                <td><%=ele.fields.indexOf(r) + 1%></td>
-                                                <td>
-                                                    <%=r.name%>
-                                                    <% if (r.teamMembers) {%>
-                                                    <%-'<br>'%>
-                                                    <%-r.teamMembers.map(t => t.name).join('<br>')%>
-                                                    <%}%>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</li>
+						<%});%>
+					</ul>
+					<% if (prelimsResultsFlag) {%>
+					<h3>Results are not available yet.</h3>
+					<% } %>
+				</div>
+				<div id="finalsResults" class="col s12">
+					<% let finalsResultsFlag = true; %>
+					<br><br>
+					<ul class="collapsible">
+						<% finalsResults.forEach((ele) => { %>
+						<% finalsResultsFlag = false;  %>
+						<li>
+							<div class="collapsible-header"><%=ele._id.eventName%></div>
+							<div class="collapsible-body">
+								<div class="row">
+									<div class="col s12">
+										<h4><%=ele._id.eventName%></h4>
+									</div>
+									<div class="col s12">
+										<table>
+											<thead>
+												<tr>
+													<th>Rank</th>
+													<th>Name</th>
+													<th>College</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% ele.fields.forEach((r) => { %>
+												<tr>
+													<td><%=ele.fields.indexOf(r) + 1%></td>
+													<td>
+														<%=r.name%>
+														<% if (r.teamMembers) {%>
+														<%-'<br>'%>
+														<%-r.teamMembers.map(t => t.name).join('<br>')%>
+														<%}%>
                                                     </td>
                                                     <td><%=r.college%>
-                                                    <% if (r.teamMembers) {%>
-                                                    <%-'<br>'%>
-                                                    <%-r.teamMembers.map(t => t.college).join('<br>')%>
-                                                    <%}%>
+														<% if (r.teamMembers) {%>
+														<%-'<br>'%>
+														<%-r.teamMembers.map(t => t.college).join('<br>')%>
+														<%}%>
                                                     </td>
                                                     </tr>
                                                 <%});%>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <%});%>
-                </ul>
-                <% if (finalsResultsFlag) {%>
-                <h3>Results are not available yet.</h3>
-                <% } %>
-            </div>
-        </div>
-    </div>
-    <% include footer %>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.collapsible');
-            var instances = M.Collapsible.init(elems);
-        });
-        document.querySelectorAll('a[href="/events/results"]').forEach((ele) => { ele.parentNode.classList.toggle('active'); });
-        let instance = M.Tabs.init(document.querySelectorAll('.tabs'))
-    </script>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</li>
+						<%});%>
+					</ul>
+					<% if (finalsResultsFlag) {%>
+					<h3>Results are not available yet.</h3>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</main>
+	<% include footer %>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var elems = document.querySelectorAll('.collapsible');
+			var instances = M.Collapsible.init(elems);
+		});
+		document.querySelectorAll('a[href="/events/results"]').forEach((ele) => { ele.parentNode.classList.toggle('active'); });
+		let instance = M.Tabs.init(document.querySelectorAll('.tabs'))
+	</script>
 </body>
 
 </html>

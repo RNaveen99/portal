@@ -19,10 +19,12 @@
 }
 .cards {
     margin-top: 50px;
+    position: relative;
+    z-index: -5;
 }
 .card {
     /* background: linear-gradient(to bottom right, white, grey); */
-    opacity: 0.7;
+    /* opacity: 0.7; */
 }
 .card-content .card-title{
     color: black;

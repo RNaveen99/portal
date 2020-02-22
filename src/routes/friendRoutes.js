@@ -26,17 +26,18 @@ const router = () => {
             delete tempUser.privileges;
             tempUser.leader = req.user.email;
             await addFriend(tempUser);
-            req.flash('friendsEmailSuccess', 'Friend added in your friend list.');
+            await addFriend({name: req.user.name, college: req.user.college, number: req.user.number, email: req.user.email, leader: tempUser.email });
+            req.flash('friendsEmailSuccess', 'Team Member Added.');
           } else {
             req.flash('friendsEmailFailure', 'Email entered is not registered.');
           }
         } else {
-          req.flash('friendsEmailFailure', 'Friend already in your friend list.');
+          req.flash('friendsEmailFailure', 'Team Member already added.');
         }
-        res.redirect('/friends');
+        res.redirect('/teams');
       } else {
         req.flash('friendsEmailFailure', 'You cannot provide your own Email');
-        res.redirect('/friends');
+        res.redirect('/teams');
       }
     });
 

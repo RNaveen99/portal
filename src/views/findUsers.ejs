@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Find Users</title>
-    <% include meta-data%>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Find Users</title>
+	<% include meta-data%>
 </head>
+
 <body>
-    <% include header%>
-        <div class="container">
-            <div class="row">
-                <form action="/findUsers" method="post" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s8">
-                            <input type="email" name="email" id="email" value="<% if (email) {%><%=email%><%}%>" placeholder="xyz@gmail.com" required>
+	<% include header%>
+	<main>
+		<div class="container">
+			<div class="row">
+				<form action="/findUsers" method="post" class="col s12">
+					<div class="row">
+						<div class="input-field col s8">
+							<input type="email" name="email" id="email" value="<% if (email) {%><%=email%><%}%>" placeholder="xyz@gmail.com" required>
                         </div>
                         <div class="input-field col s3">
                             <button class="btn waves-effect waves-light" id="find" type="submit" name="submit">Find
@@ -24,68 +27,92 @@
                     </div></form>
             </div>
             <% if(email && user) {%>
-            <div class="row results">
-                <div class="col s12 card">
-                        <table>
-                                <thead><tr><th>Name</th><th>Email</th><th>College</th><th>Number</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><%=user.name%></td>
-                                        <td><%=user.email%></td>
-                                        <td><%=user.college%></td>
-                                        <td><%=user.number%></td>
-                                    </tr>
-                                </tbody>
-                              </table>
-                </div>
-                <div class="col s12 card">
-                        <table>
-                                <thead><tr><th>Event</th><th>Participants</th><th>Score</th><th>Correct</th><th>Wrong</th><th>UnAttempted</th><th>View</th></tr>
-                                </thead>
-                                <tbody>
-                                        <% allResponses.forEach((ele) => {%>
-                                                
-                                    <tr>
-                                        <td><%=ele.eventName%></td>
-                                        <td><%=ele.user.name%> <% if (ele.user.teamMembers) {%> , <%=ele.user.teamMembers.map((t) => t.name).join(',')%> <% }%></td>
-                                        <td><%=ele.score%></td>
-                                        <td><%=ele.correct%></td>
-                                        <td><%=ele.wrong%></td>
-                                        <td><%=ele.notAttempted%></td>
-                                        <td><a href="/events/responses/view?eventCode=<%=ele.eventCode%>&email=<%=email%>"><b>VIEW</b></a></td>
-                                    </tr>
-                                    <%});%>
-                                </tbody>
-                              </table>
-                </div>
-            </div>
-            <%} else if (email && !user) {%>
-                <H3>User not found</H3>
-                <%} else {%>
-                    <div>
-                       <table>
-                        <thead><tr><th>S.no</th><th>Name</th><th>Email</th><th>College</th><th>Number</th>
-                        </thead>
-                        <tbody>
-                            <% for (let i = 0; i < allUsers.length; i += 1) {%>
-                                <tr>
-                                    <td><%=i+1%></td>
-                                    <td><%=allUsers[i].name%></td>
-                                    <td><%=allUsers[i].email%></td>
-                                    <td><%=allUsers[i].college%></td>
-                                    <td><%=allUsers[i].number%></td>
-                                    </tr>
-                                <%}%>
+            <div class=" row results">
+							<div class="col s12 card">
+								<table>
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Email</th>
+											<th>College</th>
+											<th>Number</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td><%=user.name%></td>
+											<td><%=user.email%></td>
+											<td><%=user.college%></td>
+											<td><%=user.number%></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="col s12 card">
+								<table>
+									<thead>
+										<tr>
+											<th>Event</th>
+											<th>Participants</th>
+											<th>Score</th>
+											<th>Correct</th>
+											<th>Wrong</th>
+											<th>UnAttempted</th>
+											<th>View</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% allResponses.forEach((ele) => {%>
+
+										<tr>
+											<td><%=ele.eventName%></td>
+											<td><%=ele.user.name%> <% if (ele.user.teamMembers) {%> ,
+												<%=ele.user.teamMembers.map((t) => t.name).join(',')%> <% }%></td>
+											<td><%=ele.score%></td>
+											<td><%=ele.correct%></td>
+											<td><%=ele.wrong%></td>
+											<td><%=ele.notAttempted%></td>
+											<td><a href="/events/responses/view?eventCode=<%=ele.eventCode%>&email=<%=email%>"><b>VIEW</b></a>
+											</td>
+										</tr>
+										<%});%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<%} else if (email && !user) {%>
+						<H3>User not found</H3>
+						<%} else {%>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th>S.no</th>
+										<th>Name</th>
+										<th>Email</th>
+										<th>College</th>
+										<th>Number</th>
+								</thead>
+								<tbody>
+									<% for (let i = 0; i < allUsers.length; i += 1) {%>
+									<tr>
+										<td><%=i+1%></td>
+										<td><%=allUsers[i].name%></td>
+										<td><%=allUsers[i].email%></td>
+										<td><%=allUsers[i].college%></td>
+										<td><%=allUsers[i].number%></td>
+									</tr>
+									<%}%>
                         </tbody>
                        </table> 
                     </div>
                     <%}%>
-        </div>
-    <% include footer%>
-    <script>
-        
-  document.querySelector('a[href="/findUsers"]').parentNode.classList.toggle('active');
-    </script>
+						</div>
+	</main>
+	<% include footer%>
+	<script>
+
+		document.querySelector('a[href="/findUsers"]').parentNode.classList.toggle('active');
+	</script>
 </body>
+
 </html>

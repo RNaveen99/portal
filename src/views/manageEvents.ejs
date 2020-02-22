@@ -2,51 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Manage Events</title>
-    <% include meta-data%>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Manage Events</title>
+	<% include meta-data%>
 </head>
 
 <body>
-    <% include header %>
-    <div class="container">
-        <% allEvents.forEach((ele) => { %>
-        <div class="row">
-            <div class="col s12">
-                <h5><%=ele.eventName%></h5>
-            </div>
-            <div class="input-field col s6">
-                Event
-                <div class="switch">
-                    <label>
-                        Off
-                        <input type="checkbox" value="<%=ele.eventCode%>" data="event" <% if(ele.isEventLive) {%> checked
-                            <% }%>>
-                        <span class="lever"></span>
-                        Live
-                    </label>
-                </div>
-            </div>
-            <div class="input-field col s6">
-                Quiz
-                <div class="switch">
-                    <label>
-                        Off
-                        <input type="checkbox" value="<%=ele.eventCode%>" data="quiz" <% if(ele.isQuizLive) {%> checked
-                            <% }%>>
-                        <span class="lever"></span>
-                        Live
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="divider"></div>
-        <%}); %>
-    </div>
-    <% include footer %>
-    <script src="/js/eventsManageAjax.js"></script>
+	<% include header %>
+	<main>
+		<div class="container">
+			<% allEvents.forEach((ele) => { %>
+			<div class="row">
+				<div class="col s12">
+					<h5><%=ele.eventName%></h5>
+				</div>
+				<div class="input-field col s6">
+					Event
+					<div class="switch">
+						<label>
+							Off
+							<input type="checkbox" value="<%=ele.eventCode%>" data="event" <% if(ele.isEventLive) {%> checked <% }%>>
+							<span class="lever"></span>
+							Live
+						</label>
+					</div>
+				</div>
+				<div class="input-field col s6">
+					Quiz
+					<div class="switch">
+						<label>
+							Off
+							<input type="checkbox" value="<%=ele.eventCode%>" data="quiz" <% if(ele.isQuizLive) {%> checked <% }%>>
+							<span class="lever"></span>
+							Live
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<%}); %>
+		</div>
+	</main>
+	<% include footer %>
+	<script src="/js/eventsManageAjax.js"></script>
 </body>
 
 </html>

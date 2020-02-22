@@ -2,49 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <% include meta-data %>
-    <link rel="stylesheet" href="/css/signIn.css">
-    <title>SignIn</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<% include meta-data %>
+	<link rel="stylesheet" href="/css/signIn.css">
+	<title>SignIn</title>
 </head>
 
 <body>
-    <% include header %>
-    <div class="container" id="form-container">
-        <div class="row">
-            <form method="POST" action="/auth/signIn" class="col s12 m8 l5 push-m2 push-l3 card-panel">
-                <div class="center" id="signIn">
-                    <h2>Sign In </h2>
-                </div>
-                <div class="row">
-                        <span class="helper-text red-text">&nbsp;&nbsp;&nbsp;<%=error%></span>
-                    <div class="input-field col s12">
-                            <i class="material-icons prefix">email</i>
-                        <input type="email" name="username" id="email" required>
-                        <label for="email">Email </label>
-                    </div>
-                    <div class="input-field col s12">
-                            <i class="material-icons prefix">lock</i>
-                            <input type="password" name="password" id="password" required>
-                            <label for="password">Password</label>
-                        </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12">
-                        <button class="btn waves-effect waves-light col s10 push-s1" type="submit" name="action">Sign In
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                    <span class="col s12 " style="margin-top:10px;">
-                            Don't have an account ? <a href="/auth/signUp">sign Up</a> here
-                    </span>
-                </div>
-            </form>
-        </div>
-    </div>
-    <% include footer %>
+	<% include header %>
+	<main>
+		<div class="container" id="form-container">
+			<div class="row">
+				<form method="POST" action="/auth/signIn" class="col s12 m8 l5 push-m2 push-l3 card-panel">
+					<div class="center" id="signIn">
+						<h2>Sign In </h2>
+					</div>
+					<div class="row">
+						<span class="helper-text red-text">&nbsp;&nbsp;&nbsp;<%=error%></span>
+						<div class="input-field col s12">
+							<i class="material-icons prefix">email</i>
+							<input type="email" name="username" id="email" required>
+							<label for="email">Email </label>
+						</div>
+						<div class="input-field col s12">
+							<i class="material-icons prefix">lock</i>
+							<input type="password" name="password" id="password" required>
+							<label for="password">Password</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12 m12">
+							<button class="btn waves-effect waves-light col s10 push-s1" type="submit" name="action">Sign In
+								<i class="material-icons right">send</i>
+							</button>
+						</div>
+						<span class="col s12 " style="margin-top:10px;">
+							Don't have an account ? <a href="/auth/signUp">sign Up</a> here
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</main>
+	<% include footer %>
 </body>
 
 </html>

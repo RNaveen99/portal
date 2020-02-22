@@ -2,71 +2,73 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <% include meta-data %>
-    <title>Events</title>
-    <link rel="stylesheet" href="/css/events.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<% include meta-data %>
+	<title>Events</title>
+	<link rel="stylesheet" href="/css/events.css">
 </head>
 
 <body>
-    <% include header %>
-    <div class="container">
-        <% if (loginMsgSuccess.length) { %>
-                <script>document.addEventListener('DOMContentLoaded', () => {toast('<%=loginMsgSuccess%>', 'green rounded');})</script>
-        <% } %>
-        <% if (responseMsgSuccess.length) { %>
-            <div id="modal1" class="modal green" style="margin-top: 12%;">
-                <div class="modal-content">
-                  <h5><%=responseMsgSuccess%></h5>
-                </div>
-              </div>
-        <% } %>
-        <% if (responseMsgFailure.length || eventRulesMsg.length) { %>
-            <div id="modal1" class="modal red" style="margin-top: 12%;">
-                <div class="modal-content">
-                  <h5><%=responseMsgFailure%></h5>
-                  <h5><%=eventRulesMsg%></h5>
-                </div>
-              </div>
-        <% } %>
-        <div class="cards">
-            <!-- <h1 class="center-align">Events</h1> -->
-        <div class="row">
-            <%liveEvents.forEach((ele) => {%>
-            <div class="col s12 m6 l6">
-                <div class="card hoverable">
-                    <div class="card-content white-text">
-                        <span class="card-title"><%=ele.eventName%></span>
-                        <p><%=ele.intro%></p>
-                    </div>
-                    <div class="card-action">
-                        <% const request = requests.find((request) => { return request.eventCode === ele.eventCode; });%>
-                        <% if (request && request.isAllowed && !request.hasStarted) { %>
-                        <a href="/events/<%=ele.eventCode%>" class="btn">Take Quiz</a>
-                        <% } else if (request && request.isAllowed && request.hasStarted) { %>
-                        <a class="btn disabled">You have taken quiz</a>
-                        <% } else {%>
-                        <a class="btn-floating <%if(!request){%>green<%}else{%>red<%}%> events" eventCode="<%=ele.eventCode%>" eventName="<%=ele.eventName%>">
-                            <i class="material-icons">
-                                <% if (request) { %>
-                                remove
-                                <% } else { %>
-                                add
-                                <%}%>
-                            </i>
-                            </a>
-                        <%}%>
-                    </div>
-                </div>
-            </div>
-            <%});%>
-        </div>
-        </div>
-    </div>
-    <% include footer %>
-    <script src="/js/eventsRequestAjax.js"></script>
+	<% include header %>
+	<main>
+		<div class="container">
+			<% if (loginMsgSuccess.length) { %>
+			<script>document.addEventListener('DOMContentLoaded', () => { toast('<%=loginMsgSuccess%>', 'green rounded'); })</script>
+			<% } %>
+			<% if (responseMsgSuccess.length) { %>
+			<div id="modal1" class="modal green" style="margin-top: 12%;">
+				<div class="modal-content">
+					<h5><%=responseMsgSuccess%></h5>
+				</div>
+			</div>
+			<% } %>
+			<% if (responseMsgFailure.length || eventRulesMsg.length) { %>
+			<div id="modal1" class="modal red" style="margin-top: 12%;">
+				<div class="modal-content">
+					<h5><%=responseMsgFailure%></h5>
+					<h5><%=eventRulesMsg%></h5>
+				</div>
+			</div>
+			<% } %>
+			<div class="cards">
+				<div class="row">
+					<%liveEvents.forEach((ele) => {%>
+					<div class="col s12 m6 l6">
+						<div class="card hoverable">
+							<div class="card-content white-text">
+								<span class="card-title"><%=ele.eventName%></span>
+								<p><%=ele.intro%></p>
+							</div>
+							<div class="card-action">
+								<% const request = requests.find((request) => { return request.eventCode === ele.eventCode; });%>
+								<% if (request && request.isAllowed && !request.hasStarted) { %>
+								<a href="/events/<%=ele.eventCode%>" class="btn">Take Quiz</a>
+								<% } else if (request && request.isAllowed && request.hasStarted) { %>
+								<a class="btn disabled">You have taken quiz</a>
+								<% } else {%>
+								<a class="btn-floating <%if(!request){%>green<%}else{%>red<%}%> events" eventCode="<%=ele.eventCode%>"
+									eventName="<%=ele.eventName%>">
+									<i class="material-icons">
+										<% if (request) { %>
+										remove
+										<% } else { %>
+										add
+										<%}%>
+									</i>
+								</a>
+								<%}%>
+							</div>
+						</div>
+					</div>
+					<%});%>
+				</div>
+			</div>
+		</div>
+	</main>
+	<% include footer %>
+	<script src="/js/eventsRequestAjax.js"></script>
 </body>
 
 </html>

@@ -2,80 +2,82 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Friends</title>
-    <% include meta-data %>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Teams</title>
+	<% include meta-data %>
 </head>
 
 <body>
-    <% include header %>
-    <div class="container">
-            <% if (friendsEmailSuccess.length) { %>
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        toast('<%=friendsEmailSuccess%>', 'green rounded');
-                    });
-                    </script>
-                <% } %>
-            <% if (friendsEmailFailure.length) { %>
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        toast('<%=friendsEmailFailure%>', 'red rounded');
-                    });
-                    </script>
-                <% } %>
-        <div class="row">
-            <form action="/friends" method="post" class="col s12">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input type="email" id="friendsEmail" name="friendsEmail" class="validate" required>
-                        <label for="friendsEmail">Enter your Friends Email</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <button class="btn waves-effect waves-light" type="submit" name="action">Add
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <% if (allFriends.length) {%>
-        <div class="row">
-            <h5>Friends</h5>
-            <div class="col s12">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>College</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% allFriends.forEach((friend) => {%>
-                            <tr>
-                                <td><%=friend.name%></td>
-                                <td><%=friend.email%></td>
-                                <td><%=friend.college%></td>
-                            </tr>
-                            <%});%>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <% } %>
-    </div>
-    <% include footer %>
-    <script>
-            document.querySelectorAll('a[href="/friends"]').forEach((ele) => {
-                ele.parentNode.classList.toggle('active');
-            });
-            function toast(msg, classes) {
-            M.toast({html: msg, classes });
-        }
-            </script>
+	<% include header %>
+	<main>
+		<div class="container">
+			<% if (friendsEmailSuccess.length) { %>
+			<script>
+				document.addEventListener('DOMContentLoaded', () => {
+					toast('<%=friendsEmailSuccess%>', 'green rounded');
+				});
+			</script>
+			<% } %>
+			<% if (friendsEmailFailure.length) { %>
+			<script>
+				document.addEventListener('DOMContentLoaded', () => {
+					toast('<%=friendsEmailFailure%>', 'red rounded');
+				});
+			</script>
+			<% } %>
+			<div class="row">
+				<form action="/teams" method="post" class="col s12">
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="email" id="friendsEmail" name="friendsEmail" class="validate" required>
+							<label for="friendsEmail">Enter your Team Member Email</label>
+						</div>
+						<div class="input-field col s12">
+							<button class="btn waves-effect waves-light" type="submit" name="action">Add
+								<i class="material-icons right">send</i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<% if (allFriends.length) {%>
+			<div class="row">
+				<h5>Team Members</h5>
+				<div class="col s12">
+					<table>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Email</th>
+								<th>College</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% allFriends.forEach((friend) => {%>
+							<tr>
+								<td><%=friend.name%></td>
+								<td><%=friend.email%></td>
+								<td><%=friend.college%></td>
+							</tr>
+							<%});%>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<% } %>
+		</div>
+	</main>
+	<% include footer %>
+	<script>
+		document.querySelectorAll('a[href="/teams"]').forEach((ele) => {
+			ele.parentNode.classList.toggle('active');
+		});
+		function toast(msg, classes) {
+			M.toast({ html: msg, classes });
+		}
+	</script>
 </body>
 
 </html>
