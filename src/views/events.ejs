@@ -13,6 +13,39 @@
 <body>
 	<% include header %>
 	<main>
+		<div class="right">
+			<a href="#help" class="modal-trigger"><i class="material-icons medium">help_outline</i></a>
+		</div>
+		<div id="help" class="modal" style="width: 90%">
+			<div class="modal-content">
+				<div class="card-panel">
+					<h5>How to participate individually in any event !?</h5>
+					<ol>
+						<li>Make request to participate in the interested event.</li>
+						<li>Wait for the Event Head to mark your presence and approves your request.</li>
+						<li>After that, refresh your screen and you will see a <b>Take Quiz</b> button for that event.</li>
+						<li>Click that button and you will be redirected to the Quiz Rules page of that event.</li>
+						<li>Read the rules carefully and proceed further.</li>
+					</ol>
+				</div>
+				<div class="card-panel">
+					<h5>How to participate as a Team in any event !?</h5>
+					<ol>
+						<li>All the participants should be registered who wishes to participate as a Team.</li>
+						<li>Then any one of them have to add the others as their team members on the <a href="/teams">Teams</a> page.</li>
+						<li>Now only one of them need to make request to participate in the interested event and he/she will be recognized as Team Leader.</li>
+						<li>Wait for the Event Head to mark your presence and approves your request.</li>
+						<li>After that, refresh your screen and you will see a <b>Take Quiz</b> button for that event.</li>
+						<li>Click that button and you will be redirected to the Quiz Rules page of that event.</li>
+						<li><b>On the rules page You have to select your team members for that event from a list containing all of your team members and proceed further.</b></li>
+					</ol>
+				</div>
+				<div class="card-panel">
+					<h5>Is there any limit on adding team members on Team page!?</h5>
+					<p>No, there's no limit on that. You can add as many as you wish but he/she must be a registered user.</p>
+				</div>
+			</div>
+		</div>
 		<div class="container">
 			<% if (loginMsgSuccess.length) { %>
 			<script>document.addEventListener('DOMContentLoaded', () => { toast('<%=loginMsgSuccess%>', 'green rounded'); })</script>
@@ -39,7 +72,7 @@
 						<div class="card hoverable">
 							<div class="card-content white-text">
 								<span class="card-title"><%=ele.eventName%></span>
-								<p><%=ele.intro%></p>
+								<p><%-ele.intro%></p>
 							</div>
 							<div class="card-action">
 								<% const request = requests.find((request) => { return request.eventCode === ele.eventCode; });%>
@@ -69,6 +102,15 @@
 	</main>
 	<% include footer %>
 	<script src="/js/eventsRequestAjax.js"></script>
+	<script>
+		const profile = document.querySelector('#profile-icon');
+		profile.addEventListener('mouseenter', () => {
+			document.querySelector('main').style.zIndex = -5;
+		});
+		profile.addEventListener('mouseleave', () => {
+			document.querySelector('main').style.zIndex = 0;
+		});
+		</script>
 </body>
 
 </html>
